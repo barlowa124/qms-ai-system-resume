@@ -10,6 +10,7 @@ This package includes:
 2. A full solution proposal covering KPI, compliance, patient-safety, and ESG outcomes.
 3. A regulatory-gate framework for AI-enabled quality workflows (P0 launch blockers, P1 post-launch hardening).
 4. A hardened reference architecture addressing common AI-system trust gaps (provenance, reproducibility, human-in-the-loop enforcement).
+5. An extension applying the same control patterns to organ virtualization / in-silico model programs (model-to-biology traceability, simulation reproducibility, wet-lab cross-validation, and ESG amplification via reduced animal use).
 
 ## Key Artifacts
 
