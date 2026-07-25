@@ -8,6 +8,8 @@ Outputs:
 
 from __future__ import annotations
 
+import re
+import sys
 from pathlib import Path
 
 
@@ -102,6 +104,15 @@ def metric_rows() -> list[tuple[str, str, str, str, str, str, str]]:
       "Weekly",
       ">=99%",
       "Prevents non-deterministic safety decisions",
+    ),
+    (
+      "Verifiability",
+      "Backward compatibility of model updates",
+      "(# previously-correct cases still correct after update / # previously-correct cases) x 100, by risk class",
+      "Frozen evaluation set + model registry",
+      "Per model or prompt update",
+      "Threshold per risk class; stricter for patient-safety classes",
+      "Prevents accuracy-only updates from silently degrading human-AI team performance",
     ),
     (
       "Compliance",
@@ -323,6 +334,13 @@ def release_gate_rows() -> list[tuple[str, str, str, str, str]]:
       "Pre-production operational readiness gate",
       "Block release when end-to-end reconstruction service-level objective is unmet",
     ),
+    (
+      "RG-09",
+      "Backward compatibility of model updates",
+      "Compatibility report showing newly introduced errors on previously-correct cases, segmented by risk class, plus reviewer acceptance-rate delta after rollout",
+      "Model update gate + post-rollout monitoring",
+      "Block next model update when compatibility threshold is breached without documented justification",
+    ),
   ]
 
 
@@ -336,6 +354,7 @@ def p1_post_launch_windows() -> dict[str, str]:
     "RG-01": "Enable within 30 days after launch",
     "RG-06": "Enable within 30 days after launch",
     "RG-07": "Enable within 45 days after launch",
+    "RG-09": "Enable within 30 days after launch",
   }
 
 
@@ -388,10 +407,17 @@ def applied_release_gate_rows() -> list[tuple[str, str, str, str, str]]:
     ),
     (
       "Prompt and model update workflow (post-launch hardening)",
-      "RG-06, RG-07",
-      "Enable scheduled reproducibility replay and adversarial misuse suite with corrective-action tracking",
+      "RG-06, RG-07, RG-09",
+      "Enable scheduled reproducibility replay, adversarial misuse suite with corrective-action tracking, and backward-compatibility scoring against the prior model version",
       "P1 Post-Launch",
       "No operator burden; engineering workflow gate",
+    ),
+    (
+      "Post-update reviewer trust monitoring",
+      "RG-09",
+      "Monitor reviewer acceptance and override rates per risk class after each model update to detect mental-model breakage that aggregate accuracy metrics would hide",
+      "P1 Post-Launch",
+      "No operator burden; derived from existing decision logs",
     ),
     (
       "Release and deployment",
@@ -649,8 +675,156 @@ def build_kpi_markdown() -> str:
 - Audit evidence retrieval time: reduce by 60 percent
 - Recurrence rate for high-risk deviations: reduce by 30 percent
 """
+def compatibility_metric_rows() -> list[tuple[str, str, str]]:
+  return [
+    (
+      "Backward compatibility score",
+      "(# cases previously correct that remain correct under the new model version / # cases previously correct) x 100",
+      "Define per risk class; high-risk case classes warrant a stricter floor than low-risk triage",
+    ),
+    (
+      "Newly introduced error rate",
+      "(# cases previously correct that are now incorrect / total evaluated cases) x 100",
+      "Any non-zero value affecting patient-safety-relevant case classes requires documented justification and reviewer notification",
+    ),
+    (
+      "Reviewer acceptance-rate delta",
+      "(post-update acceptance rate - pre-update acceptance rate), segmented by risk class and role",
+      "Sharp movement in either direction is a signal of mental-model breakage, not just changed model quality",
+    ),
+    (
+      "Compatibility-adjusted rollout stage",
+      "Percentage of traffic on new model version, gated by compatibility score holding above threshold",
+      "Staged rollout with automatic hold if compatibility degrades during ramp",
+    ),
+  ]
+
+
+def organ_virtualization_rows() -> list[tuple[str, str, str]]:
+  return [
+    (
+      "Model-to-biology traceability",
+      "Every virtual organ model instance must trace back to the specific tissue/cell source data, assay protocol version, and calibration dataset used to fit it",
+      "Immutable lineage graph (RG-08) extended to include biological source metadata, not just software/version metadata",
+    ),
+    (
+      "Simulation reproducibility",
+      "A virtualized organ prediction (e.g., predicted hepatotoxicity response) must be reproducible within defined tolerance when replayed with the same model version and input parameters",
+      "Decision reproducibility harness (RG-06) applied to simulation outputs, with biological tolerance bands defined per endpoint",
+    ),
+    (
+      "Cross-validation against wet-lab ground truth",
+      "Virtual model predictions require a documented, ongoing correlation study against real organ-on-chip or animal/clinical data until in-silico-only qualification is achieved for a given use case",
+      "New verification gate: minimum correlation coefficient and drift threshold per model class, reviewed on a fixed cadence",
+    ),
+    (
+      "Model qualification tiering",
+      "Not all virtualized organ models carry the same regulatory weight; a model used for internal candidate triage carries lower risk than one submitted as supporting evidence in an IND/NDA package",
+      "GxP impact classification (existing control) extended with an explicit regulatory-submission-use flag that escalates required evidence",
+    ),
+    (
+      "Change control for biological calibration data",
+      "Updating the training/calibration dataset for a virtual organ model (new donor tissue batch, new assay run) is treated as a model change requiring the same risk assessment and validation as a code or prompt change",
+      "Prompt and model change control (RG-05) extended to cover calibration-data updates, not only code/weights",
+    ),
+  ]
+
+
+def build_compatibility_metric_markdown() -> str:
+  lines = []
+  lines.append("| Metric | Formula | Threshold Guidance |")
+  lines.append("|---|---|---|")
+  for metric, formula, guidance in compatibility_metric_rows():
+    lines.append(f"| {metric} | {formula} | {guidance} |")
+  return "\n".join(lines)
+
+
+def build_organ_virtualization_table_markdown() -> str:
+  lines = []
+  lines.append("| Extension Area | What Changes for Virtualized Organ Models | Applied Control Pattern |")
+  lines.append("|---|---|---|")
+  for area, change, pattern in organ_virtualization_rows():
+    lines.append(f"| {area} | {change} | {pattern} |")
+  return "\n".join(lines)
+
+
+COMPATIBILITY_INTRO = """Accuracy-only validation of model updates is insufficient in a human-in-the-loop
+quality system. Empirical work on human-AI teams shows that **an update which
+improves a model's aggregate accuracy can still degrade the performance of the
+human-AI team**, because reviewers build a mental model of where the AI is
+reliable and where it fails. When an update shifts the failure boundary, prior
+reviewer intuition becomes miscalibrated - reviewers may over-trust newly-wrong
+outputs or waste effort re-checking newly-correct ones.
+
+Reference: Bansal, G., Nushi, B., Kamar, E., Weld, D. S., Lasecki, W. S., and
+Horvitz, E. "Updates in Human-AI Teams: Understanding and Addressing the
+Performance/Compatibility Tradeoff." *Proceedings of the AAAI Conference on
+Artificial Intelligence*, 33(01), 2429-2437, 2019. See also "A Case for Backward
+Compatibility for Human-AI Teams," arXiv:1906.01148. Their results across three
+high-stakes classification domains (recidivism prediction, in-hospital mortality,
+credit risk) show that standard ML training does not inherently produce
+compatible updates, and that a retraining objective penalizing *newly introduced*
+errors allows an explicit, tunable performance/compatibility tradeoff.
+
+This matters directly here: RG-05 verifies a model change was *authorized* and
+RG-06 verifies it is *reproducible*, but neither detects compatibility
+regression. A model update could pass both gates and still reduce quality-review
+accuracy in production."""
+
+
+COMPATIBILITY_ENFORCEMENT = """1. Maintain a **frozen evaluation set** of previously-adjudicated cases with recorded
+   prior-model outputs and reviewer decisions, versioned alongside the model registry.
+2. On every candidate model or prompt update, compute the compatibility score and
+   newly-introduced-error rate against that frozen set, segmented by risk class.
+3. Attach the compatibility report to the RG-05 change ticket as required evidence -
+   an update that improves aggregate accuracy while breaching the compatibility floor
+   for a high-risk class requires explicit, documented sign-off rather than silent
+   promotion.
+4. After rollout, monitor reviewer acceptance and override rates (already captured in
+   the KPI table as "AI recommendation acceptance with rationale") for shifts that
+   indicate reviewers are recalibrating against changed failure modes.
+5. Where compatibility and accuracy genuinely conflict, treat the tradeoff as a
+   documented quality decision with accountable ownership - not an engineering
+   default. Where feasible, apply a retraining objective that penalizes new errors,
+   per Bansal et al., to reduce the severity of the tradeoff.
+
+### Notification Requirement
+
+When an approved update knowingly breaks compatibility for a case class, reviewers
+working that class receive a targeted change notification describing what shifted,
+so mental-model recalibration is deliberate rather than discovered through error.
+This is a training-impact event and routes through the existing training impact
+automation path."""
+
+
+ORGAN_VIRTUALIZATION_INTRO = """Organ virtualization programs (organ-on-chip digital twins, physiologically-based
+pharmacokinetic/pharmacodynamic simulation, in-silico toxicology and efficacy
+prediction) introduce a class of AI/ML-driven artifacts that sit upstream of, and
+increasingly substitute for, traditional wet-lab and animal studies. The same
+control patterns defined above apply directly, with a few domain-specific
+extensions:"""
+
+
+ORGAN_VIRTUALIZATION_ESG = """Organ virtualization is one of the few AI initiatives where the quality-governance
+story and the ESG story reinforce each other directly, rather than trading off:
+
+- **Reduced animal use (3Rs: Replace, Reduce, Refine)** - every study substituted or
+  reduced by a qualified virtual organ model is a concrete, auditable ESG metric,
+  not just a compliance checkbox. This can be tracked alongside the existing ESG
+  KPI table as: (# studies replaced or reduced by qualified in-silico models /
+  total comparable studies) x 100, reported quarterly.
+- **Compute-for-biology tradeoff visibility** - the existing "Investigation cycle
+  energy intensity" KPI extends naturally to "Simulation compute intensity per
+  qualified prediction," keeping the sustainability tradeoff of large-scale
+  simulation visible rather than hidden behind a general AI-efficiency narrative.
+- **Faster, lower-waste candidate triage** - early-stage virtual screening reduces
+  reagent, animal, and manufacturing waste associated with candidates that would
+  otherwise have failed later in the pipeline, tying directly into the existing
+  "Deviation rework reduction" and right-first-time framing."""
+
+
 def build_markdown(mermaid: str) -> str:
-  return f"""# QMS Digital Process Solution (Tailored Draft)\n\nThis draft maps the current QMS structure/functionality and a proposed digital process\nsolution with AI-enabled decision support and a clear operating model.\n\n## System Diagram\n\n```mermaid\n{mermaid}```\n\n## RACI Overlay\n\n{build_raci_markdown()}\n\n## Rollout Waves\n\n{build_rollout_markdown()}\n\n## Target KPI Outcomes\n\n{build_kpi_markdown()}\n\n## How Target Outcomes Are Measured\n\n{build_metric_framework_markdown()}\n\n## Usage Outcomes\n\n{build_usage_outcomes_markdown()}\n\n## ESG Outcomes\n\n{build_esg_outcomes_markdown()}\n\n## Verifiability and Compliance Assessments\n\n{build_compliance_assessment_markdown()}\n\n## AI Regulator Stress-Test Hardening\n\n{build_ai_hardening_markdown()}\n\n## Anticipated AI-Assisted Regulatory Challenges and Prepared Answers\n\n{build_regulator_answers_markdown()}\n\n## Release Evidence Bundle Minimum Fields\n\n{build_evidence_bundle_markdown()}\n\n## Strict P0 Launch Release Gates (QMS Resume Reviewer)\n\n{build_p0_launch_gate_markdown()}\n\n## P1 Post-Launch Enforcement Gates (Marked)\n\n{build_p1_post_launch_gate_markdown()}\n\n## Full Regulatory Gate Catalog (Tiered Reference)\n\n{build_release_gate_checklist_markdown()}\n\n## Applied Regulatory Gate Implementation for QMS Resume Reviewer\n\n{build_applied_release_gate_markdown()}\n\n## Patient Safety Guardrails\n\n- AI remains decision support, never autonomous closure for patient-impacting records
+  return f"""# QMS Digital Process Solution (Tailored Draft)\n\nThis draft maps the current QMS structure/functionality and a proposed digital process\nsolution with AI-enabled decision support and a clear operating model.\n\n## System Diagram\n\n```mermaid\n{mermaid}```\n\n## RACI Overlay\n\n{build_raci_markdown()}\n\n## Rollout Waves\n\n{build_rollout_markdown()}\n\n## Target KPI Outcomes\n\n{build_kpi_markdown()}\n\n## How Target Outcomes Are Measured\n\n{build_metric_framework_markdown()}\n\n## Usage Outcomes\n\n{build_usage_outcomes_markdown()}\n\n## ESG Outcomes\n\n{build_esg_outcomes_markdown()}\n\n## Verifiability and Compliance Assessments\n\n{build_compliance_assessment_markdown()}\n\n## AI Regulator Stress-Test Hardening\n\n{build_ai_hardening_markdown()}\n\n## Anticipated AI-Assisted Regulatory Challenges and Prepared Answers\n\n{build_regulator_answers_markdown()}\n\n## Release Evidence Bundle Minimum Fields\n\n{build_evidence_bundle_markdown()}\n\n## Strict P0 Launch Release Gates (QMS Resume Reviewer)\n\n{build_p0_launch_gate_markdown()}\n\n## P1 Post-Launch Enforcement Gates (Marked)\n\n{build_p1_post_launch_gate_markdown()}\n\n## Full Regulatory Gate Catalog (Tiered Reference)\n\n{build_release_gate_checklist_markdown()}\n\n## Applied Regulatory Gate Implementation for QMS Resume Reviewer\n\n{build_applied_release_gate_markdown()}\n\n## Human-AI Compatibility as a Release Criterion (RG-09)\n\n{COMPATIBILITY_INTRO}\n\n### RG-09 Measurement Definition\n\n{build_compatibility_metric_markdown()}\n\n### RG-09 Enforcement Pattern\n\n{COMPATIBILITY_ENFORCEMENT}\n\n## Extension: Quality Governance for Organ Virtualization / In-Silico Model Programs\n\n{ORGAN_VIRTUALIZATION_INTRO}\n\n{build_organ_virtualization_table_markdown()}\n\n### ESG Amplification from Virtualization\n\n{ORGAN_VIRTUALIZATION_ESG}\n\n## Patient Safety Guardrails\n\n- AI remains decision support, never autonomous closure for patient-impacting records
 - High-risk cases require documented human review with accountable sign-off
 - Any safety or compliance control failure triggers release hold and escalation
 - Full decision lineage is retained for inspection and post-market investigation
@@ -664,6 +838,77 @@ def html_escape(text: str) -> str:
         .replace(">", "&gt;")
         .replace('"', "&quot;")
     )
+
+
+def _inline_markup(text: str) -> str:
+    """Escape HTML then apply bold/italic inline markup. Bold before italic."""
+    out = html_escape(text)
+    out = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", out)
+    out = re.sub(r"(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)", r"<em>\1</em>", out)
+    return out
+
+
+def narrative_to_html(text: str) -> str:
+    """Convert the limited markdown used in narrative constants to HTML.
+
+    Supports: '### ' headings, '- ' unordered lists, 'N. ' ordered lists,
+    blank-line-separated paragraphs, and inline bold/italic. Wrapped
+    continuation lines within a list item are joined onto that item.
+    """
+    blocks: list[str] = []
+    buffer: list[str] = []
+    mode = None  # None | "p" | "ul" | "ol"
+
+    def flush() -> None:
+        nonlocal buffer, mode
+        if not buffer:
+            return
+        if mode == "p":
+            blocks.append(f"<p>{_inline_markup(' '.join(buffer))}</p>")
+        elif mode in ("ul", "ol"):
+            items = "".join(f"<li>{_inline_markup(item)}</li>" for item in buffer)
+            blocks.append(f"<{mode}>{items}</{mode}>")
+        buffer = []
+        mode = None
+
+    for raw_line in text.split("\n"):
+        line = raw_line.rstrip()
+        stripped = line.strip()
+
+        if not stripped:
+            flush()
+            continue
+
+        if stripped.startswith("### "):
+            flush()
+            blocks.append(f"<h3>{_inline_markup(stripped[4:])}</h3>")
+            continue
+
+        ul_match = re.match(r"^-\s+(.*)$", stripped)
+        ol_match = re.match(r"^\d+\.\s+(.*)$", stripped)
+        is_continuation = raw_line.startswith(("  ", "\t"))
+
+        if ul_match and not (mode in ("ul", "ol") and is_continuation):
+            if mode != "ul":
+                flush()
+                mode = "ul"
+            buffer.append(ul_match.group(1))
+        elif ol_match and not (mode in ("ul", "ol") and is_continuation):
+            if mode != "ol":
+                flush()
+                mode = "ol"
+            buffer.append(ol_match.group(1))
+        elif mode in ("ul", "ol") and buffer:
+            # wrapped continuation of the current list item
+            buffer[-1] = f"{buffer[-1]} {stripped}"
+        else:
+            if mode != "p":
+                flush()
+                mode = "p"
+            buffer.append(stripped)
+
+    flush()
+    return "\n      ".join(blocks)
 
 
 def build_html(mermaid: str) -> str:
@@ -780,6 +1025,25 @@ def build_html(mermaid: str) -> str:
       + "</tr>"
       for row in applied_release_gate_rows()
     )
+
+    compatibility_metric_html_rows = "\n".join(
+      "<tr>"
+      + "".join(f"<td>{html_escape(cell)}</td>" for cell in row)
+      + "</tr>"
+      for row in compatibility_metric_rows()
+    )
+
+    organ_virtualization_html_rows = "\n".join(
+      "<tr>"
+      + "".join(f"<td>{html_escape(cell)}</td>" for cell in row)
+      + "</tr>"
+      for row in organ_virtualization_rows()
+    )
+
+    compatibility_intro_html = narrative_to_html(COMPATIBILITY_INTRO)
+    compatibility_enforcement_html = narrative_to_html(COMPATIBILITY_ENFORCEMENT)
+    organ_virtualization_intro_html = narrative_to_html(ORGAN_VIRTUALIZATION_INTRO)
+    organ_virtualization_esg_html = narrative_to_html(ORGAN_VIRTUALIZATION_ESG)
 
     return f"""<!doctype html>
 <html lang=\"en\">
@@ -1152,6 +1416,44 @@ def build_html(mermaid: str) -> str:
           {applied_release_gate_html_rows}
         </tbody>
       </table>
+
+      <h2 style="margin-top: 14px;">Human-AI Compatibility as a Release Criterion (RG-09)</h2>
+      {compatibility_intro_html}
+
+      <h3>RG-09 Measurement Definition</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>Formula</th>
+            <th>Threshold Guidance</th>
+          </tr>
+        </thead>
+        <tbody>
+          {compatibility_metric_html_rows}
+        </tbody>
+      </table>
+
+      <h3>RG-09 Enforcement Pattern</h3>
+      {compatibility_enforcement_html}
+
+      <h2 style="margin-top: 14px;">Extension: Quality Governance for Organ Virtualization / In-Silico Model Programs</h2>
+      {organ_virtualization_intro_html}
+      <table>
+        <thead>
+          <tr>
+            <th>Extension Area</th>
+            <th>What Changes for Virtualized Organ Models</th>
+            <th>Applied Control Pattern</th>
+          </tr>
+        </thead>
+        <tbody>
+          {organ_virtualization_html_rows}
+        </tbody>
+      </table>
+
+      <h3>ESG Amplification from Virtualization</h3>
+      {organ_virtualization_esg_html}
     </section>
   </div>
 
@@ -1187,7 +1489,8 @@ def write_outputs(out_dir: Path) -> tuple[Path, Path, Path]:
 
 
 def main() -> None:
-    out_dir = Path(r"c:\qms_digital_process_design")
+    # Default to the directory containing this script; allow an explicit override.
+    out_dir = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(__file__).resolve().parent
     mmd_path, md_path, html_path = write_outputs(out_dir)
 
     print(f"Generated: {mmd_path}")

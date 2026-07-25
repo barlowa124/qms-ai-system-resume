@@ -312,6 +312,7 @@ flowchart LR
 <tr><td>ESG</td><td>Investigation cycle energy intensity</td><td>kWh consumed per completed investigation</td><td>Site utility + process telemetry</td><td>Quarterly</td><td>Downward trend</td><td>Supports sustainable operations without compromising quality</td></tr>
 <tr><td>Verifiability</td><td>End-to-end traceability completeness</td><td>(# cases with linked source data, model output, reviewer decision, and CAPA action / total cases) x 100</td><td>Quality data platform</td><td>Weekly</td><td>&gt;=98%</td><td>Enables root-cause reconstruction for safety investigations</td></tr>
 <tr><td>Verifiability</td><td>Model output reproducibility</td><td>(# sampled inferences reproducible within tolerance / total sampled inferences) x 100</td><td>Model registry + replay harness</td><td>Weekly</td><td>&gt;=99%</td><td>Prevents non-deterministic safety decisions</td></tr>
+<tr><td>Verifiability</td><td>Backward compatibility of model updates</td><td>(# previously-correct cases still correct after update / # previously-correct cases) x 100, by risk class</td><td>Frozen evaluation set + model registry</td><td>Per model or prompt update</td><td>Threshold per risk class; stricter for patient-safety classes</td><td>Prevents accuracy-only updates from silently degrading human-AI team performance</td></tr>
 <tr><td>Compliance</td><td>Part 11 / Annex 11 control pass rate</td><td>(# required controls passing automated checks / total required controls) x 100</td><td>Compliance control monitor</td><td>Weekly</td><td>100%</td><td>Maintains regulatory integrity of quality decisions</td></tr>
 <tr><td>Compliance</td><td>ALCOA+ data-integrity exception rate</td><td>(# ALCOA+ exceptions / total quality records) x 100</td><td>Audit trail analyzer</td><td>Weekly</td><td>&lt;0.5%</td><td>Protects evidentiary quality for patient-impacting decisions</td></tr>
         </tbody>
@@ -453,6 +454,7 @@ flowchart LR
           <tr><td>RG-01</td><td>Inventory and ownership completeness</td><td>Full-stack inventory export with risk labels, owner, and control owner</td><td>CI pre-release gate</td><td>Enable within 30 days after launch; block next release if unresolved</td></tr>
 <tr><td>RG-06</td><td>Decision reproducibility threshold</td><td>Replay harness report with case IDs, input and output hashes, tolerance, and verdict</td><td>Weekly reliability gate</td><td>Enable within 30 days after launch; block next release if unresolved</td></tr>
 <tr><td>RG-07</td><td>Adversarial misuse resilience</td><td>Adversarial suite run log with failure severity and corrective action evidence</td><td>Security quality gate</td><td>Enable within 45 days after launch; block next release if unresolved</td></tr>
+<tr><td>RG-09</td><td>Backward compatibility of model updates</td><td>Compatibility report showing newly introduced errors on previously-correct cases, segmented by risk class, plus reviewer acceptance-rate delta after rollout</td><td>Model update gate + post-rollout monitoring</td><td>Enable within 30 days after launch; block next release if unresolved</td></tr>
         </tbody>
       </table>
 
@@ -477,6 +479,7 @@ flowchart LR
 <tr><td>RG-06</td><td>P1 Post-Launch</td><td>Decision reproducibility threshold</td><td>Replay harness report with case IDs, input and output hashes, tolerance, and verdict</td><td>Weekly reliability gate</td><td>Enable within 30 days after launch; block next release if unresolved</td></tr>
 <tr><td>RG-07</td><td>P1 Post-Launch</td><td>Adversarial misuse resilience</td><td>Adversarial suite run log with failure severity and corrective action evidence</td><td>Security quality gate</td><td>Enable within 45 days after launch; block next release if unresolved</td></tr>
 <tr><td>RG-08</td><td>P0 Launch Blocker</td><td>Immutable lineage and reconstruction readiness</td><td>Tamper-evident lineage logs and successful investigator packet generation report</td><td>Pre-production operational readiness gate</td><td>Block release when end-to-end reconstruction service-level objective is unmet</td></tr>
+<tr><td>RG-09</td><td>P1 Post-Launch</td><td>Backward compatibility of model updates</td><td>Compatibility report showing newly introduced errors on previously-correct cases, segmented by risk class, plus reviewer acceptance-rate delta after rollout</td><td>Model update gate + post-rollout monitoring</td><td>Enable within 30 days after launch; block next release if unresolved</td></tr>
         </tbody>
       </table>
 
@@ -497,11 +500,62 @@ flowchart LR
 <tr><td>AI recommendation generation</td><td>RG-04, RG-08</td><td>Capture model version, prompt version, retrieval trace, output, and actor context in immutable lineage for every recommendation</td><td>P0 Launch Blocker</td><td>No extra steps for normal use; automatic capture</td></tr>
 <tr><td>High-risk recommendation approval</td><td>RG-04</td><td>Require accountable reviewer sign-off and rationale before any patient-impacting action can proceed</td><td>P0 Launch Blocker</td><td>One mandatory rationale step for high-risk actions only</td></tr>
 <tr><td>Prompt and model update workflow (launch baseline)</td><td>RG-05</td><td>Enforce approved change ticket with risk assessment, validation protocol, rollback plan, and accountable approvals before merge</td><td>P0 Launch Blocker</td><td>No operator burden; engineering workflow gate</td></tr>
-<tr><td>Prompt and model update workflow (post-launch hardening)</td><td>RG-06, RG-07</td><td>Enable scheduled reproducibility replay and adversarial misuse suite with corrective-action tracking</td><td>P1 Post-Launch</td><td>No operator burden; engineering workflow gate</td></tr>
+<tr><td>Prompt and model update workflow (post-launch hardening)</td><td>RG-06, RG-07, RG-09</td><td>Enable scheduled reproducibility replay, adversarial misuse suite with corrective-action tracking, and backward-compatibility scoring against the prior model version</td><td>P1 Post-Launch</td><td>No operator burden; engineering workflow gate</td></tr>
+<tr><td>Post-update reviewer trust monitoring</td><td>RG-09</td><td>Monitor reviewer acceptance and override rates per risk class after each model update to detect mental-model breakage that aggregate accuracy metrics would hide</td><td>P1 Post-Launch</td><td>No operator burden; derived from existing decision logs</td></tr>
 <tr><td>Release and deployment</td><td>RG-03</td><td>Generate signed release evidence bundle and validate checksum manifest before environment promotion</td><td>P0 Launch Blocker</td><td>No operator burden; CI packaging step</td></tr>
 <tr><td>Investigation and regulator response</td><td>RG-08</td><td>Generate investigator packet from immutable lineage with timestamps, actor IDs, citations, and final disposition</td><td>P0 Launch Blocker</td><td>One-click export for reviewer and audit leads</td></tr>
         </tbody>
       </table>
+
+      <h2 style="margin-top: 14px;">Human-AI Compatibility as a Release Criterion (RG-09)</h2>
+      <p>Accuracy-only validation of model updates is insufficient in a human-in-the-loop quality system. Empirical work on human-AI teams shows that <strong>an update which improves a model's aggregate accuracy can still degrade the performance of the human-AI team</strong>, because reviewers build a mental model of where the AI is reliable and where it fails. When an update shifts the failure boundary, prior reviewer intuition becomes miscalibrated - reviewers may over-trust newly-wrong outputs or waste effort re-checking newly-correct ones.</p>
+      <p>Reference: Bansal, G., Nushi, B., Kamar, E., Weld, D. S., Lasecki, W. S., and Horvitz, E. &quot;Updates in Human-AI Teams: Understanding and Addressing the Performance/Compatibility Tradeoff.&quot; <em>Proceedings of the AAAI Conference on Artificial Intelligence</em>, 33(01), 2429-2437, 2019. See also &quot;A Case for Backward Compatibility for Human-AI Teams,&quot; arXiv:1906.01148. Their results across three high-stakes classification domains (recidivism prediction, in-hospital mortality, credit risk) show that standard ML training does not inherently produce compatible updates, and that a retraining objective penalizing <em>newly introduced</em> errors allows an explicit, tunable performance/compatibility tradeoff.</p>
+      <p>This matters directly here: RG-05 verifies a model change was <em>authorized</em> and RG-06 verifies it is <em>reproducible</em>, but neither detects compatibility regression. A model update could pass both gates and still reduce quality-review accuracy in production.</p>
+
+      <h3>RG-09 Measurement Definition</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>Formula</th>
+            <th>Threshold Guidance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Backward compatibility score</td><td>(# cases previously correct that remain correct under the new model version / # cases previously correct) x 100</td><td>Define per risk class; high-risk case classes warrant a stricter floor than low-risk triage</td></tr>
+<tr><td>Newly introduced error rate</td><td>(# cases previously correct that are now incorrect / total evaluated cases) x 100</td><td>Any non-zero value affecting patient-safety-relevant case classes requires documented justification and reviewer notification</td></tr>
+<tr><td>Reviewer acceptance-rate delta</td><td>(post-update acceptance rate - pre-update acceptance rate), segmented by risk class and role</td><td>Sharp movement in either direction is a signal of mental-model breakage, not just changed model quality</td></tr>
+<tr><td>Compatibility-adjusted rollout stage</td><td>Percentage of traffic on new model version, gated by compatibility score holding above threshold</td><td>Staged rollout with automatic hold if compatibility degrades during ramp</td></tr>
+        </tbody>
+      </table>
+
+      <h3>RG-09 Enforcement Pattern</h3>
+      <ol><li>Maintain a <strong>frozen evaluation set</strong> of previously-adjudicated cases with recorded prior-model outputs and reviewer decisions, versioned alongside the model registry.</li><li>On every candidate model or prompt update, compute the compatibility score and newly-introduced-error rate against that frozen set, segmented by risk class.</li><li>Attach the compatibility report to the RG-05 change ticket as required evidence - an update that improves aggregate accuracy while breaching the compatibility floor for a high-risk class requires explicit, documented sign-off rather than silent promotion.</li><li>After rollout, monitor reviewer acceptance and override rates (already captured in the KPI table as &quot;AI recommendation acceptance with rationale&quot;) for shifts that indicate reviewers are recalibrating against changed failure modes.</li><li>Where compatibility and accuracy genuinely conflict, treat the tradeoff as a documented quality decision with accountable ownership - not an engineering default. Where feasible, apply a retraining objective that penalizes new errors, per Bansal et al., to reduce the severity of the tradeoff.</li></ol>
+      <h3>Notification Requirement</h3>
+      <p>When an approved update knowingly breaks compatibility for a case class, reviewers working that class receive a targeted change notification describing what shifted, so mental-model recalibration is deliberate rather than discovered through error. This is a training-impact event and routes through the existing training impact automation path.</p>
+
+      <h2 style="margin-top: 14px;">Extension: Quality Governance for Organ Virtualization / In-Silico Model Programs</h2>
+      <p>Organ virtualization programs (organ-on-chip digital twins, physiologically-based pharmacokinetic/pharmacodynamic simulation, in-silico toxicology and efficacy prediction) introduce a class of AI/ML-driven artifacts that sit upstream of, and increasingly substitute for, traditional wet-lab and animal studies. The same control patterns defined above apply directly, with a few domain-specific extensions:</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Extension Area</th>
+            <th>What Changes for Virtualized Organ Models</th>
+            <th>Applied Control Pattern</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Model-to-biology traceability</td><td>Every virtual organ model instance must trace back to the specific tissue/cell source data, assay protocol version, and calibration dataset used to fit it</td><td>Immutable lineage graph (RG-08) extended to include biological source metadata, not just software/version metadata</td></tr>
+<tr><td>Simulation reproducibility</td><td>A virtualized organ prediction (e.g., predicted hepatotoxicity response) must be reproducible within defined tolerance when replayed with the same model version and input parameters</td><td>Decision reproducibility harness (RG-06) applied to simulation outputs, with biological tolerance bands defined per endpoint</td></tr>
+<tr><td>Cross-validation against wet-lab ground truth</td><td>Virtual model predictions require a documented, ongoing correlation study against real organ-on-chip or animal/clinical data until in-silico-only qualification is achieved for a given use case</td><td>New verification gate: minimum correlation coefficient and drift threshold per model class, reviewed on a fixed cadence</td></tr>
+<tr><td>Model qualification tiering</td><td>Not all virtualized organ models carry the same regulatory weight; a model used for internal candidate triage carries lower risk than one submitted as supporting evidence in an IND/NDA package</td><td>GxP impact classification (existing control) extended with an explicit regulatory-submission-use flag that escalates required evidence</td></tr>
+<tr><td>Change control for biological calibration data</td><td>Updating the training/calibration dataset for a virtual organ model (new donor tissue batch, new assay run) is treated as a model change requiring the same risk assessment and validation as a code or prompt change</td><td>Prompt and model change control (RG-05) extended to cover calibration-data updates, not only code/weights</td></tr>
+        </tbody>
+      </table>
+
+      <h3>ESG Amplification from Virtualization</h3>
+      <p>Organ virtualization is one of the few AI initiatives where the quality-governance story and the ESG story reinforce each other directly, rather than trading off:</p>
+      <ul><li><strong>Reduced animal use (3Rs: Replace, Reduce, Refine)</strong> - every study substituted or reduced by a qualified virtual organ model is a concrete, auditable ESG metric, not just a compliance checkbox. This can be tracked alongside the existing ESG KPI table as: (# studies replaced or reduced by qualified in-silico models / total comparable studies) x 100, reported quarterly.</li><li><strong>Compute-for-biology tradeoff visibility</strong> - the existing &quot;Investigation cycle energy intensity&quot; KPI extends naturally to &quot;Simulation compute intensity per qualified prediction,&quot; keeping the sustainability tradeoff of large-scale simulation visible rather than hidden behind a general AI-efficiency narrative.</li><li><strong>Faster, lower-waste candidate triage</strong> - early-stage virtual screening reduces reagent, animal, and manufacturing waste associated with candidates that would otherwise have failed later in the pipeline, tying directly into the existing &quot;Deviation rework reduction&quot; and right-first-time framing.</li></ul>
     </section>
   </div>
 

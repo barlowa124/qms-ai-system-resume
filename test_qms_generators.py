@@ -26,8 +26,8 @@ class QmsGeneratorComprehensiveTests(unittest.TestCase):
         p0_ids = set(module.p0_launch_gate_ids())
         p1_ids = {row[0] for row in module.p1_post_launch_gate_rows()}
 
-        self.assertEqual(len(release_rows), 8)
-        self.assertEqual(len(release_ids), 8)
+        self.assertEqual(len(release_rows), 9)
+        self.assertEqual(len(release_ids), 9)
         self.assertSetEqual(release_ids, p0_ids | p1_ids)
         self.assertSetEqual(set(), p0_ids & p1_ids)
 
@@ -215,9 +215,83 @@ class QmsGeneratorComprehensiveTests(unittest.TestCase):
                     self.assertIn(f"| {gate_id} |", p0_section)
                     self.assertNotIn(f"| {gate_id} |", p1_section)
 
-                for gate_id in ("RG-01", "RG-06", "RG-07"):
+                for gate_id in ("RG-01", "RG-06", "RG-07", "RG-09"):
                     self.assertIn(f"| {gate_id} |", p1_section)
                     self.assertNotIn(f"| {gate_id} |", p0_section)
+
+
+class NarrativeToHtmlTests(unittest.TestCase):
+    def test_paragraphs_and_inline_markup(self) -> None:
+        html = solution_pack.narrative_to_html(
+            "First **bold** para.\n\nSecond *italic* para."
+        )
+        self.assertIn("<p>First <strong>bold</strong> para.</p>", html)
+        self.assertIn("<p>Second <em>italic</em> para.</p>", html)
+
+    def test_unordered_and_ordered_lists(self) -> None:
+        ul = solution_pack.narrative_to_html("- alpha\n- beta")
+        self.assertIn("<ul><li>alpha</li><li>beta</li></ul>", ul)
+
+        ol = solution_pack.narrative_to_html("1. first\n2. second")
+        self.assertIn("<ol><li>first</li><li>second</li></ol>", ol)
+
+    def test_wrapped_list_continuation_joins_same_item(self) -> None:
+        html = solution_pack.narrative_to_html("- item start\n  continued text")
+        self.assertIn("<li>item start continued text</li>", html)
+        self.assertEqual(html.count("<li>"), 1)
+
+    def test_heading_and_html_escaping(self) -> None:
+        html = solution_pack.narrative_to_html("### My <Heading>")
+        self.assertIn("<h3>My &lt;Heading&gt;</h3>", html)
+
+
+class CompatibilityAndVirtualizationSectionTests(unittest.TestCase):
+    def test_compatibility_and_virtualization_row_models(self) -> None:
+        self.assertEqual(len(solution_pack.compatibility_metric_rows()), 4)
+        self.assertEqual(len(solution_pack.organ_virtualization_rows()), 5)
+
+        for row in solution_pack.compatibility_metric_rows():
+            self.assertEqual(len(row), 3)
+        for row in solution_pack.organ_virtualization_rows():
+            self.assertEqual(len(row), 3)
+
+    def test_rg09_present_in_gate_model_as_p1(self) -> None:
+        release_ids = {row[0] for row in solution_pack.release_gate_rows()}
+        self.assertIn("RG-09", release_ids)
+        self.assertNotIn("RG-09", solution_pack.p0_launch_gate_ids())
+        self.assertIn("RG-09", solution_pack.p1_post_launch_windows())
+
+    def test_new_sections_render_in_markdown_and_html(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            _, md_path, html_path = solution_pack.write_outputs(Path(tmp_dir))
+            md_text = md_path.read_text(encoding="utf-8")
+            html_text = html_path.read_text(encoding="utf-8")
+
+            for heading in (
+                "## Human-AI Compatibility as a Release Criterion (RG-09)",
+                "### RG-09 Measurement Definition",
+                "### RG-09 Enforcement Pattern",
+                "## Extension: Quality Governance for Organ Virtualization / In-Silico Model Programs",
+                "### ESG Amplification from Virtualization",
+            ):
+                self.assertIn(heading, md_text)
+
+            # citation must survive generation
+            self.assertIn("arXiv:1906.01148", md_text)
+            self.assertIn("Bansal", md_text)
+            self.assertIn("arXiv:1906.01148", html_text)
+
+            for html_marker in (
+                "Human-AI Compatibility as a Release Criterion (RG-09)",
+                "RG-09 Measurement Definition",
+                "Extension: Quality Governance for Organ Virtualization",
+                "ESG Amplification from Virtualization",
+            ):
+                self.assertIn(html_marker, html_text)
+
+    def test_compatibility_metric_appears_in_kpi_table(self) -> None:
+        table = solution_pack.build_metric_framework_markdown()
+        self.assertIn("Backward compatibility of model updates", table)
 
 
 if __name__ == "__main__":
