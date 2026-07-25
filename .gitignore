@@ -8,3 +8,8 @@ Thumbs.db
 
 # Large terminal dump artifacts (if added later)
 *.log
+
+# Test / coverage artifacts
+.pytest_cache/
+.coverage
+htmlcov/

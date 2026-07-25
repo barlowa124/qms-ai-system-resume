@@ -4,7 +4,10 @@ import unittest
 from pathlib import Path
 
 import generate_qms_solution_pack as solution_pack
+import generate_qms_system_diagram as system_diagram
 import generate_qms_trust_hardened_diagram as trust_pack
+
+REPO_ROOT = Path(__file__).resolve().parent
 
 
 def extract_gate_ids(text: str) -> set[str]:
@@ -292,6 +295,141 @@ class CompatibilityAndVirtualizationSectionTests(unittest.TestCase):
     def test_compatibility_metric_appears_in_kpi_table(self) -> None:
         table = solution_pack.build_metric_framework_markdown()
         self.assertIn("Backward compatibility of model updates", table)
+
+
+class SystemDiagramRenderingTests(unittest.TestCase):
+    """Covers generate_qms_system_diagram, which had no test coverage."""
+
+    def test_normalize_label_escapes_mermaid_breaking_characters(self) -> None:
+        self.assertEqual(system_diagram.normalize_label("a\nb"), "a<br/>b")
+        self.assertEqual(system_diagram.normalize_label('say "hi"'), "say 'hi'")
+        self.assertEqual(system_diagram.normalize_label("a|b"), "a/b")
+        self.assertEqual(
+            system_diagram.normalize_label('Line\nwith "quote" and |pipe|'),
+            "Line<br/>with 'quote' and /pipe/",
+        )
+
+    def test_render_node_quotes_and_normalizes_label(self) -> None:
+        node = system_diagram.Node("N1", 'Title\nSub "x"', "current")
+        self.assertEqual(system_diagram.render_node(node), '    N1["Title<br/>Sub \'x\'"]')
+
+    def test_render_edge_covers_all_four_branches(self) -> None:
+        solid_labeled = system_diagram.Edge("A", "B", "does thing")
+        solid_plain = system_diagram.Edge("A", "B")
+        dashed_labeled = system_diagram.Edge("A", "B", "migrates", "dashed")
+        dashed_plain = system_diagram.Edge("A", "B", "", "dashed")
+
+        self.assertEqual(system_diagram.render_edge(solid_labeled), "A -->|does thing| B")
+        self.assertEqual(system_diagram.render_edge(solid_plain), "A --> B")
+        self.assertEqual(system_diagram.render_edge(dashed_labeled), "A -. migrates .-> B")
+        self.assertEqual(system_diagram.render_edge(dashed_plain), "A -.-> B")
+
+    def test_render_edge_normalizes_label_characters(self) -> None:
+        edge = system_diagram.Edge("A", "B", "a|b")
+        self.assertEqual(system_diagram.render_edge(edge), "A -->|a/b| B")
+
+    def test_build_mermaid_structure_and_class_assignments(self) -> None:
+        mermaid = system_diagram.build_mermaid()
+
+        self.assertTrue(mermaid.startswith("flowchart LR"))
+        self.assertTrue(mermaid.endswith("\n"))
+        self.assertIn('subgraph CURRENT["Current QMS Structure (As-Is)"]', mermaid)
+        self.assertIn('subgraph TARGET["Proposed Digital QMS (To-Be)"]', mermaid)
+        self.assertIn("%% Migration mapping from current to proposed", mermaid)
+
+        for css_class in ("current", "proposed", "platform", "governance", "ai"):
+            self.assertIn(f"classDef {css_class} ", mermaid)
+
+        # every declared node must receive a class assignment
+        declared = set(re.findall(r"^\s{4}([A-Z_0-9]+)\[", mermaid, re.MULTILINE))
+        assigned = set(re.findall(r"^\s+class ([A-Z_0-9]+) ", mermaid, re.MULTILINE))
+        self.assertTrue(declared)
+        self.assertSetEqual(declared, assigned)
+
+    def test_build_mermaid_has_no_unrendered_newlines_in_labels(self) -> None:
+        mermaid = system_diagram.build_mermaid()
+        for line in mermaid.splitlines():
+            if "[" in line and '"' in line:
+                # raw newlines inside labels would have broken the line apart
+                self.assertNotIn('\\n', line)
+
+    def test_build_markdown_embeds_mermaid_in_fenced_block(self) -> None:
+        mermaid = system_diagram.build_mermaid()
+        md = system_diagram.build_markdown(mermaid)
+
+        self.assertIn("# QMS System Diagram: Current vs Proposed Digital Process", md)
+        self.assertIn("```mermaid\n", md)
+        self.assertIn(mermaid, md)
+        self.assertIn("## Suggested Rollout Sequence", md)
+        self.assertIn("## QMS Value Outcomes", md)
+
+    def test_write_outputs_creates_both_files_matching_builders(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            mmd_path, md_path = system_diagram.write_outputs(Path(tmp_dir))
+
+            self.assertTrue(mmd_path.exists())
+            self.assertTrue(md_path.exists())
+            self.assertEqual(mmd_path.name, "qms_system_diagram.mmd")
+            self.assertEqual(md_path.name, "qms_system_diagram.md")
+
+            expected_mermaid = system_diagram.build_mermaid()
+            self.assertEqual(mmd_path.read_text(encoding="utf-8"), expected_mermaid)
+            self.assertEqual(
+                md_path.read_text(encoding="utf-8"),
+                system_diagram.build_markdown(expected_mermaid),
+            )
+
+    def test_parse_args_defaults_to_cwd_and_accepts_outdir(self) -> None:
+        import sys
+        from unittest import mock
+
+        with mock.patch.object(sys, "argv", ["prog"]):
+            self.assertEqual(system_diagram.parse_args().outdir, Path.cwd())
+
+        with mock.patch.object(sys, "argv", ["prog", "--outdir", "/tmp/example"]):
+            self.assertEqual(system_diagram.parse_args().outdir, Path("/tmp/example"))
+
+
+class CommittedArtifactsInSyncTests(unittest.TestCase):
+    """Guards against committed artifacts drifting from generator output.
+
+    This is the failure mode where someone hand-edits a generated file, or
+    changes a generator without regenerating, leaving the repo inconsistent.
+    """
+
+    def assert_committed_matches(self, filename: str, expected: str) -> None:
+        path = REPO_ROOT / filename
+        if not path.exists():
+            self.skipTest(f"{filename} not present in repo")
+        self.assertEqual(
+            path.read_text(encoding="utf-8"),
+            expected,
+            msg=f"{filename} is stale - re-run its generator to regenerate it",
+        )
+
+    def test_system_diagram_artifacts_in_sync(self) -> None:
+        mermaid = system_diagram.build_mermaid()
+        self.assert_committed_matches("qms_system_diagram.mmd", mermaid)
+        self.assert_committed_matches(
+            "qms_system_diagram.md", system_diagram.build_markdown(mermaid)
+        )
+
+    def test_solution_pack_artifacts_in_sync(self) -> None:
+        mermaid = solution_pack.build_system_mermaid()
+        self.assert_committed_matches("qms_solution_diagram.mmd", mermaid)
+        self.assert_committed_matches(
+            "qms_solution_proposal.md", solution_pack.build_markdown(mermaid)
+        )
+        self.assert_committed_matches(
+            "qms_solution_proposal.html", solution_pack.build_html(mermaid)
+        )
+
+    def test_trust_hardened_artifacts_in_sync(self) -> None:
+        mermaid = trust_pack.build_mermaid()
+        self.assert_committed_matches("qms_trust_hardened_system_diagram.mmd", mermaid)
+        self.assert_committed_matches(
+            "qms_trust_hardened_system_diagram.md", trust_pack.build_markdown(mermaid)
+        )
 
 
 if __name__ == "__main__":
