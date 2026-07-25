@@ -174,6 +174,13 @@ def release_gate_rows() -> list[tuple[str, str, str, str, str]]:
       "Pre-production operational readiness gate",
       "Block release when end-to-end reconstruction service-level objective is unmet",
     ),
+    (
+      "RG-09",
+      "Backward compatibility of model updates",
+      "Compatibility report showing newly introduced errors on previously-correct cases, segmented by risk class, plus reviewer acceptance-rate delta after rollout",
+      "Model update gate + post-rollout monitoring",
+      "Block next model update when compatibility threshold is breached without documented justification",
+    ),
   ]
 
 
@@ -186,6 +193,7 @@ def p1_post_launch_windows() -> dict[str, str]:
     "RG-01": "Enable within 30 days after launch",
     "RG-06": "Enable within 30 days after launch",
     "RG-07": "Enable within 45 days after launch",
+    "RG-09": "Enable within 30 days after launch",
   }
 
 
@@ -245,7 +253,8 @@ def build_applied_release_gate_markdown() -> str:
 | AI recommendation generation | RG-04, RG-08 | Capture model version, prompt version, retrieval trace, output, and actor context in immutable lineage for every recommendation | P0 Launch Blocker | No extra steps for normal use; automatic capture |
 | High-risk recommendation approval | RG-04 | Require accountable reviewer sign-off and rationale before any patient-impacting action can proceed | P0 Launch Blocker | One mandatory rationale step for high-risk actions only |
 | Prompt and model update workflow (launch baseline) | RG-05 | Enforce approved change ticket with risk assessment, validation protocol, rollback plan, and accountable approvals before merge | P0 Launch Blocker | No operator burden; engineering workflow gate |
-| Prompt and model update workflow (post-launch hardening) | RG-06, RG-07 | Enable scheduled reproducibility replay and adversarial misuse suite with corrective-action tracking | P1 Post-Launch | No operator burden; engineering workflow gate |
+| Prompt and model update workflow (post-launch hardening) | RG-06, RG-07, RG-09 | Enable scheduled reproducibility replay, adversarial misuse suite with corrective-action tracking, and backward-compatibility scoring against the prior model version | P1 Post-Launch | No operator burden; engineering workflow gate |
+| Post-update reviewer trust monitoring | RG-09 | Monitor reviewer acceptance and override rates per risk class after each model update to detect mental-model breakage that aggregate accuracy metrics would hide | P1 Post-Launch | No operator burden; derived from existing decision logs |
 | Release and deployment | RG-03 | Generate signed release evidence bundle and validate checksum manifest before environment promotion | P0 Launch Blocker | No operator burden; CI packaging step |
 | Investigation and regulator response | RG-08 | Generate investigator packet from immutable lineage with timestamps, actor IDs, citations, and final disposition | P0 Launch Blocker | One-click export for reviewer and audit leads |
 """
