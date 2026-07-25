@@ -231,6 +231,42 @@ Minimum signed release evidence bundle fields:
 | Release and deployment | RG-03 | Generate signed release evidence bundle and validate checksum manifest before environment promotion | P0 Launch Blocker | No operator burden; CI packaging step |
 | Investigation and regulator response | RG-08 | Generate investigator packet from immutable lineage with timestamps, actor IDs, citations, and final disposition | P0 Launch Blocker | One-click export for reviewer and audit leads |
 
+## Extension: Quality Governance for Organ Virtualization / In-Silico Model Programs
+
+Organ virtualization programs (organ-on-chip digital twins, physiologically-based
+pharmacokinetic/pharmacodynamic simulation, in-silico toxicology and efficacy
+prediction) introduce a class of AI/ML-driven artifacts that sit upstream of, and
+increasingly substitute for, traditional wet-lab and animal studies. The same
+control patterns defined above apply directly, with a few domain-specific
+extensions:
+
+| Extension Area | What Changes for Virtualized Organ Models | Applied Control Pattern |
+|---|---|---|
+| Model-to-biology traceability | Every virtual organ model instance must trace back to the specific tissue/cell source data, assay protocol version, and calibration dataset used to fit it | Immutable lineage graph (RG-08) extended to include biological source metadata, not just software/version metadata |
+| Simulation reproducibility | A virtualized organ prediction (e.g., predicted hepatotoxicity response) must be reproducible within defined tolerance when replayed with the same model version and input parameters | Decision reproducibility harness (RG-06) applied to simulation outputs, with biological tolerance bands defined per endpoint |
+| Cross-validation against wet-lab ground truth | Virtual model predictions require a documented, ongoing correlation study against real organ-on-chip or animal/clinical data until in-silico-only qualification is achieved for a given use case | New verification gate: minimum correlation coefficient and drift threshold per model class, reviewed on a fixed cadence |
+| Model qualification tiering | Not all virtualized organ models carry the same regulatory weight; a model used for internal candidate triage carries lower risk than one submitted as supporting evidence in an IND/NDA package | GxP impact classification (existing control) extended with an explicit "regulatory submission use" flag that escalates required evidence |
+| Change control for biological calibration data | Updating the training/calibration dataset for a virtual organ model (new donor tissue batch, new assay run) is treated as a model change requiring the same risk assessment and validation as a code or prompt change | Prompt and model change control (RG-05) extended to cover calibration-data updates, not only code/weights |
+
+### ESG Amplification from Virtualization
+
+Organ virtualization is one of the few AI initiatives where the quality-governance
+story and the ESG story reinforce each other directly, rather than trading off:
+
+- **Reduced animal use (3Rs: Replace, Reduce, Refine)** — every study substituted or
+  reduced by a qualified virtual organ model is a concrete, auditable ESG metric,
+  not just a compliance checkbox. This can be tracked alongside the existing ESG
+  KPI table as: `(# studies replaced or reduced by qualified in-silico models /
+  total comparable studies) x 100`, reported quarterly.
+- **Compute-for-biology tradeoff visibility** — the existing "Investigation cycle
+  energy intensity" KPI extends naturally to "Simulation compute intensity per
+  qualified prediction," keeping the sustainability tradeoff of large-scale
+  simulation visible rather than hidden behind a general AI-efficiency narrative.
+- **Faster, lower-waste candidate triage** — early-stage virtual screening reduces
+  reagent, animal, and manufacturing waste associated with candidates that would
+  otherwise have failed later in the pipeline, tying directly into the existing
+  "Deviation rework reduction" and right-first-time framing.
+
 ## Patient Safety Guardrails
 
 - AI remains decision support, never autonomous closure for patient-impacting records
