@@ -1,0 +1,69 @@
+flowchart LR
+  %% Current-state QMS
+  subgraph ASIS["Current QMS Structure (As-Is)"]
+    C_GOV["QMS Governance<br/>Policies + SOP ownership"]
+    C_DOC["Document Control<br/>SharePoint + templates"]
+    C_EVT["Quality Event Intake<br/>Email + manual forms"]
+    C_CASE["Deviation/CAPA/Change<br/>Spreadsheet routing"]
+    C_APV["Approvals<br/>Email + wet signatures"]
+    C_TRN["Training<br/>LMS + manual impact checks"]
+    C_AUD["Audits<br/>Shared evidence folders"]
+    C_DAT["KPI Reporting<br/>Manual extracts + lagging metrics"]
+    C_SRC["Source Systems<br/>ERP, MES, LIMS, PLM (siloed)"]
+  end
+  %% Target-state digital QMS
+  subgraph TOBE["Proposed Digital Process QMS (To-Be)"]
+    P_GOV["Compliance + Governance Layer<br/>Part 11, Annex 11, ALCOA+"]
+    P_ORC["Process Orchestration Layer<br/>BPMN workflows + SLA timers"]
+    P_DMS["Controlled Content Service<br/>Version control + e-signatures"]
+    P_EQM["Unified eQMS Case Hub<br/>Deviation, CAPA, Change, Complaint"]
+    P_INT["Integration Hub<br/>APIs + event streaming"]
+    P_DAT["Quality Data Platform<br/>Canonical model + traceability graph"]
+    P_AI["AI Quality Copilot<br/>NLP triage + risk scoring + draft actions"]
+    P_TRN["Training Impact Automation<br/>Role mapping + auto assignment"]
+    P_AUD["Continuous Audit Readiness<br/>Evidence graph + control checks"]
+    P_DSH["Quality Cockpit<br/>Real-time KPIs + predictive alerts"]
+  end
+  %% Existing functional flow
+  C_GOV --> C_DOC
+  C_DOC --> C_EVT
+  C_EVT --> C_CASE
+  C_APV --> C_CASE
+  C_CASE --> C_TRN
+  C_CASE --> C_AUD
+  C_CASE --> C_DAT
+  C_SRC --> C_DAT
+  %% Proposed functional flow
+  P_GOV --> P_ORC
+  P_ORC --> P_DMS
+  P_ORC --> P_EQM
+  P_INT --> P_DAT
+  P_DMS --> P_DAT
+  P_EQM --> P_DAT
+  P_EQM --> P_AI
+  P_AI -->|recommended controls| P_EQM
+  P_EQM --> P_TRN
+  P_EQM --> P_AUD
+  P_DAT --> P_DSH
+  P_AI -->|predictive signals| P_DSH
+  P_DSH -->|closed-loop actions| P_ORC
+  %% Migration mapping
+  C_GOV -. digitize governance controls .-> P_GOV
+  C_DOC -. move to controlled content lifecycle .-> P_DMS
+  C_EVT -. standardize event taxonomy .-> P_EQM
+  C_CASE -. convert workflow templates .-> P_ORC
+  C_APV -. replace email approvals with e-sign .-> P_ORC
+  C_TRN -. automate training impact .-> P_TRN
+  C_AUD -. always-on evidence trail .-> P_AUD
+  C_DAT -. unify quality model and KPI feed .-> P_DAT
+  C_SRC -. API/event integration .-> P_INT
+  classDef current fill:#FCE9CF,stroke:#A86A00,stroke-width:1px,color:#1F1F1F;
+  classDef target fill:#DDF4E5,stroke:#1E7A45,stroke-width:1px,color:#1F1F1F;
+  classDef platform fill:#DDEBFF,stroke:#245EA8,stroke-width:1px,color:#1F1F1F;
+  classDef ai fill:#FFE3C4,stroke:#B65E00,stroke-width:1px,color:#1F1F1F;
+  classDef governance fill:#F2DEFF,stroke:#7A2B9A,stroke-width:1px,color:#1F1F1F;
+  class C_GOV,C_DOC,C_EVT,C_CASE,C_APV,C_TRN,C_AUD,C_DAT,C_SRC current;
+  class P_ORC,P_DMS,P_EQM,P_TRN,P_AUD target;
+  class P_INT,P_DAT,P_DSH platform;
+  class P_AI ai;
+  class P_GOV governance;

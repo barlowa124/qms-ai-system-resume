@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>QMS Digital Process Proposal</title>
+  <style>
+    :root {
+      --bg: #f7f7f2;
+      --card: #ffffff;
+      --ink: #1e1f24;
+      --muted: #4d5562;
+      --accent: #0c5ea8;
+      --accent-soft: #d9ebff;
+      --line: #d7dde5;
+      --ok: #1f7a45;
+      --warn: #a86a00;
+    }
+
+    body {
+      margin: 0;
+      font-family: Segoe UI, Tahoma, sans-serif;
+      background:
+        radial-gradient(circle at 10% 0%, #e9f4ff 0%, transparent 35%),
+        radial-gradient(circle at 90% 100%, #fbeed8 0%, transparent 30%),
+        var(--bg);
+      color: var(--ink);
+    }
+
+    .wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .hero {
+      background: linear-gradient(125deg, #0c5ea8, #117844);
+      color: white;
+      border-radius: 14px;
+      padding: 22px 24px;
+      box-shadow: 0 10px 24px rgba(16, 54, 92, 0.25);
+    }
+
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: 1.7rem;
+      letter-spacing: 0.01em;
+    }
+
+    .hero p {
+      margin: 0;
+      opacity: 0.94;
+      line-height: 1.45;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 4px 10px rgba(16, 24, 40, 0.05);
+    }
+
+    h2 {
+      margin: 4px 0 12px;
+      font-size: 1.15rem;
+    }
+
+    .muted {
+      color: var(--muted);
+      margin: 0 0 8px;
+      line-height: 1.4;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.93rem;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--accent-soft);
+      color: #0d3356;
+    }
+
+    ul {
+      margin-top: 8px;
+      padding-left: 20px;
+    }
+
+    .badge {
+      display: inline-block;
+      margin-right: 8px;
+      margin-bottom: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #ecf3fb;
+      border: 1px solid #d2e2f6;
+      color: #204a74;
+      font-size: 0.85rem;
+    }
+
+    .legend {
+      margin-top: 6px;
+      font-size: 0.86rem;
+      color: var(--muted);
+    }
+
+    @media (max-width: 980px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>QMS Digital Process Solution</h1>
+      <p>
+        Current-state to future-state map with migration links, operating model ownership,
+        and measurable KPI targets for the proposed digital process architecture.
+      </p>
+    </section>
+
+    <div class="grid">
+      <section class="card">
+        <h2>System Diagram</h2>
+        <p class="muted">
+          Dashed links indicate migration mapping from existing functionality to the target model.
+        </p>
+        <div class="mermaid">
+flowchart LR
+  %% Current-state QMS
+  subgraph ASIS["Current QMS Structure (As-Is)"]
+    C_GOV["QMS Governance<br/>Policies + SOP ownership"]
+    C_DOC["Document Control<br/>SharePoint + templates"]
+    C_EVT["Quality Event Intake<br/>Email + manual forms"]
+    C_CASE["Deviation/CAPA/Change<br/>Spreadsheet routing"]
+    C_APV["Approvals<br/>Email + wet signatures"]
+    C_TRN["Training<br/>LMS + manual impact checks"]
+    C_AUD["Audits<br/>Shared evidence folders"]
+    C_DAT["KPI Reporting<br/>Manual extracts + lagging metrics"]
+    C_SRC["Source Systems<br/>ERP, MES, LIMS, PLM (siloed)"]
+  end
+  %% Target-state digital QMS
+  subgraph TOBE["Proposed Digital Process QMS (To-Be)"]
+    P_GOV["Compliance + Governance Layer<br/>Part 11, Annex 11, ALCOA+"]
+    P_ORC["Process Orchestration Layer<br/>BPMN workflows + SLA timers"]
+    P_DMS["Controlled Content Service<br/>Version control + e-signatures"]
+    P_EQM["Unified eQMS Case Hub<br/>Deviation, CAPA, Change, Complaint"]
+    P_INT["Integration Hub<br/>APIs + event streaming"]
+    P_DAT["Quality Data Platform<br/>Canonical model + traceability graph"]
+    P_AI["AI Quality Copilot<br/>NLP triage + risk scoring + draft actions"]
+    P_TRN["Training Impact Automation<br/>Role mapping + auto assignment"]
+    P_AUD["Continuous Audit Readiness<br/>Evidence graph + control checks"]
+    P_DSH["Quality Cockpit<br/>Real-time KPIs + predictive alerts"]
+  end
+  %% Existing functional flow
+  C_GOV --> C_DOC
+  C_DOC --> C_EVT
+  C_EVT --> C_CASE
+  C_APV --> C_CASE
+  C_CASE --> C_TRN
+  C_CASE --> C_AUD
+  C_CASE --> C_DAT
+  C_SRC --> C_DAT
+  %% Proposed functional flow
+  P_GOV --> P_ORC
+  P_ORC --> P_DMS
+  P_ORC --> P_EQM
+  P_INT --> P_DAT
+  P_DMS --> P_DAT
+  P_EQM --> P_DAT
+  P_EQM --> P_AI
+  P_AI -->|recommended controls| P_EQM
+  P_EQM --> P_TRN
+  P_EQM --> P_AUD
+  P_DAT --> P_DSH
+  P_AI -->|predictive signals| P_DSH
+  P_DSH -->|closed-loop actions| P_ORC
+  %% Migration mapping
+  C_GOV -. digitize governance controls .-> P_GOV
+  C_DOC -. move to controlled content lifecycle .-> P_DMS
+  C_EVT -. standardize event taxonomy .-> P_EQM
+  C_CASE -. convert workflow templates .-> P_ORC
+  C_APV -. replace email approvals with e-sign .-> P_ORC
+  C_TRN -. automate training impact .-> P_TRN
+  C_AUD -. always-on evidence trail .-> P_AUD
+  C_DAT -. unify quality model and KPI feed .-> P_DAT
+  C_SRC -. API/event integration .-> P_INT
+  classDef current fill:#FCE9CF,stroke:#A86A00,stroke-width:1px,color:#1F1F1F;
+  classDef target fill:#DDF4E5,stroke:#1E7A45,stroke-width:1px,color:#1F1F1F;
+  classDef platform fill:#DDEBFF,stroke:#245EA8,stroke-width:1px,color:#1F1F1F;
+  classDef ai fill:#FFE3C4,stroke:#B65E00,stroke-width:1px,color:#1F1F1F;
+  classDef governance fill:#F2DEFF,stroke:#7A2B9A,stroke-width:1px,color:#1F1F1F;
+  class C_GOV,C_DOC,C_EVT,C_CASE,C_APV,C_TRN,C_AUD,C_DAT,C_SRC current;
+  class P_ORC,P_DMS,P_EQM,P_TRN,P_AUD target;
+  class P_INT,P_DAT,P_DSH platform;
+  class P_AI ai;
+  class P_GOV governance;
+
+        </div>
+        <p class="legend">Legend: current-state nodes (amber), target process nodes (green), platform nodes (blue), governance (violet), AI (orange).</p>
+      </section>
+
+      <section class="card">
+        <h2>Rollout Waves</h2>
+        <span class="badge">Wave 1: Core workflows</span>
+        <span class="badge">Wave 2: Integrations + data model</span>
+        <span class="badge">Wave 3: AI controls</span>
+        <span class="badge">Wave 4: Predictive operations</span>
+        <ul>
+          <li>Wave 1 (8-12 weeks): digitize deviation, CAPA, and change workflows.</li>
+          <li>Wave 2 (6-10 weeks): connect ERP/MES/LIMS and enforce canonical quality model.</li>
+          <li>Wave 3 (6-8 weeks): deploy AI triage and risk scoring with approval controls.</li>
+          <li>Wave 4 (4-6 weeks): scale real-time risk cockpit and closed-loop automation.</li>
+        </ul>
+
+        <h2>Target KPI Outcomes</h2>
+        <ul>
+<li>Deviation triage time: reduce by 40 percent</li>
+<li>CAPA cycle time: reduce by 25 percent</li>
+<li>On-time training completion after change: increase to 98 percent</li>
+<li>Audit evidence retrieval time: reduce by 60 percent</li>
+<li>Recurrence rate for high-risk deviations: reduce by 30 percent</li>
+        </ul>
+
+        <h2>Usage Outcomes</h2>
+        <ul>
+      <li>Weekly active quality users and digital workflow completion rate by site and function</li>
+<li>AI recommendation usage distribution by process type and severity class</li>
+<li>Override rates segmented by role with mandatory rationale capture</li>
+<li>Time-to-first-action after AI triage versus manual baseline</li>
+        </ul>
+
+        <h2>ESG Outcomes</h2>
+        <ul>
+      <li>Paperless quality record adoption and paper reduction trend</li>
+<li>Deviation rework hour reduction and right-first-time improvement</li>
+<li>Investigation cycle energy intensity and compute utilization trend</li>
+<li>Supplier quality interaction digitalization rate (fewer manual exchanges)</li>
+        </ul>
+      </section>
+    </div>
+
+    <section class="card" style="margin-top: 18px;">
+      <h2>RACI Overlay</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Process</th>
+            <th>Responsible (R)</th>
+            <th>Accountable (A)</th>
+            <th>Consulted (C)</th>
+            <th>Informed (I)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Deviation intake and triage</td><td>Quality Ops</td><td>Head of Quality</td><td>Manufacturing</td><td>QA Systems</td></tr>
+<tr><td>CAPA planning and closure</td><td>Process Owner</td><td>Head of Quality</td><td>Regulatory</td><td>Data and AI</td></tr>
+<tr><td>Change control workflow</td><td>Change Coordinator</td><td>Quality Governance</td><td>IT Validation</td><td>Site Ops</td></tr>
+<tr><td>Training impact assignment</td><td>Training Lead</td><td>Quality Governance</td><td>HR</td><td>Process Owner</td></tr>
+<tr><td>Audit evidence readiness</td><td>Audit Lead</td><td>Head of Quality</td><td>All Functions</td><td>QA Systems</td></tr>
+<tr><td>AI recommendation approval</td><td>Quality Ops</td><td>Quality Governance</td><td>Data Science</td><td>Regulatory</td></tr>
+<tr><td>KPI and risk signal governance</td><td>Quality Analytics</td><td>Head of Quality</td><td>Site Leadership</td><td>Quality Ops</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card" style="margin-top: 18px;">
+      <h2>How Target Outcomes Are Measured</h2>
+      <p class="muted">
+        Metrics include explicit formulas, evidence sources, and cadence for verifiability
+        and regulatory readiness.
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>Domain</th>
+            <th>Metric</th>
+            <th>Measurement Formula</th>
+            <th>Data Source</th>
+            <th>Cadence</th>
+            <th>Target</th>
+            <th>Patient Safety Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Patient Safety</td><td>Safety review coverage for high-risk cases</td><td>(# high-risk cases with documented AI plus human safety review / total high-risk cases) x 100</td><td>eQMS case records + PV safety system</td><td>Weekly</td><td>&gt;=99%</td><td>Prevents unsupervised AI decisions for patient-impacting events</td></tr>
+<tr><td>Patient Safety</td><td>Critical escalation SLA attainment</td><td>(# critical quality events escalated within SLA / total critical events) x 100</td><td>Workflow timestamps</td><td>Daily</td><td>&gt;=98%</td><td>Shortens time to containment and clinical risk mitigation</td></tr>
+<tr><td>Usage</td><td>Weekly active quality users</td><td>Count of unique users executing quality workflows per week</td><td>Identity + workflow logs</td><td>Weekly</td><td>+15% in first 90 days</td><td>Higher adoption improves consistency of safety controls</td></tr>
+<tr><td>Usage</td><td>Digital workflow completion rate</td><td>(# cases completed in orchestrated workflow / total cases) x 100</td><td>Workflow engine</td><td>Weekly</td><td>&gt;=95%</td><td>Reduces off-system workarounds that hide safety risk</td></tr>
+<tr><td>Usage</td><td>AI recommendation acceptance with rationale</td><td>(# accepted AI recommendations with reviewer rationale / total AI recommendations) x 100</td><td>AI decision logs</td><td>Weekly</td><td>Track trend, no forced target</td><td>Ensures AI remains decision support, not autonomous control</td></tr>
+<tr><td>ESG</td><td>Paperless quality record rate</td><td>(# records fully digital and e-signed / total quality records) x 100</td><td>DMS + e-signature logs</td><td>Monthly</td><td>&gt;=90% by wave 3</td><td>Improves traceability while reducing paper-intensive processes</td></tr>
+<tr><td>ESG</td><td>Deviation rework reduction</td><td>((baseline rework hours - current rework hours) / baseline rework hours) x 100</td><td>Manufacturing + quality logs</td><td>Monthly</td><td>&gt;=20% reduction</td><td>Lower rework reduces process instability and quality drift</td></tr>
+<tr><td>ESG</td><td>Investigation cycle energy intensity</td><td>kWh consumed per completed investigation</td><td>Site utility + process telemetry</td><td>Quarterly</td><td>Downward trend</td><td>Supports sustainable operations without compromising quality</td></tr>
+<tr><td>Verifiability</td><td>End-to-end traceability completeness</td><td>(# cases with linked source data, model output, reviewer decision, and CAPA action / total cases) x 100</td><td>Quality data platform</td><td>Weekly</td><td>&gt;=98%</td><td>Enables root-cause reconstruction for safety investigations</td></tr>
+<tr><td>Verifiability</td><td>Model output reproducibility</td><td>(# sampled inferences reproducible within tolerance / total sampled inferences) x 100</td><td>Model registry + replay harness</td><td>Weekly</td><td>&gt;=99%</td><td>Prevents non-deterministic safety decisions</td></tr>
+<tr><td>Compliance</td><td>Part 11 / Annex 11 control pass rate</td><td>(# required controls passing automated checks / total required controls) x 100</td><td>Compliance control monitor</td><td>Weekly</td><td>100%</td><td>Maintains regulatory integrity of quality decisions</td></tr>
+<tr><td>Compliance</td><td>ALCOA+ data-integrity exception rate</td><td>(# ALCOA+ exceptions / total quality records) x 100</td><td>Audit trail analyzer</td><td>Weekly</td><td>&lt;0.5%</td><td>Protects evidentiary quality for patient-impacting decisions</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card" style="margin-top: 18px;">
+      <h2>Verifiability and Compliance Assessments</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Assessment Area</th>
+            <th>Verification Method</th>
+            <th>Evidence</th>
+            <th>Cadence</th>
+            <th>Gate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>GxP impact classification</td><td>Every AI-enabled workflow has documented GxP impact category</td><td>Control owner attestation + QA review</td><td>At release and at each major change</td><td>Block release if missing</td></tr>
+<tr><td>Computer software assurance (CSA)</td><td>Risk-based validation protocol with objective evidence</td><td>Validation package in controlled repository</td><td>Before production and per change request</td><td>Block release if failed</td></tr>
+<tr><td>Human oversight enforcement</td><td>No autonomous closure for patient-safety relevant records</td><td>Workflow rule tests + periodic audit samples</td><td>Continuous</td><td>Auto-escalate any violation</td></tr>
+<tr><td>Audit trail integrity</td><td>Immutable logs for data access, model calls, approvals, overrides</td><td>Automated integrity checks</td><td>Daily</td><td>Critical incident if tampering detected</td></tr>
+<tr><td>Model change control</td><td>Approved change ticket, validation evidence, rollback plan</td><td>Change advisory board record</td><td>Per model or prompt update</td><td>Reject deployment if incomplete</td></tr>
+<tr><td>Bias and performance drift</td><td>Defined thresholds by case class and severity</td><td>Monitoring dashboard + periodic challenge tests</td><td>Weekly + monthly deep dive</td><td>Freeze model if threshold breached</td></tr>
+        </tbody>
+      </table>
+
+      <h2 style="margin-top: 14px;">Patient Safety Guardrails</h2>
+      <ul>
+        <li>AI remains decision support only; no autonomous closure for patient-impacting records.</li>
+        <li>High-risk records require documented human review and accountable sign-off.</li>
+        <li>Control failures trigger release hold and mandatory escalation.</li>
+        <li>Decision lineage is retained end-to-end for inspections and investigations.</li>
+      </ul>
+    </section>
+    <section class="card" style="margin-top: 18px;">
+      <h2>AI Regulator Stress-Test Hardening</h2>
+      <p class="muted">
+        Each hardening area maps implementation design to expected regulator AI queries,
+        required evidence, and objective enforcement rules.
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>Hardening Area</th>
+            <th>Implementation Pattern</th>
+            <th>Anticipated Regulator Question</th>
+            <th>Evidence Package</th>
+            <th>Enforcement Rule</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Full-stack inventory with risk tags</td><td>Maintain a live inventory for every service, model endpoint, integration, queue, database, and vendor dependency. Record GxP impact, data class, risk tier, owner, and control owner.</td><td>How do you know no hidden component bypasses controls?</td><td>Versioned system inventory export with owner and control-owner attestations.</td><td>Release gate fails if any high-risk component is missing owner, control owner, or risk label.</td></tr>
+<tr><td>Control-to-implementation graph</td><td>Map each policy control to workflow rules, code checks, telemetry, and evidence artifacts using deterministic control IDs.</td><td>Can you prove controls are implemented and monitored, not only documented?</td><td>Control matrix with policy links, implementation refs, telemetry refs, and evidence paths.</td><td>Promotion is blocked if policy, implementation, telemetry, or evidence link is missing.</td></tr>
+<tr><td>Signed release evidence bundle</td><td>Generate a signed package per release containing commit SHAs, model and prompt versions, gate results, approvals, exceptions, SBOM, and provenance references.</td><td>Show complete evidence for the exact production release.</td><td>Signed release manifest, checksums, and immutable artifact references.</td><td>Release promotion is blocked if signature or manifest completeness validation fails.</td></tr>
+<tr><td>Decision reproducibility harness</td><td>Replay sampled recommendations with version-pinned model and retrieval context to verify deterministic behavior within tolerance bounds.</td><td>Can you reproduce this decision and explain differences?</td><td>Replay report with case ID, input hash, output hash, tolerance, and pass or fail status.</td><td>Weekly reproducibility pass rate must meet threshold by risk class.</td></tr>
+<tr><td>Prompt and model change control</td><td>Treat prompt and model updates as controlled quality changes requiring risk assessment, validation protocol, rollback plan, and accountable signoff.</td><td>How are prompt and model changes governed under quality management?</td><td>Change ticket package with validation evidence, approval chain, and rollback simulation.</td><td>Merge fails when required change-control metadata or approvals are missing.</td></tr>
+<tr><td>Adversarial and abuse-case testing</td><td>Run scheduled test suites for prompt injection, unsafe output patterns, citation poisoning, and context-boundary failures.</td><td>How do you prove resilience to misuse and hostile inputs?</td><td>Adversarial test matrix, failure trends, and corrective-action records.</td><td>Critical adversarial failures block release until corrective actions are verified.</td></tr>
+<tr><td>Immutable lineage and rapid reconstruction</td><td>Capture tamper-evident lineage linking inputs, retrieval traces, model outputs, reviewer decisions, and final workflow actions.</td><td>Can you reconstruct a safety-critical decision quickly for investigators?</td><td>Cryptographically chained event logs with reconstruction report and retrieval timings.</td><td>Investigation packet generation must complete within defined service-level objective.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card" style="margin-top: 18px;">
+      <h2>Anticipated AI-Assisted Regulatory Challenges and Prepared Answers</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Anticipated Challenge</th>
+            <th>Prepared Response</th>
+            <th>Demonstrable Artifact</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Show all AI-relevant systems and data paths across the enterprise stack.</td><td>Provide the full-stack inventory with risk tags, ownership, and GxP impact classes.</td><td>Inventory register plus ownership attestations and dependency export.</td></tr>
+<tr><td>Prove each required control is enforced at runtime.</td><td>Use the control-to-implementation graph linking policy to code, telemetry, and evidence artifacts.</td><td>Control matrix with current status per control ID.</td></tr>
+<tr><td>Produce complete evidence for this release.</td><td>Deliver the signed release evidence bundle with manifest, checksums, and traceable references.</td><td>Signed release dossier generated from CI promotion stage.</td></tr>
+<tr><td>Replay one historical recommendation and confirm consistency.</td><td>Run the reproducibility harness for the selected case and provide tolerance-based comparison output.</td><td>Replay report including hashes, score deltas, and pass or fail verdict.</td></tr>
+<tr><td>Explain how prompt and model updates are controlled.</td><td>Show change-control records with risk assessment, validation evidence, rollback plan, and approvals.</td><td>Model and prompt change package with full audit trail.</td></tr>
+<tr><td>Demonstrate protection against misuse and adversarial manipulation.</td><td>Provide scheduled adversarial testing results and corrective-action evidence.</td><td>Adversarial suite run history and remediation tracking.</td></tr>
+<tr><td>Reconstruct this case end-to-end for investigation.</td><td>Use immutable lineage logs to generate a complete chronology from input to final action.</td><td>Investigator packet with timestamps, actor IDs, model versions, and citation refs.</td></tr>
+        </tbody>
+      </table>
+
+      <h2 style="margin-top: 14px;">Release Evidence Bundle Minimum Fields</h2>
+      <ul>
+        <li>release_id and release timestamp</li>
+        <li>source commit SHAs and build run IDs</li>
+        <li>model version and prompt version identifiers</li>
+        <li>SBOM reference and provenance reference</li>
+        <li>validation summary and gate verdicts</li>
+        <li>approval records and exception records</li>
+        <li>checksum manifest and signing certificate reference</li>
+      </ul>
+    </section>
+
+    <section class="card" style="margin-top: 18px;">
+      <h2>Strict P0 Launch Release Gates (QMS Resume Reviewer)</h2>
+      <p class="muted">
+        P0 gates are strict launch blockers. Initial production release does not proceed
+        if any P0 evidence requirement fails.
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>Gate ID</th>
+            <th>P0 Launch Blocker</th>
+            <th>Required Evidence</th>
+            <th>Enforcement Point</th>
+            <th>Fail-Closed Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>RG-02</td><td>Control-to-implementation runtime coverage</td><td>Control matrix linking policy IDs to code checks, telemetry, and evidence paths</td><td>CI promotion gate</td><td>Block release when any required control link is missing or stale</td></tr>
+<tr><td>RG-03</td><td>Signed release evidence bundle</td><td>Signed manifest with commit SHAs, model and prompt versions, SBOM, provenance, approvals, and checksums</td><td>Release packaging gate</td><td>Block release when signature validation or manifest completeness fails</td></tr>
+<tr><td>RG-04</td><td>High-risk human review enforcement</td><td>Reviewer sign-off records for all high-risk recommendations and overrides</td><td>Runtime workflow gate</td><td>Prevent case closure and raise escalation when sign-off is missing</td></tr>
+<tr><td>RG-05</td><td>Prompt and model change control</td><td>Change ticket with risk assessment, validation evidence, rollback plan, and approvals</td><td>Merge and deploy gate</td><td>Reject merge and deployment for unapproved prompt or model changes</td></tr>
+<tr><td>RG-08</td><td>Immutable lineage and reconstruction readiness</td><td>Tamper-evident lineage logs and successful investigator packet generation report</td><td>Pre-production operational readiness gate</td><td>Block release when end-to-end reconstruction service-level objective is unmet</td></tr>
+        </tbody>
+      </table>
+
+      <h2 style="margin-top: 14px;">P1 Post-Launch Enforcement Gates (Marked)</h2>
+      <p class="muted">
+        P1 gates are explicitly marked for post-launch hardening and must be enabled within
+        the listed window. If unresolved, the next release is blocked.
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>Gate ID</th>
+            <th>P1 Post-Launch Enforcement</th>
+            <th>Required Evidence</th>
+            <th>Enforcement Point</th>
+            <th>Post-Launch Rule</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>RG-01</td><td>Inventory and ownership completeness</td><td>Full-stack inventory export with risk labels, owner, and control owner</td><td>CI pre-release gate</td><td>Enable within 30 days after launch; block next release if unresolved</td></tr>
+<tr><td>RG-06</td><td>Decision reproducibility threshold</td><td>Replay harness report with case IDs, input and output hashes, tolerance, and verdict</td><td>Weekly reliability gate</td><td>Enable within 30 days after launch; block next release if unresolved</td></tr>
+<tr><td>RG-07</td><td>Adversarial misuse resilience</td><td>Adversarial suite run log with failure severity and corrective action evidence</td><td>Security quality gate</td><td>Enable within 45 days after launch; block next release if unresolved</td></tr>
+        </tbody>
+      </table>
+
+      <h2 style="margin-top: 14px;">Full Regulatory Gate Catalog (Tiered Reference)</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Gate ID</th>
+            <th>Launch Tier</th>
+            <th>Regulatory Gate</th>
+            <th>Required Evidence</th>
+            <th>Enforcement Point</th>
+            <th>Enforcement Outcome</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>RG-01</td><td>P1 Post-Launch</td><td>Inventory and ownership completeness</td><td>Full-stack inventory export with risk labels, owner, and control owner</td><td>CI pre-release gate</td><td>Enable within 30 days after launch; block next release if unresolved</td></tr>
+<tr><td>RG-02</td><td>P0 Launch Blocker</td><td>Control-to-implementation runtime coverage</td><td>Control matrix linking policy IDs to code checks, telemetry, and evidence paths</td><td>CI promotion gate</td><td>Block release when any required control link is missing or stale</td></tr>
+<tr><td>RG-03</td><td>P0 Launch Blocker</td><td>Signed release evidence bundle</td><td>Signed manifest with commit SHAs, model and prompt versions, SBOM, provenance, approvals, and checksums</td><td>Release packaging gate</td><td>Block release when signature validation or manifest completeness fails</td></tr>
+<tr><td>RG-04</td><td>P0 Launch Blocker</td><td>High-risk human review enforcement</td><td>Reviewer sign-off records for all high-risk recommendations and overrides</td><td>Runtime workflow gate</td><td>Prevent case closure and raise escalation when sign-off is missing</td></tr>
+<tr><td>RG-05</td><td>P0 Launch Blocker</td><td>Prompt and model change control</td><td>Change ticket with risk assessment, validation evidence, rollback plan, and approvals</td><td>Merge and deploy gate</td><td>Reject merge and deployment for unapproved prompt or model changes</td></tr>
+<tr><td>RG-06</td><td>P1 Post-Launch</td><td>Decision reproducibility threshold</td><td>Replay harness report with case IDs, input and output hashes, tolerance, and verdict</td><td>Weekly reliability gate</td><td>Enable within 30 days after launch; block next release if unresolved</td></tr>
+<tr><td>RG-07</td><td>P1 Post-Launch</td><td>Adversarial misuse resilience</td><td>Adversarial suite run log with failure severity and corrective action evidence</td><td>Security quality gate</td><td>Enable within 45 days after launch; block next release if unresolved</td></tr>
+<tr><td>RG-08</td><td>P0 Launch Blocker</td><td>Immutable lineage and reconstruction readiness</td><td>Tamper-evident lineage logs and successful investigator packet generation report</td><td>Pre-production operational readiness gate</td><td>Block release when end-to-end reconstruction service-level objective is unmet</td></tr>
+        </tbody>
+      </table>
+
+      <h2 style="margin-top: 14px;">Applied Regulatory Gate Implementation</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>QMS Resume Reviewer Surface</th>
+            <th>Applied Gates</th>
+            <th>Applied Implementation Pattern</th>
+            <th>Launch Tier</th>
+            <th>User Burden Profile</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Case intake and triage (launch baseline)</td><td>RG-02</td><td>Register each workflow, queue, and dependency in inventory and map policy controls to enforcement checks before enabling route</td><td>P0 Launch Blocker</td><td>No manual user input; generated from configuration and workflow metadata</td></tr>
+<tr><td>Case intake and triage (post-launch hardening)</td><td>RG-01</td><td>Backfill and continuously reconcile full-stack inventory ownership metadata for all non-critical components</td><td>P1 Post-Launch</td><td>No manual user input; generated from configuration and workflow metadata</td></tr>
+<tr><td>AI recommendation generation</td><td>RG-04, RG-08</td><td>Capture model version, prompt version, retrieval trace, output, and actor context in immutable lineage for every recommendation</td><td>P0 Launch Blocker</td><td>No extra steps for normal use; automatic capture</td></tr>
+<tr><td>High-risk recommendation approval</td><td>RG-04</td><td>Require accountable reviewer sign-off and rationale before any patient-impacting action can proceed</td><td>P0 Launch Blocker</td><td>One mandatory rationale step for high-risk actions only</td></tr>
+<tr><td>Prompt and model update workflow (launch baseline)</td><td>RG-05</td><td>Enforce approved change ticket with risk assessment, validation protocol, rollback plan, and accountable approvals before merge</td><td>P0 Launch Blocker</td><td>No operator burden; engineering workflow gate</td></tr>
+<tr><td>Prompt and model update workflow (post-launch hardening)</td><td>RG-06, RG-07</td><td>Enable scheduled reproducibility replay and adversarial misuse suite with corrective-action tracking</td><td>P1 Post-Launch</td><td>No operator burden; engineering workflow gate</td></tr>
+<tr><td>Release and deployment</td><td>RG-03</td><td>Generate signed release evidence bundle and validate checksum manifest before environment promotion</td><td>P0 Launch Blocker</td><td>No operator burden; CI packaging step</td></tr>
+<tr><td>Investigation and regulator response</td><td>RG-08</td><td>Generate investigator packet from immutable lineage with timestamps, actor IDs, citations, and final disposition</td><td>P0 Launch Blocker</td><td>One-click export for reviewer and audit leads</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: "neutral",
+      securityLevel: "loose",
+      flowchart: { useMaxWidth: true, curve: "basis" }
+    });
+  </script>
+</body>
+</html>

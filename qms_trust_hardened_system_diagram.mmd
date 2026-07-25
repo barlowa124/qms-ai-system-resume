@@ -1,0 +1,87 @@
+flowchart LR
+  %% QMS AI interview walkthrough architecture
+  subgraph OBS["Reference Observations (Industry-Neutral)"]
+    R_DEPLOY["Deployment configuration can exceed implementation transparency"]
+    R_SCAN["Security scans may exist without blocking behavior"]
+    R_SUPPLY["Provenance and SBOM controls may be inconsistent"]
+    R_COMP["Compliance evidence can be distributed across tools"]
+    R_MIG["Migration scripts can include direct connection patterns"]
+    R_AI["AI reasoning, citations, and logs may not be presented together"]
+  end
+  subgraph TARGET["Target QMS AI Architecture"]
+    T_POLICY["Policy checks and branch protections"]
+    T_GATES["Blocking security and quality gates"]
+    T_SUPPLY["Artifact integrity metadata: provenance and SBOM"]
+    T_RELEASE["Release validation by environment tier"]
+    T_DB["Secure migration connection handling"]
+    T_EQMS["Unified eQMS workflow orchestration"]
+    T_DATA["Canonical quality data model and traceability graph"]
+    T_AIGOV["AI governance service with human review and guardrails"]
+    T_LOGS["AI interaction logs and decision audit trail"]
+    T_REASON["Model reasoning records and reviewer rationale"]
+    T_PROOF["Formal consistency tests (including identity checks such as a=a where applicable)"]
+    T_CITE["Citation traceability and source quality checks"]
+    T_TRAIN["Training and retraining trend monitoring"]
+    T_DTWIN["Digital twin and drug virtualization validation"]
+    T_METRICS["Safety and performance trend metrics"]
+    T_REG["Regulatory and investigator evidence dossier"]
+  end
+  subgraph EVIDENCE["Audit and Technical Evidence"]
+    E_PIPE["CI and release workflow configurations"]
+    E_MIG["Migration workflow controls"]
+    E_LOG["Inference and decision logs"]
+    E_MODEL["Model cards, version history, and change records"]
+    E_MATH["Equation validation and invariant test reports"]
+    E_SRC["Citation ledger and source retention records"]
+    E_DRIFT["Dataset lineage and retraining trend reports"]
+    E_TWIN["Digital twin verification reports and comparator studies"]
+    E_AUDIT["Investigator-ready audit packet"]
+  end
+  %% Observation-to-design mapping
+  R_SCAN -. addressed with .-> T_GATES
+  R_SUPPLY -. addressed with .-> T_SUPPLY
+  R_MIG -. addressed with .-> T_DB
+  R_COMP -. addressed with .-> T_EQMS
+  R_COMP -. measured with .-> T_METRICS
+  R_AI -. addressed with .-> T_AIGOV
+  R_AI -. documented with .-> T_LOGS
+  R_DEPLOY -. governed by .-> T_POLICY
+  %% Core target flow
+  T_POLICY --> T_GATES
+  T_GATES --> T_SUPPLY
+  T_SUPPLY --> T_RELEASE
+  T_RELEASE --> T_REG
+  T_DB --> T_REG
+  T_EQMS --> T_DATA
+  T_DATA --> T_METRICS
+  T_AIGOV --> T_LOGS
+  T_AIGOV --> T_REASON
+  T_AIGOV --> T_CITE
+  T_AIGOV --> T_PROOF
+  T_DATA --> T_TRAIN
+  T_DATA --> T_DTWIN
+  T_LOGS --> T_REG
+  T_REASON --> T_REG
+  T_PROOF --> T_REG
+  T_CITE --> T_REG
+  T_TRAIN --> T_REG
+  T_DTWIN --> T_REG
+  T_METRICS --> T_REG
+  %% Evidence mapping
+  T_GATES --> E_PIPE
+  T_SUPPLY --> E_PIPE
+  T_RELEASE --> E_PIPE
+  T_DB --> E_MIG
+  T_LOGS --> E_LOG
+  T_REASON --> E_MODEL
+  T_PROOF --> E_MATH
+  T_CITE --> E_SRC
+  T_TRAIN --> E_DRIFT
+  T_DTWIN --> E_TWIN
+  T_REG --> E_AUDIT
+  classDef obs fill:#FCE9CF,stroke:#A86A00,stroke-width:1px,color:#1F1F1F;
+  classDef target fill:#DDF4E5,stroke:#1E7A45,stroke-width:1px,color:#1F1F1F;
+  classDef evidence fill:#DDEBFF,stroke:#245EA8,stroke-width:1px,color:#1F1F1F;
+  class R_DEPLOY,R_SCAN,R_SUPPLY,R_COMP,R_MIG,R_AI obs;
+  class T_POLICY,T_GATES,T_SUPPLY,T_RELEASE,T_DB,T_EQMS,T_DATA,T_AIGOV,T_LOGS,T_REASON,T_PROOF,T_CITE,T_TRAIN,T_DTWIN,T_METRICS,T_REG target;
+  class E_PIPE,E_MIG,E_LOG,E_MODEL,E_MATH,E_SRC,E_DRIFT,E_TWIN,E_AUDIT evidence;
