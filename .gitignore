@@ -1,0 +1,10 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Local editor/system files
+.DS_Store
+Thumbs.db
+
+# Large terminal dump artifacts (if added later)
+*.log
