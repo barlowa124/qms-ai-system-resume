@@ -120,6 +120,7 @@ flowchart LR
 | ESG | Investigation cycle energy intensity | kWh consumed per completed investigation | Site utility + process telemetry | Quarterly | Downward trend | Supports sustainable operations without compromising quality |
 | Verifiability | End-to-end traceability completeness | (# cases with linked source data, model output, reviewer decision, and CAPA action / total cases) x 100 | Quality data platform | Weekly | >=98% | Enables root-cause reconstruction for safety investigations |
 | Verifiability | Model output reproducibility | (# sampled inferences reproducible within tolerance / total sampled inferences) x 100 | Model registry + replay harness | Weekly | >=99% | Prevents non-deterministic safety decisions |
+| Verifiability | Backward compatibility of model updates | (# previously-correct cases still correct after update / # previously-correct cases) x 100, by risk class | Frozen evaluation set + model registry | Per model or prompt update | Threshold per risk class; stricter for patient-safety classes | Prevents accuracy-only updates from silently degrading human-AI team performance |
 | Compliance | Part 11 / Annex 11 control pass rate | (# required controls passing automated checks / total required controls) x 100 | Compliance control monitor | Weekly | 100% | Maintains regulatory integrity of quality decisions |
 | Compliance | ALCOA+ data-integrity exception rate | (# ALCOA+ exceptions / total quality records) x 100 | Audit trail analyzer | Weekly | <0.5% | Protects evidentiary quality for patient-impacting decisions |
 
@@ -204,6 +205,7 @@ Minimum signed release evidence bundle fields:
 | RG-01 | Inventory and ownership completeness | Full-stack inventory export with risk labels, owner, and control owner | CI pre-release gate | Enable within 30 days after launch; block next release if unresolved |
 | RG-06 | Decision reproducibility threshold | Replay harness report with case IDs, input and output hashes, tolerance, and verdict | Weekly reliability gate | Enable within 30 days after launch; block next release if unresolved |
 | RG-07 | Adversarial misuse resilience | Adversarial suite run log with failure severity and corrective action evidence | Security quality gate | Enable within 45 days after launch; block next release if unresolved |
+| RG-09 | Backward compatibility of model updates | Compatibility report showing newly introduced errors on previously-correct cases, segmented by risk class, plus reviewer acceptance-rate delta after rollout | Model update gate + post-rollout monitoring | Enable within 30 days after launch; block next model update if compatibility threshold is breached without documented justification |
 
 ## Full Regulatory Gate Catalog (Tiered Reference)
 
@@ -217,6 +219,7 @@ Minimum signed release evidence bundle fields:
 | RG-06 | P1 Post-Launch | Decision reproducibility threshold | Replay harness report with case IDs, input and output hashes, tolerance, and verdict | Weekly reliability gate | Do not block initial launch; Enable within 30 days after launch; block next release if unresolved |
 | RG-07 | P1 Post-Launch | Adversarial misuse resilience | Adversarial suite run log with failure severity and corrective action evidence | Security quality gate | Do not block initial launch; Enable within 45 days after launch; block next release if unresolved |
 | RG-08 | P0 Launch Blocker | Immutable lineage and reconstruction readiness | Tamper-evident lineage logs and successful investigator packet generation report | Pre-production operational readiness gate | Block release when end-to-end reconstruction service-level objective is unmet |
+| RG-09 | P1 Post-Launch | Backward compatibility of model updates | Compatibility report showing newly introduced errors on previously-correct cases, segmented by risk class, plus reviewer acceptance-rate delta after rollout | Model update gate + post-rollout monitoring | Do not block initial launch; Enable within 30 days after launch; block next model update if compatibility threshold is breached without documented justification |
 
 ## Applied Regulatory Gate Implementation for QMS Resume Reviewer
 
@@ -227,9 +230,70 @@ Minimum signed release evidence bundle fields:
 | AI recommendation generation | RG-04, RG-08 | Capture model version, prompt version, retrieval trace, output, and actor context in immutable lineage for every recommendation | P0 Launch Blocker | No extra steps for normal use; automatic capture |
 | High-risk recommendation approval | RG-04 | Require accountable reviewer sign-off and rationale before any patient-impacting action can proceed | P0 Launch Blocker | One mandatory rationale step for high-risk actions only |
 | Prompt and model update workflow (launch baseline) | RG-05 | Enforce approved change ticket with risk assessment, validation protocol, rollback plan, and accountable approvals before merge | P0 Launch Blocker | No operator burden; engineering workflow gate |
-| Prompt and model update workflow (post-launch hardening) | RG-06, RG-07 | Enable scheduled reproducibility replay and adversarial misuse suite with corrective-action tracking | P1 Post-Launch | No operator burden; engineering workflow gate |
+| Prompt and model update workflow (post-launch hardening) | RG-06, RG-07, RG-09 | Enable scheduled reproducibility replay, adversarial misuse suite with corrective-action tracking, and backward-compatibility scoring against the prior model version | P1 Post-Launch | No operator burden; engineering workflow gate |
+| Post-update reviewer trust monitoring | RG-09 | Monitor reviewer acceptance and override rates per risk class after each model update to detect mental-model breakage that aggregate accuracy metrics would hide | P1 Post-Launch | No operator burden; derived from existing decision logs |
 | Release and deployment | RG-03 | Generate signed release evidence bundle and validate checksum manifest before environment promotion | P0 Launch Blocker | No operator burden; CI packaging step |
 | Investigation and regulator response | RG-08 | Generate investigator packet from immutable lineage with timestamps, actor IDs, citations, and final disposition | P0 Launch Blocker | One-click export for reviewer and audit leads |
+
+## Human-AI Compatibility as a Release Criterion (RG-09)
+
+Accuracy-only validation of model updates is insufficient in a human-in-the-loop
+quality system. Empirical work on human-AI teams shows that **an update which
+improves a model's aggregate accuracy can still degrade the performance of the
+human-AI team**, because reviewers build a mental model of where the AI is
+reliable and where it fails. When an update shifts the failure boundary, prior
+reviewer intuition becomes miscalibrated — reviewers may over-trust newly-wrong
+outputs or waste effort re-checking newly-correct ones.
+
+Reference: Bansal, G., Nushi, B., Kamar, E., Weld, D. S., Lasecki, W. S., and
+Horvitz, E. "Updates in Human-AI Teams: Understanding and Addressing the
+Performance/Compatibility Tradeoff." *Proceedings of the AAAI Conference on
+Artificial Intelligence*, 33(01), 2429-2437, 2019. See also "A Case for Backward
+Compatibility for Human-AI Teams," arXiv:1906.01148. Their results across three
+high-stakes classification domains (recidivism prediction, in-hospital mortality,
+credit risk) show that standard ML training does not inherently produce
+compatible updates, and that a retraining objective penalizing *newly introduced*
+errors allows an explicit, tunable performance/compatibility tradeoff.
+
+This matters directly here: `RG-05` verifies a model change was *authorized* and
+`RG-06` verifies it is *reproducible*, but neither detects compatibility
+regression. A model update could pass both gates and still reduce quality-review
+accuracy in production.
+
+### RG-09 Measurement Definition
+
+| Metric | Formula | Threshold Guidance |
+|---|---|---|
+| Backward compatibility score | (# cases previously correct that remain correct under the new model version / # cases previously correct) x 100 | Define per risk class; high-risk case classes warrant a stricter floor than low-risk triage |
+| Newly introduced error rate | (# cases previously correct that are now incorrect / total evaluated cases) x 100 | Any non-zero value affecting patient-safety-relevant case classes requires documented justification and reviewer notification |
+| Reviewer acceptance-rate delta | (post-update acceptance rate - pre-update acceptance rate), segmented by risk class and role | Sharp movement in either direction is a signal of mental-model breakage, not just changed model quality |
+| Compatibility-adjusted rollout stage | Percentage of traffic on new model version, gated by compatibility score holding above threshold | Staged rollout with automatic hold if compatibility degrades during ramp |
+
+### RG-09 Enforcement Pattern
+
+1. Maintain a **frozen evaluation set** of previously-adjudicated cases with recorded
+   prior-model outputs and reviewer decisions, versioned alongside the model registry.
+2. On every candidate model or prompt update, compute the compatibility score and
+   newly-introduced-error rate against that frozen set, segmented by risk class.
+3. Attach the compatibility report to the `RG-05` change ticket as required evidence —
+   an update that improves aggregate accuracy while breaching the compatibility floor
+   for a high-risk class requires explicit, documented sign-off rather than silent
+   promotion.
+4. After rollout, monitor reviewer acceptance and override rates (already captured in
+   the KPI table as "AI recommendation acceptance with rationale") for shifts that
+   indicate reviewers are recalibrating against changed failure modes.
+5. Where compatibility and accuracy genuinely conflict, treat the tradeoff as a
+   documented quality decision with accountable ownership — not an engineering
+   default. Where feasible, apply a retraining objective that penalizes new errors,
+   per Bansal et al., to reduce the severity of the tradeoff.
+
+### Notification Requirement
+
+When an approved update knowingly breaks compatibility for a case class, reviewers
+working that class receive a targeted change notification describing what shifted,
+so mental-model recalibration is deliberate rather than discovered through error.
+This is a training-impact event and routes through the existing training impact
+automation path.
 
 ## Extension: Quality Governance for Organ Virtualization / In-Silico Model Programs
 
