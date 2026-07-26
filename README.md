@@ -26,7 +26,7 @@ This package includes:
 
 ## Assessing a Live Deployment
 
-The design artifacts above describe what a compliant system should look like. `deployment_assessment.py` is the counterpart used against a system that is actually running: a 19-item evidence-gathering instrument plus a scoring engine that refuses to return a clean result when evidence is absent.
+The design artifacts above describe what a compliant system should look like. `deployment_assessment.py` is the counterpart used against a system that is actually running: a 25-item evidence-gathering instrument plus a scoring engine that refuses to return a clean result when evidence is absent.
 
 ```bash
 # Generate the reviewer instrument (markdown + HTML)
@@ -47,18 +47,34 @@ Design properties:
 3. **Structural abuse is rejected.** Unknown item ids, malformed entries, missing response fields, and unjustified `not_applicable` claims all yield `INVALID_SUBMISSION` rather than quietly clearing an item.
 4. **No approval language.** The cleanest possible verdict is `NO_BLOCKING_FINDINGS_IDENTIFIED`. The tool produces findings, never a compliance determination.
 5. **Traceable to the gate model.** Each assessment item links to the RG-xx gates defined in the solution proposal, and tests enforce that those references resolve.
-6. **Scoping out costs more than assessing.** `not_applicable` is permitted on only two items, and placeholder justifications such as `n/a` are rejected as `INVALID_SUBMISSION`.
+6. **Scoping out costs more than assessing.** `not_applicable` is permitted on only three items — third-party models, in-silico evidence, and document retrieval — and placeholder justifications such as `n/a` are rejected as `INVALID_SUBMISSION`.
 
 ### Threat model
 
-The items are weighted toward **internal and unintentional** failure rather than external attack, because that is the dominant risk in a regulated internal deployment. The scenario the instrument is built around is a competent user, following procedure correctly, receiving a wrong answer with no signal that anything went wrong:
+The items are weighted toward **internal and unintentional** failure rather than external attack, because that is the dominant risk in a regulated internal deployment. The scenario the instrument is built around is a competent user, following procedure correctly, receiving a wrong answer with no signal that anything went wrong.
+
+**The system silently answers when it should not.**
 
 - **`DA-16` Use outside the validated envelope.** Production usage drifts to case types, products, or sites absent from the validation population, and the system answers anyway.
 - **`DA-17` Silent truncation and incomplete input.** A long record is truncated or a source document fails to parse, and the reviewer sees output indistinguishable from a complete assessment.
-- **`DA-18` Configuration drift.** Prompts, parameters, and thresholds are the artifacts people actually edit between releases; `DA-08` governs the model, `DA-18` governs everything around it.
-- **`DA-19` Repeat submission and anchoring.** Only the accepted output is retained, so re-running an event until a milder result appears leaves no trace.
+- **`DA-21` Degraded mode and fallback.** An unvalidated fallback model, reduced tier, or cached result serves a patient-impacting request during an outage. `DA-16` checks the input population, not which model answered, so this is only reachable here.
+- **`DA-23` Retrieval corpus currency.** Superseded document revisions remain retrievable alongside current ones, so output can cite an obsolete specification.
 
-The first three block on their own. Adversarial resilience (`DA-14`) is deliberately scoped as `major`: it checks that misuse testing was performed and that open findings have an owner, and routes any confirmed patient-impacting defect to `DA-11`, which does block.
+**The validated configuration quietly stops being what runs.**
+
+- **`DA-18` Configuration drift.** Prompts, parameters, and thresholds are what people actually edit between releases.
+- **`DA-22` Upstream pipeline drift.** OCR engines, parsers, tokenizers, and embedding models get upgraded as routine infrastructure maintenance, silently changing model input. Together with `DA-08` (model) these three cover the whole input path.
+
+**The failure cannot be bounded, traced, or undone.**
+
+- **`DA-20` Retrospective impact assessment.** When a defect is confirmed, every record the affected model version touched must be enumerable. `DA-05` reconstructs one case on demand; bounding a recall needs the whole cohort.
+- **`DA-19` Repeat submission and anchoring.** Only the accepted output is retained, so re-running an event until a milder result appears leaves no trace.
+- **`DA-24` Output-to-record transcription.** A correct output that loses its qualifiers in transit still misstates the official record.
+- **`DA-25` Long-horizon reconstruction.** Record retention outlives the model version that produced the record, and reconstruction quietly becomes impossible after vendor sunset.
+
+All of these block individually except `DA-19` and `DA-25`. Adversarial resilience (`DA-14`) is deliberately scoped as `major`: it checks that misuse testing was performed and that open findings have an owner, and routes any confirmed patient-impacting defect to `DA-11`, which does block.
+
+`DA-03` additionally requires oversight metrics segmented by queue depth and shift position, since aggregate override and dwell-time figures are exactly what pass on audit day and fail in week three.
 
 **This is an assessment aid, not a regulatory determination.** Interpretation and sign-off require qualified QA, regulatory, and clinical-safety personnel. It does not substitute for validated quality processes or applicable regulatory submissions.
 
