@@ -78,8 +78,10 @@ class InstrumentIntegrityTests(unittest.TestCase):
 
     def test_only_genuinely_optional_items_allow_not_applicable(self) -> None:
         optional = {i.item_id for i in da.assessment_items() if i.allows_not_applicable}
-        # Third-party models and in-silico evidence may legitimately not apply.
-        self.assertSetEqual({"DA-13", "DA-15"}, optional)
+        # Third-party models, in-silico evidence and document retrieval may
+        # legitimately not be part of a given deployment. Everything else applies
+        # to any AI-enabled QMS and must be answered.
+        self.assertSetEqual({"DA-13", "DA-15", "DA-23"}, optional)
 
     def test_disclaimer_disclaims_approval_authority(self) -> None:
         lowered = da.DISCLAIMER.lower()
@@ -124,6 +126,59 @@ class UnintentionalFailureCoverageTests(unittest.TestCase):
         by_id = da.items_by_id()
         self.assertNotEqual(by_id["DA-08"].domain, by_id["DA-18"].domain)
         self.assertIn("RG-05", by_id["DA-18"].linked_gates)
+
+    def test_blast_radius_of_a_known_defect_is_assessable(self) -> None:
+        """Finding a defect is worthless if the affected records cannot be listed.
+        DA-05 reconstructs one case; DA-20 must cover the whole cohort."""
+        by_id = da.items_by_id()
+        impact = by_id["DA-20"]
+        self.assertIn("DA-20", da.patient_safety_critical_ids())
+        self.assertFalse(impact.allows_not_applicable)
+        self.assertNotEqual(by_id["DA-05"].domain, impact.domain)
+
+    def test_every_path_that_can_answer_is_in_validation_scope(self) -> None:
+        """DA-16 checks the input population, not which model answered. A silent
+        fallback is therefore only reachable through DA-21."""
+        by_id = da.items_by_id()
+        fallback = by_id["DA-21"]
+        self.assertIn("DA-21", da.patient_safety_critical_ids())
+        self.assertFalse(fallback.allows_not_applicable)
+        lowered = fallback.disqualifying_finding.lower()
+        self.assertIn("fallback", lowered)
+        self.assertIn("cached", lowered)
+
+    def test_change_control_spans_the_whole_input_path(self) -> None:
+        """Model (DA-08), prompt and parameters (DA-18), and preprocessing
+        (DA-22) must each be covered, and all three must block."""
+        critical = da.patient_safety_critical_ids()
+        for item_id in ("DA-08", "DA-18", "DA-22"):
+            with self.subTest(item=item_id):
+                self.assertIn(item_id, critical)
+        domains = {da.items_by_id()[i].domain for i in ("DA-08", "DA-18", "DA-22")}
+        self.assertEqual(3, len(domains), "these must be distinct concerns, not duplicates")
+
+    def test_retention_outlives_the_model_that_produced_the_record(self) -> None:
+        by_id = da.items_by_id()
+        self.assertIs(da.Severity.MAJOR, by_id["DA-25"].severity)
+        self.assertIn("RG-08", by_id["DA-25"].linked_gates)
+
+    def test_the_last_mile_into_the_official_record_is_covered(self) -> None:
+        """A correct output that loses its qualifiers in transit still
+        misstates the record."""
+        by_id = da.items_by_id()
+        self.assertIn("DA-24", da.patient_safety_critical_ids())
+        self.assertFalse(by_id["DA-24"].allows_not_applicable)
+
+    def test_corpus_currency_is_optional_only_because_retrieval_is(self) -> None:
+        by_id = da.items_by_id()
+        self.assertTrue(by_id["DA-23"].allows_not_applicable)
+        self.assertIn("DA-23", da.patient_safety_critical_ids())
+
+    def test_oversight_is_probed_under_load_not_only_in_aggregate(self) -> None:
+        """Aggregate oversight metrics are what pass on audit day."""
+        da03 = da.items_by_id()["DA-03"]
+        haystack = " ".join(da03.evidence_required) + da03.pass_criteria
+        self.assertIn("queue depth", haystack.lower())
 
     def test_misuse_item_escalates_patient_impact_to_a_blocking_item(self) -> None:
         """Regression: DA-14 is major, so its disqualifying finding must not

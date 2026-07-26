@@ -190,14 +190,18 @@ def assessment_items() -> list[AssessmentItem]:
                 "Acceptance-rate distribution across reviewers",
                 "Override events with substantive rationale text",
                 "Dwell-time distribution for high-risk cases",
+                "The same metrics segmented by queue depth, shift position, and campaign peak, "
+                "to show whether oversight holds up under workload",
             ),
             pass_criteria=(
                 "Override rate is non-zero for high-risk classes, rationale text is substantive, "
-                "and dwell time is plausible for the decision complexity"
+                "dwell time is plausible for the decision complexity, and none of these degrade "
+                "materially as workload rises"
             ),
             disqualifying_finding=(
                 "Near-100% acceptance with negligible dwell time, indicating oversight is "
-                "nominal rather than genuine"
+                "nominal rather than genuine; or oversight metrics that hold in aggregate but "
+                "collapse at high queue depth or end of shift"
             ),
             severity=Severity.PATIENT_SAFETY_CRITICAL,
             linked_gates=("RG-04",),
@@ -633,6 +637,182 @@ def assessment_items() -> list[AssessmentItem]:
             ),
             severity=Severity.MAJOR,
             linked_gates=("RG-08", "RG-04"),
+        ),
+        AssessmentItem(
+            item_id="DA-20",
+            domain="Retrospective Impact Assessment",
+            question=(
+                "When a defect is found in a model version, can every record that version "
+                "touched be enumerated and re-reviewed?"
+            ),
+            inspect=(
+                "The query path from a model version and date range to the full set of affected "
+                "records, and any past occasion on which it was exercised"
+            ),
+            evidence_required=(
+                "A demonstrated cohort query returning all records produced by a given model "
+                "and prompt version over a stated window",
+                "The documented procedure for impact assessment and re-review of affected "
+                "records once a defect is confirmed",
+                "Evidence from a real defect, compatibility breach, or drift alert where the "
+                "affected population was quantified",
+            ),
+            pass_criteria=(
+                "The affected population for a given model version and window can be produced "
+                "on demand, and a procedure exists for re-reviewing it"
+            ),
+            disqualifying_finding=(
+                "A confirmed model defect cannot be converted into a list of affected records, "
+                "so the blast radius of a known error is unknown"
+            ),
+            severity=Severity.PATIENT_SAFETY_CRITICAL,
+            linked_gates=("RG-08", "RG-09"),
+        ),
+        AssessmentItem(
+            item_id="DA-21",
+            domain="Degraded Mode and Fallback",
+            question=(
+                "When the model is unavailable, slow, or rate-limited, does the system degrade "
+                "to a defined manual path rather than to an unvalidated substitute?"
+            ),
+            inspect=(
+                "Timeout, retry, and fallback configuration; whether any fallback model, "
+                "cached result, or reduced tier can serve a patient-impacting request; and what "
+                "users are instructed to do during an outage"
+            ),
+            evidence_required=(
+                "Fallback and timeout configuration, naming every model or cache that can "
+                "serve a request",
+                "Validation status of each such fallback path",
+                "The documented manual procedure for outages, and evidence it was followed "
+                "during a real incident",
+            ),
+            pass_criteria=(
+                "Every path that can answer a patient-impacting request is within validation "
+                "scope, and outages route to a documented manual procedure"
+            ),
+            disqualifying_finding=(
+                "An unvalidated fallback model, reduced tier, or cached result can silently "
+                "serve a patient-impacting request, or outage behaviour is undefined and left "
+                "to individual judgement under time pressure"
+            ),
+            severity=Severity.PATIENT_SAFETY_CRITICAL,
+            linked_gates=("RG-04", "RG-05"),
+        ),
+        AssessmentItem(
+            item_id="DA-22",
+            domain="Upstream Pipeline Drift",
+            question=(
+                "Are the preprocessing components that shape model input under change control, "
+                "not just the model and prompt?"
+            ),
+            inspect=(
+                "Version history for OCR engines, document parsers, chunking logic, tokenizers, "
+                "and embedding models, and whether routine infrastructure maintenance can "
+                "change them without a quality review"
+            ),
+            evidence_required=(
+                "Pinned versions for every preprocessing component in the production path",
+                "Change records for any preprocessing change since validation",
+                "Evidence that the quality organisation is notified of infrastructure upgrades "
+                "affecting these components",
+            ),
+            pass_criteria=(
+                "Preprocessing components are versioned, pinned, and covered by the same change "
+                "control as the model itself"
+            ),
+            disqualifying_finding=(
+                "An OCR engine, parser, tokenizer, or embedding model can be upgraded as "
+                "routine maintenance, silently changing model input with no quality review"
+            ),
+            severity=Severity.PATIENT_SAFETY_CRITICAL,
+            linked_gates=("RG-03", "RG-05"),
+        ),
+        AssessmentItem(
+            item_id="DA-23",
+            domain="Retrieval Corpus Currency",
+            question=(
+                "If the system retrieves from a document corpus, is that corpus bound to the "
+                "current effective revision set held in document control?"
+            ),
+            inspect=(
+                "Synchronisation between document control and the retrieval index, and whether "
+                "superseded revisions remain retrievable alongside current ones"
+            ),
+            evidence_required=(
+                "The reconciliation process and its most recent run between document control "
+                "and the retrieval index",
+                "A search demonstrating that a recently superseded revision is no longer "
+                "returned as authoritative",
+                "Evidence that the corpus revision used is recorded with each output",
+            ),
+            pass_criteria=(
+                "The retrieval corpus matches the current effective revision set, and the "
+                "revision actually used is recorded with the output"
+            ),
+            disqualifying_finding=(
+                "Superseded document revisions are retrievable and indistinguishable from "
+                "current ones, so output can cite an obsolete specification or procedure"
+            ),
+            severity=Severity.PATIENT_SAFETY_CRITICAL,
+            linked_gates=("RG-05", "RG-08"),
+            allows_not_applicable=True,
+        ),
+        AssessmentItem(
+            item_id="DA-24",
+            domain="Output-to-Record Transcription",
+            question=(
+                "Does what reaches the official quality record preserve the qualifiers, scope, "
+                "and caveats of the output the reviewer actually approved?"
+            ),
+            inspect=(
+                "The transfer path from model output to the GxP record of truth, whether it is "
+                "automated or manual copy-paste, and what is dropped in transit"
+            ),
+            evidence_required=(
+                "Side-by-side comparison of approved output and the resulting record entry for "
+                "sampled cases",
+                "Evidence that confidence, scope limits, and caveats survive the transfer",
+                "Controls preventing entry against the wrong record identifier",
+            ),
+            pass_criteria=(
+                "The record entry preserves the substance and qualifiers of the approved "
+                "output, and is bound to the correct record identifier"
+            ),
+            disqualifying_finding=(
+                "Qualifiers, scope limits, or uncertainty present in the approved output are "
+                "absent from the official record, so the record overstates what was concluded"
+            ),
+            severity=Severity.PATIENT_SAFETY_CRITICAL,
+            linked_gates=("RG-04", "RG-08"),
+        ),
+        AssessmentItem(
+            item_id="DA-25",
+            domain="Long-Horizon Reconstruction",
+            question=(
+                "Will a decision still be reconstructable for the full record retention period, "
+                "after the model version that produced it is retired?"
+            ),
+            inspect=(
+                "Retention obligations for the affected records against the availability "
+                "guarantees for each model version, including vendor sunset terms"
+            ),
+            evidence_required=(
+                "Record retention period for the affected quality records",
+                "Retention plan for model versions, prompts, and configuration, or an archived "
+                "surrogate sufficient to explain a past decision",
+                "Vendor sunset and version-availability terms where applicable",
+            ),
+            pass_criteria=(
+                "Reconstruction capability is guaranteed for at least the record retention "
+                "period, not merely for the operational life of the model"
+            ),
+            disqualifying_finding=(
+                "Records must be retained for longer than the model version that produced them "
+                "will remain available, with no archived surrogate"
+            ),
+            severity=Severity.MAJOR,
+            linked_gates=("RG-03", "RG-08"),
         ),
     ]
 

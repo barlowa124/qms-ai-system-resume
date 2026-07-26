@@ -50,6 +50,12 @@ operational counterpart to the design artifacts in this repository.
 | DA-17 | Silent Truncation and Incomplete Input | `patient_safety_critical` | RG-04, RG-08 |
 | DA-18 | Configuration Drift | `patient_safety_critical` | RG-05 |
 | DA-19 | Repeat Submission and Anchoring | `major` | RG-08, RG-04 |
+| DA-20 | Retrospective Impact Assessment | `patient_safety_critical` | RG-08, RG-09 |
+| DA-21 | Degraded Mode and Fallback | `patient_safety_critical` | RG-04, RG-05 |
+| DA-22 | Upstream Pipeline Drift | `patient_safety_critical` | RG-03, RG-05 |
+| DA-23 | Retrieval Corpus Currency | `patient_safety_critical` | RG-05, RG-08 |
+| DA-24 | Output-to-Record Transcription | `patient_safety_critical` | RG-04, RG-08 |
+| DA-25 | Long-Horizon Reconstruction | `major` | RG-03, RG-08 |
 
 ## Intended Use and Regulatory Status
 
@@ -88,8 +94,9 @@ operational counterpart to the design artifacts in this repository.
     - Acceptance-rate distribution across reviewers
     - Override events with substantive rationale text
     - Dwell-time distribution for high-risk cases
-- **Pass criteria**: Override rate is non-zero for high-risk classes, rationale text is substantive, and dwell time is plausible for the decision complexity
-- **Disqualifying finding**: Near-100% acceptance with negligible dwell time, indicating oversight is nominal rather than genuine
+    - The same metrics segmented by queue depth, shift position, and campaign peak, to show whether oversight holds up under workload
+- **Pass criteria**: Override rate is non-zero for high-risk classes, rationale text is substantive, dwell time is plausible for the decision complexity, and none of these degrade materially as workload rises
+- **Disqualifying finding**: Near-100% acceptance with negligible dwell time, indicating oversight is nominal rather than genuine; or oversight metrics that hold in aggregate but collapse at high queue depth or end of shift
 
 ## Data Integrity (ALCOA+)
 
@@ -314,3 +321,87 @@ operational counterpart to the design artifacts in this repository.
     - Evidence that superseded outputs are retained and linked to the final record
 - **Pass criteria**: All submissions for an event are retained and linked, so a reviewer or inspector can see whether the accepted output was the first one
 - **Disqualifying finding**: Only the accepted output is retained, so re-running an event until a milder result appears would leave no trace
+
+## Retrospective Impact Assessment
+
+### DA-20 - When a defect is found in a model version, can every record that version touched be enumerated and re-reviewed?
+
+- **Severity**: `patient_safety_critical`
+- **Linked gates**: RG-08, RG-09
+- **What to inspect**: The query path from a model version and date range to the full set of affected records, and any past occasion on which it was exercised
+- **Evidence to request**:
+    - A demonstrated cohort query returning all records produced by a given model and prompt version over a stated window
+    - The documented procedure for impact assessment and re-review of affected records once a defect is confirmed
+    - Evidence from a real defect, compatibility breach, or drift alert where the affected population was quantified
+- **Pass criteria**: The affected population for a given model version and window can be produced on demand, and a procedure exists for re-reviewing it
+- **Disqualifying finding**: A confirmed model defect cannot be converted into a list of affected records, so the blast radius of a known error is unknown
+
+## Degraded Mode and Fallback
+
+### DA-21 - When the model is unavailable, slow, or rate-limited, does the system degrade to a defined manual path rather than to an unvalidated substitute?
+
+- **Severity**: `patient_safety_critical`
+- **Linked gates**: RG-04, RG-05
+- **What to inspect**: Timeout, retry, and fallback configuration; whether any fallback model, cached result, or reduced tier can serve a patient-impacting request; and what users are instructed to do during an outage
+- **Evidence to request**:
+    - Fallback and timeout configuration, naming every model or cache that can serve a request
+    - Validation status of each such fallback path
+    - The documented manual procedure for outages, and evidence it was followed during a real incident
+- **Pass criteria**: Every path that can answer a patient-impacting request is within validation scope, and outages route to a documented manual procedure
+- **Disqualifying finding**: An unvalidated fallback model, reduced tier, or cached result can silently serve a patient-impacting request, or outage behaviour is undefined and left to individual judgement under time pressure
+
+## Upstream Pipeline Drift
+
+### DA-22 - Are the preprocessing components that shape model input under change control, not just the model and prompt?
+
+- **Severity**: `patient_safety_critical`
+- **Linked gates**: RG-03, RG-05
+- **What to inspect**: Version history for OCR engines, document parsers, chunking logic, tokenizers, and embedding models, and whether routine infrastructure maintenance can change them without a quality review
+- **Evidence to request**:
+    - Pinned versions for every preprocessing component in the production path
+    - Change records for any preprocessing change since validation
+    - Evidence that the quality organisation is notified of infrastructure upgrades affecting these components
+- **Pass criteria**: Preprocessing components are versioned, pinned, and covered by the same change control as the model itself
+- **Disqualifying finding**: An OCR engine, parser, tokenizer, or embedding model can be upgraded as routine maintenance, silently changing model input with no quality review
+
+## Retrieval Corpus Currency
+
+### DA-23 - If the system retrieves from a document corpus, is that corpus bound to the current effective revision set held in document control?
+
+- **Severity**: `patient_safety_critical` (may be marked not applicable with justification)
+- **Linked gates**: RG-05, RG-08
+- **What to inspect**: Synchronisation between document control and the retrieval index, and whether superseded revisions remain retrievable alongside current ones
+- **Evidence to request**:
+    - The reconciliation process and its most recent run between document control and the retrieval index
+    - A search demonstrating that a recently superseded revision is no longer returned as authoritative
+    - Evidence that the corpus revision used is recorded with each output
+- **Pass criteria**: The retrieval corpus matches the current effective revision set, and the revision actually used is recorded with the output
+- **Disqualifying finding**: Superseded document revisions are retrievable and indistinguishable from current ones, so output can cite an obsolete specification or procedure
+
+## Output-to-Record Transcription
+
+### DA-24 - Does what reaches the official quality record preserve the qualifiers, scope, and caveats of the output the reviewer actually approved?
+
+- **Severity**: `patient_safety_critical`
+- **Linked gates**: RG-04, RG-08
+- **What to inspect**: The transfer path from model output to the GxP record of truth, whether it is automated or manual copy-paste, and what is dropped in transit
+- **Evidence to request**:
+    - Side-by-side comparison of approved output and the resulting record entry for sampled cases
+    - Evidence that confidence, scope limits, and caveats survive the transfer
+    - Controls preventing entry against the wrong record identifier
+- **Pass criteria**: The record entry preserves the substance and qualifiers of the approved output, and is bound to the correct record identifier
+- **Disqualifying finding**: Qualifiers, scope limits, or uncertainty present in the approved output are absent from the official record, so the record overstates what was concluded
+
+## Long-Horizon Reconstruction
+
+### DA-25 - Will a decision still be reconstructable for the full record retention period, after the model version that produced it is retired?
+
+- **Severity**: `major`
+- **Linked gates**: RG-03, RG-08
+- **What to inspect**: Retention obligations for the affected records against the availability guarantees for each model version, including vendor sunset terms
+- **Evidence to request**:
+    - Record retention period for the affected quality records
+    - Retention plan for model versions, prompts, and configuration, or an archived surrogate sufficient to explain a past decision
+    - Vendor sunset and version-availability terms where applicable
+- **Pass criteria**: Reconstruction capability is guaranteed for at least the record retention period, not merely for the operational life of the model
+- **Disqualifying finding**: Records must be retained for longer than the model version that produced them will remain available, with no archived surrogate

@@ -73,6 +73,12 @@
 <tr><td><code>DA-17</code></td><td>Silent Truncation and Incomplete Input</td><td><span class="sev sev-patient_safety_critical">patient_safety_critical</span></td><td>RG-04, RG-08</td></tr>
 <tr><td><code>DA-18</code></td><td>Configuration Drift</td><td><span class="sev sev-patient_safety_critical">patient_safety_critical</span></td><td>RG-05</td></tr>
 <tr><td><code>DA-19</code></td><td>Repeat Submission and Anchoring</td><td><span class="sev sev-major">major</span></td><td>RG-08, RG-04</td></tr>
+<tr><td><code>DA-20</code></td><td>Retrospective Impact Assessment</td><td><span class="sev sev-patient_safety_critical">patient_safety_critical</span></td><td>RG-08, RG-09</td></tr>
+<tr><td><code>DA-21</code></td><td>Degraded Mode and Fallback</td><td><span class="sev sev-patient_safety_critical">patient_safety_critical</span></td><td>RG-04, RG-05</td></tr>
+<tr><td><code>DA-22</code></td><td>Upstream Pipeline Drift</td><td><span class="sev sev-patient_safety_critical">patient_safety_critical</span></td><td>RG-03, RG-05</td></tr>
+<tr><td><code>DA-23</code></td><td>Retrieval Corpus Currency</td><td><span class="sev sev-patient_safety_critical">patient_safety_critical</span></td><td>RG-05, RG-08</td></tr>
+<tr><td><code>DA-24</code></td><td>Output-to-Record Transcription</td><td><span class="sev sev-patient_safety_critical">patient_safety_critical</span></td><td>RG-04, RG-08</td></tr>
+<tr><td><code>DA-25</code></td><td>Long-Horizon Reconstruction</td><td><span class="sev sev-major">major</span></td><td>RG-03, RG-08</td></tr>
         </tbody>
       </table>
     </section>
@@ -110,9 +116,9 @@
         <p><strong>Linked gates:</strong> RG-04</p>
         <p><strong>What to inspect:</strong> Acceptance and override rates segmented by reviewer, risk class, and time; median review dwell time relative to case complexity</p>
         <p><strong>Evidence to request:</strong></p>
-        <ul><li>Acceptance-rate distribution across reviewers</li><li>Override events with substantive rationale text</li><li>Dwell-time distribution for high-risk cases</li></ul>
-        <p><strong>Pass criteria:</strong> Override rate is non-zero for high-risk classes, rationale text is substantive, and dwell time is plausible for the decision complexity</p>
-        <p class="dq"><strong>Disqualifying finding:</strong> Near-100% acceptance with negligible dwell time, indicating oversight is nominal rather than genuine</p>
+        <ul><li>Acceptance-rate distribution across reviewers</li><li>Override events with substantive rationale text</li><li>Dwell-time distribution for high-risk cases</li><li>The same metrics segmented by queue depth, shift position, and campaign peak, to show whether oversight holds up under workload</li></ul>
+        <p><strong>Pass criteria:</strong> Override rate is non-zero for high-risk classes, rationale text is substantive, dwell time is plausible for the decision complexity, and none of these degrade materially as workload rises</p>
+        <p class="dq"><strong>Disqualifying finding:</strong> Near-100% acceptance with negligible dwell time, indicating oversight is nominal rather than genuine; or oversight metrics that hold in aggregate but collapse at high queue depth or end of shift</p>
         
       </article>
       <article class="item">
@@ -305,6 +311,78 @@
         <ul><li>Audit trail showing every submission and output for one event identifier</li><li>Rate of repeat submission per event over a recent period</li><li>Evidence that superseded outputs are retained and linked to the final record</li></ul>
         <p><strong>Pass criteria:</strong> All submissions for an event are retained and linked, so a reviewer or inspector can see whether the accepted output was the first one</p>
         <p class="dq"><strong>Disqualifying finding:</strong> Only the accepted output is retained, so re-running an event until a milder result appears would leave no trace</p>
+        
+      </article>
+      <article class="item">
+        <h3><code>DA-20</code> When a defect is found in a model version, can every record that version touched be enumerated and re-reviewed?</h3>
+        <p class="meta">Retrospective Impact Assessment &middot;
+          <span class="sev sev-patient_safety_critical">patient_safety_critical</span></p>
+        <p><strong>Linked gates:</strong> RG-08, RG-09</p>
+        <p><strong>What to inspect:</strong> The query path from a model version and date range to the full set of affected records, and any past occasion on which it was exercised</p>
+        <p><strong>Evidence to request:</strong></p>
+        <ul><li>A demonstrated cohort query returning all records produced by a given model and prompt version over a stated window</li><li>The documented procedure for impact assessment and re-review of affected records once a defect is confirmed</li><li>Evidence from a real defect, compatibility breach, or drift alert where the affected population was quantified</li></ul>
+        <p><strong>Pass criteria:</strong> The affected population for a given model version and window can be produced on demand, and a procedure exists for re-reviewing it</p>
+        <p class="dq"><strong>Disqualifying finding:</strong> A confirmed model defect cannot be converted into a list of affected records, so the blast radius of a known error is unknown</p>
+        
+      </article>
+      <article class="item">
+        <h3><code>DA-21</code> When the model is unavailable, slow, or rate-limited, does the system degrade to a defined manual path rather than to an unvalidated substitute?</h3>
+        <p class="meta">Degraded Mode and Fallback &middot;
+          <span class="sev sev-patient_safety_critical">patient_safety_critical</span></p>
+        <p><strong>Linked gates:</strong> RG-04, RG-05</p>
+        <p><strong>What to inspect:</strong> Timeout, retry, and fallback configuration; whether any fallback model, cached result, or reduced tier can serve a patient-impacting request; and what users are instructed to do during an outage</p>
+        <p><strong>Evidence to request:</strong></p>
+        <ul><li>Fallback and timeout configuration, naming every model or cache that can serve a request</li><li>Validation status of each such fallback path</li><li>The documented manual procedure for outages, and evidence it was followed during a real incident</li></ul>
+        <p><strong>Pass criteria:</strong> Every path that can answer a patient-impacting request is within validation scope, and outages route to a documented manual procedure</p>
+        <p class="dq"><strong>Disqualifying finding:</strong> An unvalidated fallback model, reduced tier, or cached result can silently serve a patient-impacting request, or outage behaviour is undefined and left to individual judgement under time pressure</p>
+        
+      </article>
+      <article class="item">
+        <h3><code>DA-22</code> Are the preprocessing components that shape model input under change control, not just the model and prompt?</h3>
+        <p class="meta">Upstream Pipeline Drift &middot;
+          <span class="sev sev-patient_safety_critical">patient_safety_critical</span></p>
+        <p><strong>Linked gates:</strong> RG-03, RG-05</p>
+        <p><strong>What to inspect:</strong> Version history for OCR engines, document parsers, chunking logic, tokenizers, and embedding models, and whether routine infrastructure maintenance can change them without a quality review</p>
+        <p><strong>Evidence to request:</strong></p>
+        <ul><li>Pinned versions for every preprocessing component in the production path</li><li>Change records for any preprocessing change since validation</li><li>Evidence that the quality organisation is notified of infrastructure upgrades affecting these components</li></ul>
+        <p><strong>Pass criteria:</strong> Preprocessing components are versioned, pinned, and covered by the same change control as the model itself</p>
+        <p class="dq"><strong>Disqualifying finding:</strong> An OCR engine, parser, tokenizer, or embedding model can be upgraded as routine maintenance, silently changing model input with no quality review</p>
+        
+      </article>
+      <article class="item">
+        <h3><code>DA-23</code> If the system retrieves from a document corpus, is that corpus bound to the current effective revision set held in document control?</h3>
+        <p class="meta">Retrieval Corpus Currency &middot;
+          <span class="sev sev-patient_safety_critical">patient_safety_critical</span></p>
+        <p><strong>Linked gates:</strong> RG-05, RG-08</p>
+        <p><strong>What to inspect:</strong> Synchronisation between document control and the retrieval index, and whether superseded revisions remain retrievable alongside current ones</p>
+        <p><strong>Evidence to request:</strong></p>
+        <ul><li>The reconciliation process and its most recent run between document control and the retrieval index</li><li>A search demonstrating that a recently superseded revision is no longer returned as authoritative</li><li>Evidence that the corpus revision used is recorded with each output</li></ul>
+        <p><strong>Pass criteria:</strong> The retrieval corpus matches the current effective revision set, and the revision actually used is recorded with the output</p>
+        <p class="dq"><strong>Disqualifying finding:</strong> Superseded document revisions are retrievable and indistinguishable from current ones, so output can cite an obsolete specification or procedure</p>
+        <p class="na">May be marked not applicable with a written justification stating why the item is out of scope.</p>
+      </article>
+      <article class="item">
+        <h3><code>DA-24</code> Does what reaches the official quality record preserve the qualifiers, scope, and caveats of the output the reviewer actually approved?</h3>
+        <p class="meta">Output-to-Record Transcription &middot;
+          <span class="sev sev-patient_safety_critical">patient_safety_critical</span></p>
+        <p><strong>Linked gates:</strong> RG-04, RG-08</p>
+        <p><strong>What to inspect:</strong> The transfer path from model output to the GxP record of truth, whether it is automated or manual copy-paste, and what is dropped in transit</p>
+        <p><strong>Evidence to request:</strong></p>
+        <ul><li>Side-by-side comparison of approved output and the resulting record entry for sampled cases</li><li>Evidence that confidence, scope limits, and caveats survive the transfer</li><li>Controls preventing entry against the wrong record identifier</li></ul>
+        <p><strong>Pass criteria:</strong> The record entry preserves the substance and qualifiers of the approved output, and is bound to the correct record identifier</p>
+        <p class="dq"><strong>Disqualifying finding:</strong> Qualifiers, scope limits, or uncertainty present in the approved output are absent from the official record, so the record overstates what was concluded</p>
+        
+      </article>
+      <article class="item">
+        <h3><code>DA-25</code> Will a decision still be reconstructable for the full record retention period, after the model version that produced it is retired?</h3>
+        <p class="meta">Long-Horizon Reconstruction &middot;
+          <span class="sev sev-major">major</span></p>
+        <p><strong>Linked gates:</strong> RG-03, RG-08</p>
+        <p><strong>What to inspect:</strong> Retention obligations for the affected records against the availability guarantees for each model version, including vendor sunset terms</p>
+        <p><strong>Evidence to request:</strong></p>
+        <ul><li>Record retention period for the affected quality records</li><li>Retention plan for model versions, prompts, and configuration, or an archived surrogate sufficient to explain a past decision</li><li>Vendor sunset and version-availability terms where applicable</li></ul>
+        <p><strong>Pass criteria:</strong> Reconstruction capability is guaranteed for at least the record retention period, not merely for the operational life of the model</p>
+        <p class="dq"><strong>Disqualifying finding:</strong> Records must be retained for longer than the model version that produced them will remain available, with no archived surrogate</p>
         
       </article>
     </section>
