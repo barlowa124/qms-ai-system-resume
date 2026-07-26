@@ -153,6 +153,7 @@ def build_markdown(mermaid_text: str) -> str:
 
 
 def write_outputs(output_dir: Path) -> tuple[Path, Path]:
+    output_dir.mkdir(parents=True, exist_ok=True)
     mermaid_text = build_mermaid()
 
     mmd_path = output_dir / "qms_system_diagram.mmd"
@@ -169,8 +170,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--outdir",
         type=Path,
-        default=Path.cwd(),
-        help="Output directory for generated files (default: current directory).",
+        default=Path(__file__).resolve().parent,
+        help="Output directory for generated files (default: directory containing this script).",
     )
     return parser.parse_args()
 
