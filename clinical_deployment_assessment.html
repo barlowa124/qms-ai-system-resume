@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Clinical Deployment Assessment Instrument</title>
+  <style>
+    :root {
+      --bg: #f7f7f2; --card: #ffffff; --ink: #1e1f24; --muted: #4d5562;
+      --accent: #0c5ea8; --line: #d7dde5; --crit: #a31c1c; --major: #a86a00;
+      --minor: #1f7a45;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 32px 20px; background: var(--bg); color: var(--ink);
+      font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    .wrap { max-width: 1080px; margin: 0 auto; }
+    h1 { font-size: 26px; margin: 0 0 6px; }
+    h2 { font-size: 19px; margin: 28px 0 10px; padding-bottom: 6px;
+      border-bottom: 2px solid var(--accent); }
+    h3 { font-size: 15px; margin: 0 0 4px; }
+    section, .disclaimer { background: var(--card); border: 1px solid var(--line);
+      border-radius: 10px; padding: 18px 20px; margin-bottom: 16px; }
+    .disclaimer { border-left: 4px solid var(--crit); color: var(--muted); }
+    table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+    th, td { border: 1px solid var(--line); padding: 7px 9px; text-align: left;
+      vertical-align: top; font-size: 13.5px; }
+    th { background: #eef4fb; }
+    code { background: #eef1f5; padding: 1px 5px; border-radius: 4px; font-size: 12.5px; }
+    .item { border-top: 1px solid var(--line); padding: 14px 0; }
+    .item:first-of-type { border-top: none; }
+    .meta { color: var(--muted); font-size: 12.5px; margin: 0 0 8px; }
+    .dq { color: var(--crit); }
+    .na { color: var(--muted); font-style: italic; font-size: 13px; }
+    .sev { font-size: 11.5px; font-weight: 600; padding: 2px 7px; border-radius: 20px;
+      color: #fff; white-space: nowrap; }
+    .sev-patient_safety_critical { background: var(--crit); }
+    .sev-major { background: var(--major); }
+    .sev-minor { background: var(--minor); }
+    ul { margin: 4px 0 8px 18px; padding: 0; }
+    li { margin: 2px 0; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Clinical Deployment Assessment Instrument</h1>
+    <p class="meta">Evidence-gathering tool for an AI-enabled QMS deployment already in production.</p>
+
+    <div class="disclaimer">This is a findings report produced by an assessment aid. It is not a compliance determination, release authorization, or regulatory clearance. Interpretation and sign-off require qualified QA, regulatory, and clinical-safety personnel.</div>
+
+    <section>
+      <h2>Assessment Item Summary</h2>
+      <table>
+        <thead>
+          <tr><th>Item</th><th>Domain</th><th>Severity</th><th>Linked Gates</th></tr>
+        </thead>
+        <tbody>
+<tr><td><code>DA-01</code></td><td>Intended Use and Regulatory Status</td><td><span class="sev sev-patient_safety_critical">patient_safety_critical</span></td><td>RG-01</td></tr>
+<tr><td><code>DA-02</code></td><td>Human Oversight in Practice</td><td><span class="sev sev-patient_safety_critical">patient_safety_critical</span></td><td>RG-04</td></tr>
+<tr><td><code>DA-03</code></td><td>Human Oversight in Practice</td><td><span class="sev sev-patient_safety_critical">patient_safety_critical</span></td><td>RG-04</td></tr>
+<tr><td><code>DA-04</code></td><td>Data Integrity (ALCOA+)</td><td><span class="sev sev-patient_safety_critical">patient_safety_critical</span></td><td>RG-08</td></tr>
+<tr><td><code>DA-05</code></td><td>Traceability and Investigation Readiness</td><td><span class="sev sev-patient_safety_critical">patient_safety_critical</span></td><td>RG-08, RG-02</td></tr>
+<tr><td><code>DA-06</code></td><td>Model Validation and Performance</td><td><span class="sev sev-patient_safety_critical">patient_safety_critical</span></td><td>RG-06</td></tr>
+<tr><td><code>DA-07</code></td><td>Model Validation and Performance</td><td><span class="sev sev-major">major</span></td><td>RG-06</td></tr>
+<tr><td><code>DA-08</code></td><td>Change Control</td><td><span class="sev sev-patient_safety_critical">patient_safety_critical</span></td><td>RG-05</td></tr>
+<tr><td><code>DA-09</code></td><td>Human-AI Compatibility</td><td><span class="sev sev-major">major</span></td><td>RG-09</td></tr>
+<tr><td><code>DA-10</code></td><td>Reproducibility</td><td><span class="sev sev-major">major</span></td><td>RG-06</td></tr>
+<tr><td><code>DA-11</code></td><td>Safety Signal and Incident Handling</td><td><span class="sev sev-patient_safety_critical">patient_safety_critical</span></td><td>RG-04</td></tr>
+<tr><td><code>DA-12</code></td><td>Reviewer Competency</td><td><span class="sev sev-major">major</span></td><td>RG-04</td></tr>
+<tr><td><code>DA-13</code></td><td>Third-Party and Supply Chain</td><td><span class="sev sev-patient_safety_critical">patient_safety_critical</span></td><td>RG-03, RG-05</td></tr>
+<tr><td><code>DA-14</code></td><td>Security and Misuse Resilience</td><td><span class="sev sev-major">major</span></td><td>RG-07</td></tr>
+<tr><td><code>DA-15</code></td><td>In-Silico / Virtualization Evidence</td><td><span class="sev sev-patient_safety_critical">patient_safety_critical</span></td><td>RG-06</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Assessment Items</h2>
+      <article class="item">
+        <h3><code>DA-01</code> Is the intended use documented, and has the regulatory status of the AI component been formally determined?</h3>
+        <p class="meta">Intended Use and Regulatory Status &middot;
+          <span class="sev sev-patient_safety_critical">patient_safety_critical</span></p>
+        <p><strong>Linked gates:</strong> RG-01</p>
+        <p><strong>What to inspect:</strong> Intended-use statement, user population, clinical/patient impact analysis, and the written determination of whether the AI meets the definition of a medical device / SaMD, or an EU AI Act high-risk system</p>
+        <p><strong>Evidence to request:</strong></p>
+        <ul><li>Signed intended-use statement</li><li>Regulatory classification rationale with named accountable approver</li><li>Legal/regulatory affairs concurrence record</li></ul>
+        <p><strong>Pass criteria:</strong> A documented, approved determination exists and is consistent with how the system is actually used in production</p>
+        <p class="dq"><strong>Disqualifying finding:</strong> The AI influences clinical or patient-impacting decisions with no documented regulatory classification, or actual use exceeds the stated intended use</p>
+        
+      </article>
+      <article class="item">
+        <h3><code>DA-02</code> Is human review actually enforced for patient-impacting decisions, as observed in production data rather than in policy?</h3>
+        <p class="meta">Human Oversight in Practice &middot;
+          <span class="sev sev-patient_safety_critical">patient_safety_critical</span></p>
+        <p><strong>Linked gates:</strong> RG-04</p>
+        <p><strong>What to inspect:</strong> A random sample of closed high-risk cases; attempt (in a validated non-production environment) to close a high-risk case without reviewer sign-off</p>
+        <p><strong>Evidence to request:</strong></p>
+        <ul><li>Sample of &gt;=20 closed high-risk cases with reviewer identity and timestamp</li><li>System behavior record when sign-off is omitted</li><li>Override log with captured rationale</li></ul>
+        <p><strong>Pass criteria:</strong> Every sampled patient-impacting closure carries an accountable reviewer sign-off, and the system technically prevents closure without one</p>
+        <p class="dq"><strong>Disqualifying finding:</strong> Any patient-impacting record closed without human sign-off, or oversight enforced only by procedure with no technical control</p>
+        
+      </article>
+      <article class="item">
+        <h3><code>DA-03</code> Is there evidence that reviewers exercise independent judgment rather than rubber-stamping AI output (automation bias)?</h3>
+        <p class="meta">Human Oversight in Practice &middot;
+          <span class="sev sev-patient_safety_critical">patient_safety_critical</span></p>
+        <p><strong>Linked gates:</strong> RG-04</p>
+        <p><strong>What to inspect:</strong> Acceptance and override rates segmented by reviewer, risk class, and time; median review dwell time relative to case complexity</p>
+        <p><strong>Evidence to request:</strong></p>
+        <ul><li>Acceptance-rate distribution across reviewers</li><li>Override events with substantive rationale text</li><li>Dwell-time distribution for high-risk cases</li></ul>
+        <p><strong>Pass criteria:</strong> Override rate is non-zero for high-risk classes, rationale text is substantive, and dwell time is plausible for the decision complexity</p>
+        <p class="dq"><strong>Disqualifying finding:</strong> Near-100% acceptance with negligible dwell time, indicating oversight is nominal rather than genuine</p>
+        
+      </article>
+      <article class="item">
+        <h3><code>DA-04</code> Are audit trails for AI inputs, outputs, approvals, and overrides complete and tamper-evident?</h3>
+        <p class="meta">Data Integrity (ALCOA+) &middot;
+          <span class="sev sev-patient_safety_critical">patient_safety_critical</span></p>
+        <p><strong>Linked gates:</strong> RG-08</p>
+        <p><strong>What to inspect:</strong> Audit trail configuration, retention settings, administrator privileges, and whether records can be altered or deleted without detection</p>
+        <p><strong>Evidence to request:</strong></p>
+        <ul><li>Audit trail integrity check output</li><li>Privileged-access review showing who can modify records</li><li>Retention policy aligned to record class</li></ul>
+        <p><strong>Pass criteria:</strong> Audit trails are immutable or tamper-evident, cover model calls end to end, and no unlogged privileged path can alter quality records</p>
+        <p class="dq"><strong>Disqualifying finding:</strong> Any administrator can silently alter or delete quality records, or model invocations are not logged</p>
+        
+      </article>
+      <article class="item">
+        <h3><code>DA-05</code> Can a specific closed case be reconstructed end to end, on demand, from source data through model version to final disposition?</h3>
+        <p class="meta">Traceability and Investigation Readiness &middot;
+          <span class="sev sev-patient_safety_critical">patient_safety_critical</span></p>
+        <p><strong>Linked gates:</strong> RG-08, RG-02</p>
+        <p><strong>What to inspect:</strong> Live reconstruction of a reviewer-selected closed case, timed</p>
+        <p><strong>Evidence to request:</strong></p>
+        <ul><li>Investigator packet for a case chosen by the reviewer, not pre-prepared</li><li>Model and prompt version bound to that specific decision</li><li>Source data lineage for the inputs used</li></ul>
+        <p><strong>Pass criteria:</strong> Reconstruction succeeds within the documented service-level objective and identifies the exact model/prompt version that produced the output</p>
+        <p class="dq"><strong>Disqualifying finding:</strong> The deployed model version for a historical decision cannot be established</p>
+        
+      </article>
+      <article class="item">
+        <h3><code>DA-06</code> Was the model validated on data independent of training, with performance characterized per clinically meaningful subgroup?</h3>
+        <p class="meta">Model Validation and Performance &middot;
+          <span class="sev sev-patient_safety_critical">patient_safety_critical</span></p>
+        <p><strong>Linked gates:</strong> RG-06</p>
+        <p><strong>What to inspect:</strong> Validation protocol and report, dataset provenance, train/test separation controls, and subgroup performance breakdown</p>
+        <p><strong>Evidence to request:</strong></p>
+        <ul><li>Validation protocol approved before execution</li><li>Evidence of train/test independence</li><li>Performance by risk class and relevant patient subgroups</li><li>Documented acceptance criteria set in advance</li></ul>
+        <p><strong>Pass criteria:</strong> Independence is demonstrable, acceptance criteria were pre-specified and met, and subgroup performance is reported rather than only aggregate</p>
+        <p class="dq"><strong>Disqualifying finding:</strong> Aggregate-only performance claims, post-hoc acceptance criteria, or unresolvable train/test contamination</p>
+        
+      </article>
+      <article class="item">
+        <h3><code>DA-07</code> Is performance drift monitored in production against defined thresholds with a defined response?</h3>
+        <p class="meta">Model Validation and Performance &middot;
+          <span class="sev sev-major">major</span></p>
+        <p><strong>Linked gates:</strong> RG-06</p>
+        <p><strong>What to inspect:</strong> Drift monitoring dashboard, threshold definitions, alert history, and actions taken on past alerts</p>
+        <p><strong>Evidence to request:</strong></p>
+        <ul><li>Threshold definitions per case class</li><li>Alert history with dispositions</li><li>Evidence of at least one closed-loop response to a drift signal</li></ul>
+        <p><strong>Pass criteria:</strong> Thresholds are defined, alerts route to an accountable owner, and past alerts show documented resolution</p>
+        <p class="dq"><strong>Disqualifying finding:</strong> Drift is unmonitored, or alerts have accumulated without disposition</p>
+        
+      </article>
+      <article class="item">
+        <h3><code>DA-08</code> Does every model, prompt, and calibration-data change in the production history have an approved change record?</h3>
+        <p class="meta">Change Control &middot;
+          <span class="sev sev-patient_safety_critical">patient_safety_critical</span></p>
+        <p><strong>Linked gates:</strong> RG-05</p>
+        <p><strong>What to inspect:</strong> Model registry version history reconciled against change tickets for the trailing 12 months</p>
+        <p><strong>Evidence to request:</strong></p>
+        <ul><li>Complete deployed-version history with dates</li><li>Corresponding change tickets with risk assessment and rollback plan</li><li>Reconciliation showing no unmatched deployments</li></ul>
+        <p><strong>Pass criteria:</strong> Every production version maps to an approved change record with no gaps</p>
+        <p class="dq"><strong>Disqualifying finding:</strong> Any undocumented production model or prompt change</p>
+        
+      </article>
+      <article class="item">
+        <h3><code>DA-09</code> For each model update, was backward compatibility assessed so that previously-correct decisions were not silently regressed?</h3>
+        <p class="meta">Human-AI Compatibility &middot;
+          <span class="sev sev-major">major</span></p>
+        <p><strong>Linked gates:</strong> RG-09</p>
+        <p><strong>What to inspect:</strong> Compatibility reports attached to change records, and reviewer acceptance-rate behavior immediately following each update</p>
+        <p><strong>Evidence to request:</strong></p>
+        <ul><li>Backward compatibility score per update, segmented by risk class</li><li>Newly-introduced-error analysis on a frozen evaluation set</li><li>Reviewer notification records where compatibility was knowingly broken</li></ul>
+        <p><strong>Pass criteria:</strong> Compatibility is measured per update, and any breach affecting a patient-safety class carries documented justification plus reviewer notification</p>
+        <p class="dq"><strong>Disqualifying finding:</strong> Updates promoted on aggregate accuracy alone, with no compatibility analysis for patient-safety case classes</p>
+        
+      </article>
+      <article class="item">
+        <h3><code>DA-10</code> Can a past AI decision be re-derived within a defined tolerance?</h3>
+        <p class="meta">Reproducibility &middot;
+          <span class="sev sev-major">major</span></p>
+        <p><strong>Linked gates:</strong> RG-06</p>
+        <p><strong>What to inspect:</strong> Replay of a reviewer-selected historical case against its recorded model version</p>
+        <p><strong>Evidence to request:</strong></p>
+        <ul><li>Replay harness output with input/output hashes</li><li>Documented tolerance and rationale for non-deterministic components</li><li>Sampling frequency and recent pass rate</li></ul>
+        <p><strong>Pass criteria:</strong> Sampled replays meet the documented tolerance, and any non-determinism is characterized rather than unexplained</p>
+        <p class="dq"><strong>Disqualifying finding:</strong> Historical decisions cannot be reproduced and the variance is uncharacterized</p>
+        
+      </article>
+      <article class="item">
+        <h3><code>DA-11</code> Is there a defined path from an AI-related error to containment, CAPA, and where applicable regulatory reporting?</h3>
+        <p class="meta">Safety Signal and Incident Handling &middot;
+          <span class="sev sev-patient_safety_critical">patient_safety_critical</span></p>
+        <p><strong>Linked gates:</strong> RG-04</p>
+        <p><strong>What to inspect:</strong> Incident history involving AI output, escalation timestamps, and CAPA effectiveness checks</p>
+        <p><strong>Evidence to request:</strong></p>
+        <ul><li>AI-related incident log</li><li>Time-to-containment for past incidents</li><li>CAPA records with effectiveness verification</li><li>Reportability decision records where patient impact occurred</li></ul>
+        <p><strong>Pass criteria:</strong> Incidents are captured, escalated within SLA, and CAPA effectiveness is verified rather than assumed closed</p>
+        <p class="dq"><strong>Disqualifying finding:</strong> A known AI-caused patient-impacting error with no CAPA or no reportability assessment</p>
+        
+      </article>
+      <article class="item">
+        <h3><code>DA-12</code> Are reviewers trained specifically on the AI system's known failure modes and limitations?</h3>
+        <p class="meta">Reviewer Competency &middot;
+          <span class="sev sev-major">major</span></p>
+        <p><strong>Linked gates:</strong> RG-04</p>
+        <p><strong>What to inspect:</strong> Training curriculum content, completion records, and whether training is reissued when model behavior changes</p>
+        <p><strong>Evidence to request:</strong></p>
+        <ul><li>Curriculum covering documented failure modes</li><li>Completion records for all active reviewers</li><li>Retraining triggered by compatibility-breaking updates</li></ul>
+        <p><strong>Pass criteria:</strong> All active reviewers are current on training that names concrete failure modes, not just general system operation</p>
+        <p class="dq"><strong>Disqualifying finding:</strong> Reviewers accountable for patient-impacting sign-off have no training on AI limitations</p>
+        
+      </article>
+      <article class="item">
+        <h3><code>DA-13</code> If an external or vendor model is used, are version pinning, change notification, and data handling contractually and technically controlled?</h3>
+        <p class="meta">Third-Party and Supply Chain &middot;
+          <span class="sev sev-patient_safety_critical">patient_safety_critical</span></p>
+        <p><strong>Linked gates:</strong> RG-03, RG-05</p>
+        <p><strong>What to inspect:</strong> Vendor agreements, model version pinning configuration, and data processing terms covering any PHI or patient-identifiable input</p>
+        <p><strong>Evidence to request:</strong></p>
+        <ul><li>Contractual change-notification terms</li><li>Evidence of version pinning in production configuration</li><li>Data processing agreement covering the data classes actually sent</li></ul>
+        <p><strong>Pass criteria:</strong> Vendor model versions cannot change silently, and data handling matches what is contractually permitted</p>
+        <p class="dq"><strong>Disqualifying finding:</strong> Production depends on a floating vendor model endpoint that can change without notice, or patient data is sent outside agreed terms</p>
+        <p class="na">May be marked not applicable with written justification.</p>
+      </article>
+      <article class="item">
+        <h3><code>DA-14</code> Has the system been tested against adversarial input and misuse relevant to its clinical context?</h3>
+        <p class="meta">Security and Misuse Resilience &middot;
+          <span class="sev sev-major">major</span></p>
+        <p><strong>Linked gates:</strong> RG-07</p>
+        <p><strong>What to inspect:</strong> Adversarial test suite scope, findings, and remediation status; access controls on model configuration</p>
+        <p><strong>Evidence to request:</strong></p>
+        <ul><li>Adversarial/misuse test results with severity ratings</li><li>Remediation evidence for critical findings</li><li>Access control review for prompt and model configuration</li></ul>
+        <p><strong>Pass criteria:</strong> Testing covers clinically relevant misuse, and no unresolved critical finding remains open</p>
+        <p class="dq"><strong>Disqualifying finding:</strong> Unresolved critical adversarial finding in a patient-impacting pathway</p>
+        
+      </article>
+      <article class="item">
+        <h3><code>DA-15</code> If in-silico or virtual organ model output supports a regulatory or safety-relevant conclusion, is it cross-validated against ground truth?</h3>
+        <p class="meta">In-Silico / Virtualization Evidence &middot;
+          <span class="sev sev-patient_safety_critical">patient_safety_critical</span></p>
+        <p><strong>Linked gates:</strong> RG-06</p>
+        <p><strong>What to inspect:</strong> Correlation studies against wet-lab or clinical data, and the qualification tier assigned to each model's use</p>
+        <p><strong>Evidence to request:</strong></p>
+        <ul><li>Correlation study protocol and results</li><li>Qualification tier with submission-use flag</li><li>Drift monitoring against ground-truth refresh</li></ul>
+        <p><strong>Pass criteria:</strong> Ground-truth correlation is documented and current for the claimed use tier</p>
+        <p class="dq"><strong>Disqualifying finding:</strong> In-silico output supports a submission or safety conclusion with no ground-truth correlation evidence</p>
+        <p class="na">May be marked not applicable with written justification.</p>
+      </article>
+    </section>
+  </div>
+</body>
+</html>

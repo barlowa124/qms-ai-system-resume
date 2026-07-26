@@ -12,6 +12,7 @@ This package includes:
 4. A hardened reference architecture addressing common AI-system trust gaps (provenance, reproducibility, human-in-the-loop enforcement).
 5. A human-AI compatibility release criterion (RG-09) addressing the empirically documented performance/compatibility tradeoff in human-AI teams, so accuracy-only model updates cannot silently degrade reviewer decision quality.
 6. An extension applying the same control patterns to organ virtualization / in-silico model programs (model-to-biology traceability, simulation reproducibility, wet-lab cross-validation, and ESG amplification via reduced animal use).
+7. A **clinical deployment assessment instrument and fail-closed scoring engine** for evaluating an AI-enabled QMS that is already running in production, rather than reviewing design intent.
 
 ## Key Artifacts
 
@@ -20,6 +21,34 @@ This package includes:
 3. [qms_system_diagram.md](qms_system_diagram.md)
 4. [qms_solution_diagram.mmd](qms_solution_diagram.mmd)
 5. [qms_trust_hardened_system_diagram.md](qms_trust_hardened_system_diagram.md)
+6. [clinical_deployment_assessment.md](clinical_deployment_assessment.md) — reviewer instrument
+7. [deployment_assessment.py](deployment_assessment.py) — instrument generator and scoring CLI
+
+## Assessing a Live Deployment
+
+The design artifacts above describe what a compliant system should look like. `deployment_assessment.py` is the counterpart used against a system that is actually running: a 15-item evidence-gathering instrument plus a scoring engine that refuses to return a clean result when evidence is absent.
+
+```bash
+# Generate the reviewer instrument (markdown + HTML)
+python3 deployment_assessment.py instrument
+
+# Emit a blank response file for the reviewer to complete
+python3 deployment_assessment.py template --out responses.json
+
+# Score a completed assessment (exit code 1 if anything is unresolved)
+python3 deployment_assessment.py score responses.json
+python3 deployment_assessment.py score responses.json --json
+```
+
+Design properties:
+
+1. **Fail-closed.** `not_assessed` is treated as unresolved, so an untouched template scores `BLOCKING_FINDINGS`, not a pass. Absence of evidence is never treated as evidence of control.
+2. **Patient-safety items block individually.** Any single unresolved `patient_safety_critical` item forces a blocking verdict regardless of how the rest scores.
+3. **Structural abuse is rejected.** Unknown item ids, malformed entries, missing response fields, and unjustified `not_applicable` claims all yield `INVALID_SUBMISSION` rather than quietly clearing an item.
+4. **No approval language.** The cleanest possible verdict is `NO_BLOCKING_FINDINGS_IDENTIFIED`. The tool produces findings, never a compliance determination.
+5. **Traceable to the gate model.** Each assessment item links to the RG-xx gates defined in the solution proposal, and tests enforce that those references resolve.
+
+**This is an assessment aid, not a regulatory determination.** Interpretation and sign-off require qualified QA, regulatory, and clinical-safety personnel. It does not substitute for validated quality processes or applicable regulatory submissions.
 
 ## Outcome Summary
 
@@ -34,6 +63,14 @@ This package includes:
 2. A methodology for source-level code/config analysis and evidence extraction to support AI/compliance/security maturity scoring.
 3. CI/CD policy hardening design for supply-chain and vulnerability posture (fail-closed scanning, build provenance, signed release evidence).
 4. Compliance-by-design control mapping (21 CFR Part 11, Annex 11, ALCOA+) tied to concrete implementation and telemetry evidence.
+
+## Testing
+
+```bash
+python3 -m pytest -q
+```
+
+The suite covers artifact generation, patient-safety invariants of the governance model (treated as policy-as-code), and the deployment scoring engine's fail-closed behavior. It also guards that committed artifacts stay in sync with their generators.
 
 ## Notes
 
