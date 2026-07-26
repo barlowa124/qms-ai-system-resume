@@ -53,6 +53,40 @@ NON_CLEARING_RESPONSES = frozenset(
     {Response.PARTIAL, Response.NON_CONFORMANT, Response.NOT_ASSESSED}
 )
 
+MIN_JUSTIFICATION_CHARS = 20
+
+PLACEHOLDER_JUSTIFICATIONS = frozenset(
+    {
+        "-",
+        "--",
+        ".",
+        "n/a",
+        "n.a.",
+        "na",
+        "nil",
+        "no",
+        "none",
+        "not applicable",
+        "ok",
+        "tbd",
+        "todo",
+        "x",
+        "yes",
+    }
+)
+
+
+def is_substantive_justification(note: str) -> bool:
+    """A not_applicable claim must say why, not just assert itself.
+
+    Rejects placeholder tokens and anything too short to carry a reason, so
+    that scoping an item out costs more effort than assessing it.
+    """
+    cleaned = note.strip()
+    if cleaned.casefold().rstrip(".") in PLACEHOLDER_JUSTIFICATIONS:
+        return False
+    return len(cleaned) >= MIN_JUSTIFICATION_CHARS
+
 
 class Verdict(str, Enum):
     """Overall outcome. Intentionally worded to avoid implying approval."""
@@ -450,11 +484,14 @@ def assessment_items() -> list[AssessmentItem]:
                 "Access control review for prompt and model configuration",
             ),
             pass_criteria=(
-                "Testing covers clinically relevant misuse, and no unresolved critical finding "
-                "remains open"
+                "Misuse testing covers the deployed clinical context, and open findings have "
+                "an owner and a remediation plan"
             ),
             disqualifying_finding=(
-                "Unresolved critical adversarial finding in a patient-impacting pathway"
+                "No misuse testing has been performed for the deployed clinical context, or "
+                "open findings have no owner or remediation plan. A confirmed exploitable "
+                "defect in a patient-impacting pathway should be escalated as a safety signal "
+                "under DA-11 rather than recorded only here"
             ),
             severity=Severity.MAJOR,
             linked_gates=("RG-07",),
@@ -485,6 +522,117 @@ def assessment_items() -> list[AssessmentItem]:
             severity=Severity.PATIENT_SAFETY_CRITICAL,
             linked_gates=("RG-06",),
             allows_not_applicable=True,
+        ),
+        AssessmentItem(
+            item_id="DA-16",
+            domain="Use Outside the Validated Envelope",
+            question=(
+                "Is actual production usage monitored against the population the system was "
+                "validated on, and are out-of-envelope inputs detected at the point of use?"
+            ),
+            inspect=(
+                "Usage telemetry broken down by case type, product, site, and language, "
+                "compared against the validation population; the runtime behaviour when an "
+                "input falls outside that population"
+            ),
+            evidence_required=(
+                "Validation population definition with the case types and products covered",
+                "Production usage distribution over a recent period, on the same axes",
+                "Runtime evidence that an out-of-envelope input is flagged or refused",
+            ),
+            pass_criteria=(
+                "Production usage is shown to fall inside the validated population, and inputs "
+                "outside it are flagged to the user rather than answered silently"
+            ),
+            disqualifying_finding=(
+                "The system returns normal-looking output for case types, products, or sites "
+                "absent from the validation set, with no indication to the user that the input "
+                "is outside the validated envelope"
+            ),
+            severity=Severity.PATIENT_SAFETY_CRITICAL,
+            linked_gates=("RG-01", "RG-06"),
+        ),
+        AssessmentItem(
+            item_id="DA-17",
+            domain="Silent Truncation and Incomplete Input",
+            question=(
+                "When input exceeds size limits or a source document fails to parse, does the "
+                "system fail visibly rather than reason over partial data?"
+            ),
+            inspect=(
+                "Context and token limit handling, document parse and OCR failure paths, and "
+                "what the reviewer sees when input is incomplete"
+            ),
+            evidence_required=(
+                "Truncation and parse-failure logs for a recent production period",
+                "Screenshot or specification of the user-visible indication when input is "
+                "incomplete",
+                "A worked example of a long or partly unreadable record and its handling",
+            ),
+            pass_criteria=(
+                "Truncation and parse failure are logged and surfaced to the reviewer before "
+                "sign-off, and the affected output is marked as based on incomplete input"
+            ),
+            disqualifying_finding=(
+                "Input is silently truncated or a source document silently fails to parse, and "
+                "the reviewer sees output that is indistinguishable from a complete assessment"
+            ),
+            severity=Severity.PATIENT_SAFETY_CRITICAL,
+            linked_gates=("RG-04", "RG-08"),
+        ),
+        AssessmentItem(
+            item_id="DA-18",
+            domain="Configuration Drift",
+            question=(
+                "Are prompt templates, inference parameters, and thresholds under the same "
+                "change control as the model itself?"
+            ),
+            inspect=(
+                "Change history for prompt templates, temperature and sampling settings, "
+                "retrieval configuration, and routing or escalation thresholds"
+            ),
+            evidence_required=(
+                "Diff-level change log for prompts and inference parameters",
+                "QA review record for each production-affecting change",
+                "Evidence that production configuration matches the validated configuration",
+            ),
+            pass_criteria=(
+                "No production-affecting configuration change reaches users without a review "
+                "record, and current production configuration matches what was validated"
+            ),
+            disqualifying_finding=(
+                "A prompt, parameter, or threshold differs from the validated configuration, or "
+                "was changed in production without a review record"
+            ),
+            severity=Severity.PATIENT_SAFETY_CRITICAL,
+            linked_gates=("RG-05",),
+        ),
+        AssessmentItem(
+            item_id="DA-19",
+            domain="Repeat Submission and Anchoring",
+            question=(
+                "When the same event is submitted more than once, is the full sequence of "
+                "outputs retained rather than only the one the reviewer accepted?"
+            ),
+            inspect=(
+                "Audit trail for a single event identifier that received multiple submissions, "
+                "and whether superseded outputs remain retrievable"
+            ),
+            evidence_required=(
+                "Audit trail showing every submission and output for one event identifier",
+                "Rate of repeat submission per event over a recent period",
+                "Evidence that superseded outputs are retained and linked to the final record",
+            ),
+            pass_criteria=(
+                "All submissions for an event are retained and linked, so a reviewer or "
+                "inspector can see whether the accepted output was the first one"
+            ),
+            disqualifying_finding=(
+                "Only the accepted output is retained, so re-running an event until a milder "
+                "result appears would leave no trace"
+            ),
+            severity=Severity.MAJOR,
+            linked_gates=("RG-08", "RG-04"),
         ),
     ]
 
@@ -597,7 +745,8 @@ def score(submission: dict) -> AssessmentResult:
       - An item absent from the submission is treated as not_assessed.
       - not_assessed / partial / non_conformant all produce a finding.
       - not_applicable is only honored for items that permit it AND that carry
-        a justification note; otherwise it is an error and treated as unresolved.
+        a substantive justification; otherwise it is an error and treated as
+        unresolved. Placeholder text such as "n/a" does not count.
       - Any unresolved patient-safety-critical item yields BLOCKING_FINDINGS.
       - Structural errors yield INVALID_SUBMISSION regardless of content.
     """
@@ -668,9 +817,11 @@ def score(submission: dict) -> AssessmentResult:
                     )
                 )
                 continue
-            if not note:
+            if not is_substantive_justification(note):
                 errors.append(
-                    f"{item.item_id}: not_applicable requires a justification note"
+                    f"{item.item_id}: not_applicable requires a substantive justification "
+                    f"of at least {MIN_JUSTIFICATION_CHARS} characters stating why the item "
+                    f"is out of scope"
                 )
                 findings.append(
                     Finding(
@@ -741,7 +892,8 @@ operational counterpart to the design artifacts in this repository.
    unresolved, which is the intended behavior - absence of evidence is not evidence of
    control.
 4. `not_applicable` is accepted only for items that permit it, and only with a written
-   justification.
+   justification stating why the item is out of scope. Placeholder text such as "n/a" is
+   rejected, so scoping an item out is deliberately more effort than assessing it.
 
 ## Severity meaning
 
@@ -822,7 +974,8 @@ def build_instrument_html() -> str:
             else ""
         )
         na = (
-            "<p class=\"na\">May be marked not applicable with written justification.</p>"
+            "<p class=\"na\">May be marked not applicable with a written justification "
+            "stating why the item is out of scope.</p>"
             if item.allows_not_applicable
             else ""
         )

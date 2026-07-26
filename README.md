@@ -26,7 +26,7 @@ This package includes:
 
 ## Assessing a Live Deployment
 
-The design artifacts above describe what a compliant system should look like. `deployment_assessment.py` is the counterpart used against a system that is actually running: a 15-item evidence-gathering instrument plus a scoring engine that refuses to return a clean result when evidence is absent.
+The design artifacts above describe what a compliant system should look like. `deployment_assessment.py` is the counterpart used against a system that is actually running: a 19-item evidence-gathering instrument plus a scoring engine that refuses to return a clean result when evidence is absent.
 
 ```bash
 # Generate the reviewer instrument (markdown + HTML)
@@ -47,6 +47,18 @@ Design properties:
 3. **Structural abuse is rejected.** Unknown item ids, malformed entries, missing response fields, and unjustified `not_applicable` claims all yield `INVALID_SUBMISSION` rather than quietly clearing an item.
 4. **No approval language.** The cleanest possible verdict is `NO_BLOCKING_FINDINGS_IDENTIFIED`. The tool produces findings, never a compliance determination.
 5. **Traceable to the gate model.** Each assessment item links to the RG-xx gates defined in the solution proposal, and tests enforce that those references resolve.
+6. **Scoping out costs more than assessing.** `not_applicable` is permitted on only two items, and placeholder justifications such as `n/a` are rejected as `INVALID_SUBMISSION`.
+
+### Threat model
+
+The items are weighted toward **internal and unintentional** failure rather than external attack, because that is the dominant risk in a regulated internal deployment. The scenario the instrument is built around is a competent user, following procedure correctly, receiving a wrong answer with no signal that anything went wrong:
+
+- **`DA-16` Use outside the validated envelope.** Production usage drifts to case types, products, or sites absent from the validation population, and the system answers anyway.
+- **`DA-17` Silent truncation and incomplete input.** A long record is truncated or a source document fails to parse, and the reviewer sees output indistinguishable from a complete assessment.
+- **`DA-18` Configuration drift.** Prompts, parameters, and thresholds are the artifacts people actually edit between releases; `DA-08` governs the model, `DA-18` governs everything around it.
+- **`DA-19` Repeat submission and anchoring.** Only the accepted output is retained, so re-running an event until a milder result appears leaves no trace.
+
+The first three block on their own. Adversarial resilience (`DA-14`) is deliberately scoped as `major`: it checks that misuse testing was performed and that open findings have an owner, and routes any confirmed patient-impacting defect to `DA-11`, which does block.
 
 **This is an assessment aid, not a regulatory determination.** Interpretation and sign-off require qualified QA, regulatory, and clinical-safety personnel. It does not substitute for validated quality processes or applicable regulatory submissions.
 

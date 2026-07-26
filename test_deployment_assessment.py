@@ -89,6 +89,53 @@ class InstrumentIntegrityTests(unittest.TestCase):
             self.assertIn("not a compliance determination", artifact.lower())
 
 
+class UnintentionalFailureCoverageTests(unittest.TestCase):
+    """The realistic internal threat is a competent user getting a wrong answer
+    with no signal that anything went wrong. Those paths must be covered and
+    must block, since no adversary is required to reach them."""
+
+    SILENT_FAILURE_ITEMS = ("DA-16", "DA-17", "DA-18")
+
+    def test_silent_failure_modes_are_present(self) -> None:
+        domains = {i.item_id: i.domain for i in da.assessment_items()}
+        self.assertEqual("Use Outside the Validated Envelope", domains["DA-16"])
+        self.assertEqual("Silent Truncation and Incomplete Input", domains["DA-17"])
+        self.assertEqual("Configuration Drift", domains["DA-18"])
+        self.assertEqual("Repeat Submission and Anchoring", domains["DA-19"])
+
+    def test_silent_failure_items_are_blocking(self) -> None:
+        critical = da.patient_safety_critical_ids()
+        for item_id in self.SILENT_FAILURE_ITEMS:
+            with self.subTest(item=item_id):
+                self.assertIn(item_id, critical)
+
+    def test_silent_failure_items_cannot_be_scoped_out(self) -> None:
+        by_id = da.items_by_id()
+        for item_id in self.SILENT_FAILURE_ITEMS + ("DA-19",):
+            with self.subTest(item=item_id):
+                self.assertFalse(
+                    by_id[item_id].allows_not_applicable,
+                    f"{item_id} applies to every deployment and must not be N/A-able",
+                )
+
+    def test_config_drift_is_distinct_from_model_change_control(self) -> None:
+        """DA-08 governs the model; DA-18 governs the prompt and parameters,
+        which are what people actually edit between releases."""
+        by_id = da.items_by_id()
+        self.assertNotEqual(by_id["DA-08"].domain, by_id["DA-18"].domain)
+        self.assertIn("RG-05", by_id["DA-18"].linked_gates)
+
+    def test_misuse_item_escalates_patient_impact_to_a_blocking_item(self) -> None:
+        """Regression: DA-14 is major, so its disqualifying finding must not
+        claim a patient-impacting critical defect terminates there. It routes
+        to DA-11, which does block."""
+        by_id = da.items_by_id()
+        misuse = by_id["DA-14"]
+        self.assertIs(da.Severity.MAJOR, misuse.severity)
+        self.assertIn("DA-11", misuse.disqualifying_finding)
+        self.assertIn("DA-11", da.patient_safety_critical_ids())
+
+
 class FailClosedScoringTests(unittest.TestCase):
     """The engine must never produce a clean verdict without positive evidence."""
 
@@ -201,6 +248,28 @@ class NotApplicableRulesTests(unittest.TestCase):
 
         result = da.score(submission)
         self.assertIs(da.Verdict.NO_BLOCKING_FINDINGS_IDENTIFIED, result.verdict)
+
+    def test_placeholder_justification_does_not_scope_an_item_out(self) -> None:
+        """Scoping out a patient-safety item must cost more than typing 'n/a'."""
+        for placeholder in ("n/a", "N/A", "na", "none", "-", "tbd", "x", "N.A."):
+            with self.subTest(placeholder=placeholder):
+                submission = all_conformant()
+                submission["responses"]["DA-13"]["response"] = "not_applicable"
+                submission["responses"]["DA-13"]["note"] = placeholder
+
+                result = da.score(submission)
+                self.assertIs(da.Verdict.INVALID_SUBMISSION, result.verdict)
+                self.assertIn("DA-13", [f.item_id for f in result.findings])
+
+    def test_substantive_justification_helper_rejects_thin_text(self) -> None:
+        self.assertFalse(da.is_substantive_justification(""))
+        self.assertFalse(da.is_substantive_justification("   "))
+        self.assertFalse(da.is_substantive_justification("no vendor"))
+        self.assertTrue(
+            da.is_substantive_justification(
+                "No third-party model is used; all inference runs on in-house weights."
+            )
+        )
 
 
 class CleanPathTests(unittest.TestCase):

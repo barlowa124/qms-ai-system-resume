@@ -69,6 +69,10 @@
 <tr><td><code>DA-13</code></td><td>Third-Party and Supply Chain</td><td><span class="sev sev-patient_safety_critical">patient_safety_critical</span></td><td>RG-03, RG-05</td></tr>
 <tr><td><code>DA-14</code></td><td>Security and Misuse Resilience</td><td><span class="sev sev-major">major</span></td><td>RG-07</td></tr>
 <tr><td><code>DA-15</code></td><td>In-Silico / Virtualization Evidence</td><td><span class="sev sev-patient_safety_critical">patient_safety_critical</span></td><td>RG-06</td></tr>
+<tr><td><code>DA-16</code></td><td>Use Outside the Validated Envelope</td><td><span class="sev sev-patient_safety_critical">patient_safety_critical</span></td><td>RG-01, RG-06</td></tr>
+<tr><td><code>DA-17</code></td><td>Silent Truncation and Incomplete Input</td><td><span class="sev sev-patient_safety_critical">patient_safety_critical</span></td><td>RG-04, RG-08</td></tr>
+<tr><td><code>DA-18</code></td><td>Configuration Drift</td><td><span class="sev sev-patient_safety_critical">patient_safety_critical</span></td><td>RG-05</td></tr>
+<tr><td><code>DA-19</code></td><td>Repeat Submission and Anchoring</td><td><span class="sev sev-major">major</span></td><td>RG-08, RG-04</td></tr>
         </tbody>
       </table>
     </section>
@@ -229,7 +233,7 @@
         <ul><li>Contractual change-notification terms</li><li>Evidence of version pinning in production configuration</li><li>Data processing agreement covering the data classes actually sent</li></ul>
         <p><strong>Pass criteria:</strong> Vendor model versions cannot change silently, and data handling matches what is contractually permitted</p>
         <p class="dq"><strong>Disqualifying finding:</strong> Production depends on a floating vendor model endpoint that can change without notice, or patient data is sent outside agreed terms</p>
-        <p class="na">May be marked not applicable with written justification.</p>
+        <p class="na">May be marked not applicable with a written justification stating why the item is out of scope.</p>
       </article>
       <article class="item">
         <h3><code>DA-14</code> Has the system been tested against adversarial input and misuse relevant to its clinical context?</h3>
@@ -239,8 +243,8 @@
         <p><strong>What to inspect:</strong> Adversarial test suite scope, findings, and remediation status; access controls on model configuration</p>
         <p><strong>Evidence to request:</strong></p>
         <ul><li>Adversarial/misuse test results with severity ratings</li><li>Remediation evidence for critical findings</li><li>Access control review for prompt and model configuration</li></ul>
-        <p><strong>Pass criteria:</strong> Testing covers clinically relevant misuse, and no unresolved critical finding remains open</p>
-        <p class="dq"><strong>Disqualifying finding:</strong> Unresolved critical adversarial finding in a patient-impacting pathway</p>
+        <p><strong>Pass criteria:</strong> Misuse testing covers the deployed clinical context, and open findings have an owner and a remediation plan</p>
+        <p class="dq"><strong>Disqualifying finding:</strong> No misuse testing has been performed for the deployed clinical context, or open findings have no owner or remediation plan. A confirmed exploitable defect in a patient-impacting pathway should be escalated as a safety signal under DA-11 rather than recorded only here</p>
         
       </article>
       <article class="item">
@@ -253,7 +257,55 @@
         <ul><li>Correlation study protocol and results</li><li>Qualification tier with submission-use flag</li><li>Drift monitoring against ground-truth refresh</li></ul>
         <p><strong>Pass criteria:</strong> Ground-truth correlation is documented and current for the claimed use tier</p>
         <p class="dq"><strong>Disqualifying finding:</strong> In-silico output supports a submission or safety conclusion with no ground-truth correlation evidence</p>
-        <p class="na">May be marked not applicable with written justification.</p>
+        <p class="na">May be marked not applicable with a written justification stating why the item is out of scope.</p>
+      </article>
+      <article class="item">
+        <h3><code>DA-16</code> Is actual production usage monitored against the population the system was validated on, and are out-of-envelope inputs detected at the point of use?</h3>
+        <p class="meta">Use Outside the Validated Envelope &middot;
+          <span class="sev sev-patient_safety_critical">patient_safety_critical</span></p>
+        <p><strong>Linked gates:</strong> RG-01, RG-06</p>
+        <p><strong>What to inspect:</strong> Usage telemetry broken down by case type, product, site, and language, compared against the validation population; the runtime behaviour when an input falls outside that population</p>
+        <p><strong>Evidence to request:</strong></p>
+        <ul><li>Validation population definition with the case types and products covered</li><li>Production usage distribution over a recent period, on the same axes</li><li>Runtime evidence that an out-of-envelope input is flagged or refused</li></ul>
+        <p><strong>Pass criteria:</strong> Production usage is shown to fall inside the validated population, and inputs outside it are flagged to the user rather than answered silently</p>
+        <p class="dq"><strong>Disqualifying finding:</strong> The system returns normal-looking output for case types, products, or sites absent from the validation set, with no indication to the user that the input is outside the validated envelope</p>
+        
+      </article>
+      <article class="item">
+        <h3><code>DA-17</code> When input exceeds size limits or a source document fails to parse, does the system fail visibly rather than reason over partial data?</h3>
+        <p class="meta">Silent Truncation and Incomplete Input &middot;
+          <span class="sev sev-patient_safety_critical">patient_safety_critical</span></p>
+        <p><strong>Linked gates:</strong> RG-04, RG-08</p>
+        <p><strong>What to inspect:</strong> Context and token limit handling, document parse and OCR failure paths, and what the reviewer sees when input is incomplete</p>
+        <p><strong>Evidence to request:</strong></p>
+        <ul><li>Truncation and parse-failure logs for a recent production period</li><li>Screenshot or specification of the user-visible indication when input is incomplete</li><li>A worked example of a long or partly unreadable record and its handling</li></ul>
+        <p><strong>Pass criteria:</strong> Truncation and parse failure are logged and surfaced to the reviewer before sign-off, and the affected output is marked as based on incomplete input</p>
+        <p class="dq"><strong>Disqualifying finding:</strong> Input is silently truncated or a source document silently fails to parse, and the reviewer sees output that is indistinguishable from a complete assessment</p>
+        
+      </article>
+      <article class="item">
+        <h3><code>DA-18</code> Are prompt templates, inference parameters, and thresholds under the same change control as the model itself?</h3>
+        <p class="meta">Configuration Drift &middot;
+          <span class="sev sev-patient_safety_critical">patient_safety_critical</span></p>
+        <p><strong>Linked gates:</strong> RG-05</p>
+        <p><strong>What to inspect:</strong> Change history for prompt templates, temperature and sampling settings, retrieval configuration, and routing or escalation thresholds</p>
+        <p><strong>Evidence to request:</strong></p>
+        <ul><li>Diff-level change log for prompts and inference parameters</li><li>QA review record for each production-affecting change</li><li>Evidence that production configuration matches the validated configuration</li></ul>
+        <p><strong>Pass criteria:</strong> No production-affecting configuration change reaches users without a review record, and current production configuration matches what was validated</p>
+        <p class="dq"><strong>Disqualifying finding:</strong> A prompt, parameter, or threshold differs from the validated configuration, or was changed in production without a review record</p>
+        
+      </article>
+      <article class="item">
+        <h3><code>DA-19</code> When the same event is submitted more than once, is the full sequence of outputs retained rather than only the one the reviewer accepted?</h3>
+        <p class="meta">Repeat Submission and Anchoring &middot;
+          <span class="sev sev-major">major</span></p>
+        <p><strong>Linked gates:</strong> RG-08, RG-04</p>
+        <p><strong>What to inspect:</strong> Audit trail for a single event identifier that received multiple submissions, and whether superseded outputs remain retrievable</p>
+        <p><strong>Evidence to request:</strong></p>
+        <ul><li>Audit trail showing every submission and output for one event identifier</li><li>Rate of repeat submission per event over a recent period</li><li>Evidence that superseded outputs are retained and linked to the final record</li></ul>
+        <p><strong>Pass criteria:</strong> All submissions for an event are retained and linked, so a reviewer or inspector can see whether the accepted output was the first one</p>
+        <p class="dq"><strong>Disqualifying finding:</strong> Only the accepted output is retained, so re-running an event until a milder result appears would leave no trace</p>
+        
       </article>
     </section>
   </div>
