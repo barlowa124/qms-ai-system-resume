@@ -8,6 +8,7 @@ Outputs:
 
 from __future__ import annotations
 
+import sys
 from pathlib import Path
 
 
@@ -403,6 +404,7 @@ def build_html(mermaid_text: str, markdown_text: str) -> str:
 
 
 def write_outputs(out_dir: Path) -> tuple[Path, Path, Path]:
+    out_dir.mkdir(parents=True, exist_ok=True)
     mermaid_text = build_mermaid()
     markdown_text = build_markdown(mermaid_text)
 
@@ -418,7 +420,8 @@ def write_outputs(out_dir: Path) -> tuple[Path, Path, Path]:
 
 
 def main() -> None:
-    out_dir = Path.cwd().resolve()
+    # Default to the directory containing this script; allow an explicit override.
+    out_dir = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(__file__).resolve().parent
     mmd_path, md_path, html_path = write_outputs(out_dir)
     print(f"Generated Mermaid: {mmd_path}")
     print(f"Generated Markdown: {md_path}")
