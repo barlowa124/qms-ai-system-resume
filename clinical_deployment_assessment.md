@@ -16,7 +16,8 @@ operational counterpart to the design artifacts in this repository.
    unresolved, which is the intended behavior - absence of evidence is not evidence of
    control.
 4. `not_applicable` is accepted only for items that permit it, and only with a written
-   justification.
+   justification stating why the item is out of scope. Placeholder text such as "n/a" is
+   rejected, so scoping an item out is deliberately more effort than assessing it.
 
 ## Severity meaning
 
@@ -45,6 +46,10 @@ operational counterpart to the design artifacts in this repository.
 | DA-13 | Third-Party and Supply Chain | `patient_safety_critical` | RG-03, RG-05 |
 | DA-14 | Security and Misuse Resilience | `major` | RG-07 |
 | DA-15 | In-Silico / Virtualization Evidence | `patient_safety_critical` | RG-06 |
+| DA-16 | Use Outside the Validated Envelope | `patient_safety_critical` | RG-01, RG-06 |
+| DA-17 | Silent Truncation and Incomplete Input | `patient_safety_critical` | RG-04, RG-08 |
+| DA-18 | Configuration Drift | `patient_safety_critical` | RG-05 |
+| DA-19 | Repeat Submission and Anchoring | `major` | RG-08, RG-04 |
 
 ## Intended Use and Regulatory Status
 
@@ -237,8 +242,8 @@ operational counterpart to the design artifacts in this repository.
     - Adversarial/misuse test results with severity ratings
     - Remediation evidence for critical findings
     - Access control review for prompt and model configuration
-- **Pass criteria**: Testing covers clinically relevant misuse, and no unresolved critical finding remains open
-- **Disqualifying finding**: Unresolved critical adversarial finding in a patient-impacting pathway
+- **Pass criteria**: Misuse testing covers the deployed clinical context, and open findings have an owner and a remediation plan
+- **Disqualifying finding**: No misuse testing has been performed for the deployed clinical context, or open findings have no owner or remediation plan. A confirmed exploitable defect in a patient-impacting pathway should be escalated as a safety signal under DA-11 rather than recorded only here
 
 ## In-Silico / Virtualization Evidence
 
@@ -253,3 +258,59 @@ operational counterpart to the design artifacts in this repository.
     - Drift monitoring against ground-truth refresh
 - **Pass criteria**: Ground-truth correlation is documented and current for the claimed use tier
 - **Disqualifying finding**: In-silico output supports a submission or safety conclusion with no ground-truth correlation evidence
+
+## Use Outside the Validated Envelope
+
+### DA-16 - Is actual production usage monitored against the population the system was validated on, and are out-of-envelope inputs detected at the point of use?
+
+- **Severity**: `patient_safety_critical`
+- **Linked gates**: RG-01, RG-06
+- **What to inspect**: Usage telemetry broken down by case type, product, site, and language, compared against the validation population; the runtime behaviour when an input falls outside that population
+- **Evidence to request**:
+    - Validation population definition with the case types and products covered
+    - Production usage distribution over a recent period, on the same axes
+    - Runtime evidence that an out-of-envelope input is flagged or refused
+- **Pass criteria**: Production usage is shown to fall inside the validated population, and inputs outside it are flagged to the user rather than answered silently
+- **Disqualifying finding**: The system returns normal-looking output for case types, products, or sites absent from the validation set, with no indication to the user that the input is outside the validated envelope
+
+## Silent Truncation and Incomplete Input
+
+### DA-17 - When input exceeds size limits or a source document fails to parse, does the system fail visibly rather than reason over partial data?
+
+- **Severity**: `patient_safety_critical`
+- **Linked gates**: RG-04, RG-08
+- **What to inspect**: Context and token limit handling, document parse and OCR failure paths, and what the reviewer sees when input is incomplete
+- **Evidence to request**:
+    - Truncation and parse-failure logs for a recent production period
+    - Screenshot or specification of the user-visible indication when input is incomplete
+    - A worked example of a long or partly unreadable record and its handling
+- **Pass criteria**: Truncation and parse failure are logged and surfaced to the reviewer before sign-off, and the affected output is marked as based on incomplete input
+- **Disqualifying finding**: Input is silently truncated or a source document silently fails to parse, and the reviewer sees output that is indistinguishable from a complete assessment
+
+## Configuration Drift
+
+### DA-18 - Are prompt templates, inference parameters, and thresholds under the same change control as the model itself?
+
+- **Severity**: `patient_safety_critical`
+- **Linked gates**: RG-05
+- **What to inspect**: Change history for prompt templates, temperature and sampling settings, retrieval configuration, and routing or escalation thresholds
+- **Evidence to request**:
+    - Diff-level change log for prompts and inference parameters
+    - QA review record for each production-affecting change
+    - Evidence that production configuration matches the validated configuration
+- **Pass criteria**: No production-affecting configuration change reaches users without a review record, and current production configuration matches what was validated
+- **Disqualifying finding**: A prompt, parameter, or threshold differs from the validated configuration, or was changed in production without a review record
+
+## Repeat Submission and Anchoring
+
+### DA-19 - When the same event is submitted more than once, is the full sequence of outputs retained rather than only the one the reviewer accepted?
+
+- **Severity**: `major`
+- **Linked gates**: RG-08, RG-04
+- **What to inspect**: Audit trail for a single event identifier that received multiple submissions, and whether superseded outputs remain retrievable
+- **Evidence to request**:
+    - Audit trail showing every submission and output for one event identifier
+    - Rate of repeat submission per event over a recent period
+    - Evidence that superseded outputs are retained and linked to the final record
+- **Pass criteria**: All submissions for an event are retained and linked, so a reviewer or inspector can see whether the accepted output was the first one
+- **Disqualifying finding**: Only the accepted output is retained, so re-running an event until a milder result appears would leave no trace
