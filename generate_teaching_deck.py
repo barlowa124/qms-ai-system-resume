@@ -179,7 +179,13 @@ def slides() -> list[Slide]:
                 "Name the gap precisely, because the rest of the talk is four instances of "
                 "it plus a proposed instrument. Expect a question about periodic review. "
                 "The answer is that periodic review as typically practised re-reads the "
-                "documentation rather than interrogating the running system."
+                "documentation rather than interrogating the running system. "
+                "Say explicitly that the design-stage questions were asked well: colleagues "
+                "raised substantive objections about scope, several argued the tool should not "
+                "touch certain record types at all, and those positions were documented and "
+                "debated. Nothing here suggests anyone was careless. The gap was never in the "
+                "design conversation - it was that no equivalent conversation existed for "
+                "checking whether the resulting constraints survived contact with daily use."
             ),
         ),
         Slide(
