@@ -98,8 +98,8 @@
   <main>
     <section class="slide slide-title" id="s1">
       <h1>When Efficiency Targets Meet Patient Safety</h1>
-      <p class="subtitle">Failure modes in AI-assisted deviation management, and an instrument for assessing a live deployment</p>
-      <p class="disclaimer">This presentation describes generalized failure modes in AI-assisted quality systems. It does not identify any employer, client, vendor, or product, and it is not a compliance determination about any specific system. The assessment instrument shown is a reviewer aid; interpretation and sign-off require qualified QA, regulatory, and clinical-safety personnel.</p>
+      <p class="subtitle">A prospective risk analysis of AI-assisted deviation report review, and an instrument for assessing a live deployment</p>
+      <p class="disclaimer">This presentation describes generalized failure modes in AI-assisted quality systems. It does not identify any employer, client, vendor, or product, and it is not a compliance determination about any specific system. The system that motivated this analysis did not reach deployment, so nothing here is an account of a production failure. The assessment instrument shown is a reviewer aid; interpretation and sign-off require qualified QA, regulatory, and clinical-safety personnel.</p>
       <aside class="notes"><strong>Speaker notes.</strong> Open by setting scope honestly: this is not an argument that AI has no place in quality systems. It is an argument that deviation management is an unusually bad place to start, and that the assessment tooling the industry has does not yet ask the right questions. Say up front that no employer or client is named and nothing here is a compliance determination about any specific system.</aside>
       <footer><span>When Efficiency Targets Meet Patient Safety</span><span>1 / 20</span></footer>
     </section>
@@ -116,14 +116,15 @@
       <footer><span>When Efficiency Targets Meet Patient Safety</span><span>2 / 20</span></footer>
     </section>
     <section class="slide slide-section" id="s3">
-      <h2>What deviation management actually decides</h2>
+      <h2>Where an AI review aid actually sits</h2>
       <ul>
         <li>A deviation is any departure from an approved procedure, specification, or process parameter.</li>
-        <li>Triage decides three things: is this patient-impacting, how deep does the investigation go, and does it affect batch disposition.</li>
-        <li>Those decisions feed CAPA, product release, and regulatory reporting.</li>
+        <li>The investigation report is the record: root cause, impact assessment, CAPA, and the risk rationale behind the classification.</li>
+        <li>That report is what QA reviews, and what an inspector reads years later.</li>
+        <li>A tool that reviews draft reports before QA reaches them does not make the disposition decision. It shapes the record the decision is made from.</li>
       </ul>
-      <blockquote>Misclassifying a deviation is not an efficiency miss. It is the first step in a chain that ends at product release.</blockquote>
-      <aside class="notes"><strong>Speaker notes.</strong> Spend time here even though the audience knows it. The point being established is that deviation triage is a decision with downstream safety consequences, not a clerical sorting task. Everything later depends on the audience accepting this. If someone pushes back that triage is only advisory, ask what happens when a minor classification means no investigation is opened.</aside>
+      <blockquote>Influencing the quality of the record is not the same as deciding the outcome. It is also not harmless. Hold both of those at once.</blockquote>
+      <aside class="notes"><strong>Speaker notes.</strong> Be precise here, because the whole talk depends on it and it is the easiest thing to overstate. A draft-review aid does not classify or disposition. It does determine which weaknesses get fixed before a qualified reviewer ever sees the report. If someone objects that this makes the tool low-risk, agree that it lowers the ceiling on the risk and then ask how you would know if it started being used as a readiness gate instead of a drafting aid.</aside>
       <footer><span>When Efficiency Targets Meet Patient Safety</span><span>3 / 20</span></footer>
     </section>
     <section class="slide slide-content" id="s4">
@@ -165,13 +166,13 @@
     <section class="slide slide-failure" id="s7">
       <h2>Failure mode 1 - Automation bias</h2>
       <ul>
-        <li>Observed pattern: 99.4 percent acceptance rate, 11 second median dwell time on high-risk cases.</li>
+        <li>The diagnostic signature: acceptance rates approaching 100 percent, combined with dwell times too short to have read the case.</li>
         <li>Human review is documented, enforced in the workflow, and present in every audit trail.</li>
-        <li>Eleven seconds is not enough to read the deviation, let alone evaluate the recommendation.</li>
+        <li>A few seconds is not enough to read a deviation, let alone evaluate the recommendation behind it.</li>
         <li>The control exists, is inspectable, and is not functioning.</li>
       </ul>
       <blockquote>Teaching point: measure override rate and dwell time, segmented by risk class, queue depth, and shift position. Aggregate figures hide this.</blockquote>
-      <aside class="notes"><strong>Speaker notes.</strong> This is the most important failure mode because it defeats the control the whole safety case rests on, and it does so while producing perfect documentary evidence of compliance. Emphasise that the reviewers are not lazy - a system that is right 95 percent of the time trains you to trust it, and that training is rational. Automation bias is well established in aviation and radiology literature; this is not speculative.</aside>
+      <aside class="notes"><strong>Speaker notes.</strong> This is the most important failure mode because it defeats the control the whole safety case rests on, and it does so while producing perfect documentary evidence of compliance. Emphasise that the reviewers are not lazy - a system that is right 95 percent of the time trains you to trust it, and that training is rational. Automation bias is well established in aviation and radiology literature; this is not speculative. IMPORTANT: do not cite specific acceptance or dwell figures unless you can state their source and are permitted to disclose them. The diagnostic signature is the teachable content and it needs no numbers. If asked whether you measured this, distinguish clearly between what you observed and what you are describing as a general pattern.</aside>
       <footer><span>When Efficiency Targets Meet Patient Safety</span><span>7 / 20</span></footer>
     </section>
     <section class="slide slide-failure" id="s8">
@@ -225,13 +226,13 @@
     <section class="slide slide-content" id="s12">
       <h2>Why this is a patient safety question</h2>
       <ul>
-        <li>Deviation classification determines investigation depth.</li>
-        <li>Investigation depth determines what is known at disposition.</li>
-        <li>Disposition determines whether product is released.</li>
-        <li>The path from a misclassified deviation to a patient is short and well-trodden.</li>
+        <li>A draft-review aid does not classify, disposition, or release. Say that plainly so nobody in the room thinks otherwise.</li>
+        <li>It does determine whether a weak impact assessment or an unsupported risk rationale gets strengthened before QA ever sees it.</li>
+        <li>Score an inadequate section as adequate, and the gap it should have surfaced travels forward into the record instead.</li>
+        <li>The exposure is second-order and real: not a wrong decision made by a model, but a missed chance to catch a wrong decision made by a person.</li>
       </ul>
-      <blockquote>Data integrity expectations - ALCOA+, Part 11, Annex 11 - exist because quality records drive release decisions. An AI-generated record is still a record.</blockquote>
-      <aside class="notes"><strong>Speaker notes.</strong> This slide converts the preceding technical material into the language the audience governs by. If anyone in the room still thinks of this as an IT validation topic, this is where that changes. Keep the chain short and concrete; do not overclaim that harm has occurred.</aside>
+      <blockquote>Data integrity expectations - ALCOA+, Part 11, Annex 11 - exist because quality records drive release decisions. A record a model improved, or failed to improve, is still the record.</blockquote>
+      <aside class="notes"><strong>Speaker notes.</strong> This slide converts the preceding material into the language the audience governs by, and it is where you must be most disciplined. Do not claim the tool made release decisions - it was explicitly scoped not to. The honest argument is that it sits upstream of the record a release decision is made from, and that a missed flag is a real if indirect exposure. That argument is weaker than the dramatic version and it is the one you can defend.</aside>
       <footer><span>When Efficiency Targets Meet Patient Safety</span><span>12 / 20</span></footer>
     </section>
     <section class="slide slide-content" id="s13">
@@ -272,7 +273,8 @@
     </section>
     <section class="slide slide-demo" id="s16">
       <h2>What it produces</h2>
-      <pre class="demo">$ deployment_assessment.py score site_a_responses.json
+      <p class="lead">Synthetic sample data - not findings from any real deployment</p>
+      <pre class="demo">$ deployment_assessment.py score sample_responses.json
 
 ========================================================================
 VERDICT: BLOCKING_FINDINGS
@@ -288,7 +290,7 @@ OTHER FINDINGS (1):
 
 $ echo $?
 1</pre>
-      <aside class="notes"><strong>Speaker notes.</strong> Walk through the output slowly. Three things to point out: the verdict language avoids any implication of approval; the finding cites the specific observed metric rather than a judgement; and the non-zero exit code means this can gate an automated release pipeline rather than living in a document nobody reads. If there is time and network access, run it live - it is more convincing than a screenshot.</aside>
+      <aside class="notes"><strong>Speaker notes.</strong> Say explicitly that this is synthetic input before you walk through it. The figures are invented to exercise the tool and describe nothing real. Three things to point out: the verdict language avoids any implication of approval; the finding cites a specific metric rather than a judgement; and the non-zero exit code means this can gate an automated release pipeline rather than living in a document nobody reads. If there is time, run it live - it is more convincing than a screenshot.</aside>
       <footer><span>When Efficiency Targets Meet Patient Safety</span><span>16 / 20</span></footer>
     </section>
     <section class="slide slide-content" id="s17">
@@ -306,13 +308,13 @@ $ echo $?
     <section class="slide slide-content" id="s18">
       <h2>The conclusion I drew</h2>
       <ul>
-        <li>I could not get these failure modes closed on a timeline I was comfortable with, in a context where the failure path reaches product disposition.</li>
-        <li>I concluded that I did not want to hold accountability for a control I could not demonstrate was working.</li>
-        <li>So I resigned, and I built the instrument I wished had existed.</li>
-        <li>I am not claiming harm occurred. I am claiming the assessment that would have told us either way was not being performed.</li>
+        <li>The system never went live. I resigned before the alpha pilot began, so none of this is an account of a system in production.</li>
+        <li>My design constraints were explicit: no classification, no disposition, no confirming that a report was ready for QA submission.</li>
+        <li>What I could not establish was how anyone would verify those constraints held once the tool was in daily use.</li>
+        <li>I was not willing to hold accountability for a control I had no way to show was working, so I left and built the instrument that would have checked.</li>
       </ul>
-      <blockquote>The distinction matters: an unassessed risk is not the same claim as a realised harm, and it is the one I can actually support.</blockquote>
-      <aside class="notes"><strong>Speaker notes.</strong> One slide, stated once, then move on. Do not editorialise and do not name anyone. The final bullet is the most important sentence in the deck - it is precise, defensible, and it is what makes the whole talk credible rather than aggrieved. If asked for specifics you cannot share, say plainly that you are bound by confidentiality and that the generalized failure modes are the transferable content.</aside>
+      <blockquote>I am not claiming harm occurred and I am not claiming an unsafe system shipped. Neither happened. I am describing a prospective risk I could not get assurance against.</blockquote>
+      <aside class="notes"><strong>Speaker notes.</strong> One slide, stated once, then move on. The first and last bullets are the two that matter. Leading with &#x27;never went live&#x27; removes any suggestion that you are describing a production failure or accusing anyone of shipping something unsafe - and it is what makes the rest of the talk credible rather than aggrieved. Expect someone to ask whether you were being premature. The honest answer is that resigning over a prospective risk is a judgement call, you made it with the information you had, and the instrument is your attempt to turn that judgement into something reviewable by other people. If asked for specifics you cannot share, say plainly that you are bound by confidentiality.</aside>
       <footer><span>When Efficiency Targets Meet Patient Safety</span><span>18 / 20</span></footer>
     </section>
     <section class="slide slide-section" id="s19">

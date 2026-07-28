@@ -26,16 +26,18 @@ from pathlib import Path
 
 DECK_TITLE = "When Efficiency Targets Meet Patient Safety"
 DECK_SUBTITLE = (
-    "Failure modes in AI-assisted deviation management, and an instrument for "
-    "assessing a live deployment"
+    "A prospective risk analysis of AI-assisted deviation report review, and an "
+    "instrument for assessing a live deployment"
 )
 
 DISCLAIMER = (
     "This presentation describes generalized failure modes in AI-assisted quality "
     "systems. It does not identify any employer, client, vendor, or product, and it "
-    "is not a compliance determination about any specific system. The assessment "
-    "instrument shown is a reviewer aid; interpretation and sign-off require "
-    "qualified QA, regulatory, and clinical-safety personnel."
+    "is not a compliance determination about any specific system. The system that "
+    "motivated this analysis did not reach deployment, so nothing here is an account "
+    "of a production failure. The assessment instrument shown is a reviewer aid; "
+    "interpretation and sign-off require qualified QA, regulatory, and "
+    "clinical-safety personnel."
 )
 
 
@@ -92,26 +94,28 @@ def slides() -> list[Slide]:
             ),
         ),
         Slide(
-            title="What deviation management actually decides",
+            title="Where an AI review aid actually sits",
             kind="section",
             bullets=(
                 "A deviation is any departure from an approved procedure, specification, or "
                 "process parameter.",
-                "Triage decides three things: is this patient-impacting, how deep does the "
-                "investigation go, and does it affect batch disposition.",
-                "Those decisions feed CAPA, product release, and regulatory reporting.",
+                "The investigation report is the record: root cause, impact assessment, CAPA, "
+                "and the risk rationale behind the classification.",
+                "That report is what QA reviews, and what an inspector reads years later.",
+                "A tool that reviews draft reports before QA reaches them does not make the "
+                "disposition decision. It shapes the record the decision is made from.",
             ),
             callout=(
-                "Misclassifying a deviation is not an efficiency miss. It is the first step "
-                "in a chain that ends at product release."
+                "Influencing the quality of the record is not the same as deciding the "
+                "outcome. It is also not harmless. Hold both of those at once."
             ),
             notes=(
-                "Spend time here even though the audience knows it. The point being "
-                "established is that deviation triage is a decision with downstream safety "
-                "consequences, not a clerical sorting task. Everything later depends on the "
-                "audience accepting this. If someone pushes back that triage is only "
-                "advisory, ask what happens when a minor classification means no "
-                "investigation is opened."
+                "Be precise here, because the whole talk depends on it and it is the easiest "
+                "thing to overstate. A draft-review aid does not classify or disposition. It "
+                "does determine which weaknesses get fixed before a qualified reviewer ever "
+                "sees the report. If someone objects that this makes the tool low-risk, agree "
+                "that it lowers the ceiling on the risk and then ask how you would know if it "
+                "started being used as a readiness gate instead of a drafting aid."
             ),
         ),
         Slide(
@@ -182,12 +186,12 @@ def slides() -> list[Slide]:
             title="Failure mode 1 - Automation bias",
             kind="failure",
             bullets=(
-                "Observed pattern: 99.4 percent acceptance rate, 11 second median dwell time "
-                "on high-risk cases.",
+                "The diagnostic signature: acceptance rates approaching 100 percent, combined "
+                "with dwell times too short to have read the case.",
                 "Human review is documented, enforced in the workflow, and present in every "
                 "audit trail.",
-                "Eleven seconds is not enough to read the deviation, let alone evaluate the "
-                "recommendation.",
+                "A few seconds is not enough to read a deviation, let alone evaluate the "
+                "recommendation behind it.",
                 "The control exists, is inspectable, and is not functioning.",
             ),
             callout=(
@@ -200,7 +204,12 @@ def slides() -> list[Slide]:
                 "documentary evidence of compliance. Emphasise that the reviewers are not "
                 "lazy - a system that is right 95 percent of the time trains you to trust it, "
                 "and that training is rational. Automation bias is well established in "
-                "aviation and radiology literature; this is not speculative."
+                "aviation and radiology literature; this is not speculative. "
+                "IMPORTANT: do not cite specific acceptance or dwell figures unless you can "
+                "state their source and are permitted to disclose them. The diagnostic "
+                "signature is the teachable content and it needs no numbers. If asked whether "
+                "you measured this, distinguish clearly between what you observed and what you "
+                "are describing as a general pattern."
             ),
         ),
         Slide(
@@ -296,22 +305,27 @@ def slides() -> list[Slide]:
         Slide(
             title="Why this is a patient safety question",
             bullets=(
-                "Deviation classification determines investigation depth.",
-                "Investigation depth determines what is known at disposition.",
-                "Disposition determines whether product is released.",
-                "The path from a misclassified deviation to a patient is short and "
-                "well-trodden.",
+                "A draft-review aid does not classify, disposition, or release. Say that "
+                "plainly so nobody in the room thinks otherwise.",
+                "It does determine whether a weak impact assessment or an unsupported risk "
+                "rationale gets strengthened before QA ever sees it.",
+                "Score an inadequate section as adequate, and the gap it should have surfaced "
+                "travels forward into the record instead.",
+                "The exposure is second-order and real: not a wrong decision made by a model, "
+                "but a missed chance to catch a wrong decision made by a person.",
             ),
             callout=(
                 "Data integrity expectations - ALCOA+, Part 11, Annex 11 - exist because "
-                "quality records drive release decisions. An AI-generated record is still a "
-                "record."
+                "quality records drive release decisions. A record a model improved, or failed "
+                "to improve, is still the record."
             ),
             notes=(
-                "This slide converts the preceding technical material into the language the "
-                "audience governs by. If anyone in the room still thinks of this as an IT "
-                "validation topic, this is where that changes. Keep the chain short and "
-                "concrete; do not overclaim that harm has occurred."
+                "This slide converts the preceding material into the language the audience "
+                "governs by, and it is where you must be most disciplined. Do not claim the "
+                "tool made release decisions - it was explicitly scoped not to. The honest "
+                "argument is that it sits upstream of the record a release decision is made "
+                "from, and that a missed flag is a real if indirect exposure. That argument is "
+                "weaker than the dramatic version and it is the one you can defend."
             ),
         ),
         Slide(
@@ -386,8 +400,9 @@ def slides() -> list[Slide]:
         Slide(
             title="What it produces",
             kind="demo",
+            subtitle="Synthetic sample data - not findings from any real deployment",
             code=(
-                "$ deployment_assessment.py score site_a_responses.json\n"
+                "$ deployment_assessment.py score sample_responses.json\n"
                 "\n"
                 "========================================================================\n"
                 "VERDICT: BLOCKING_FINDINGS\n"
@@ -405,12 +420,13 @@ def slides() -> list[Slide]:
                 "1"
             ),
             notes=(
-                "Walk through the output slowly. Three things to point out: the verdict "
-                "language avoids any implication of approval; the finding cites the specific "
-                "observed metric rather than a judgement; and the non-zero exit code means "
-                "this can gate an automated release pipeline rather than living in a "
-                "document nobody reads. If there is time and network access, run it live - "
-                "it is more convincing than a screenshot."
+                "Say explicitly that this is synthetic input before you walk through it. The "
+                "figures are invented to exercise the tool and describe nothing real. "
+                "Three things to point out: the verdict language avoids any implication of "
+                "approval; the finding cites a specific metric rather than a judgement; and the "
+                "non-zero exit code means this can gate an automated release pipeline rather "
+                "than living in a document nobody reads. If there is time, run it live - it is "
+                "more convincing than a screenshot."
             ),
         ),
         Slide(
@@ -440,25 +456,30 @@ def slides() -> list[Slide]:
         Slide(
             title="The conclusion I drew",
             bullets=(
-                "I could not get these failure modes closed on a timeline I was comfortable "
-                "with, in a context where the failure path reaches product disposition.",
-                "I concluded that I did not want to hold accountability for a control I could "
-                "not demonstrate was working.",
-                "So I resigned, and I built the instrument I wished had existed.",
-                "I am not claiming harm occurred. I am claiming the assessment that would "
-                "have told us either way was not being performed.",
+                "The system never went live. I resigned before the alpha pilot began, so none "
+                "of this is an account of a system in production.",
+                "My design constraints were explicit: no classification, no disposition, no "
+                "confirming that a report was ready for QA submission.",
+                "What I could not establish was how anyone would verify those constraints held "
+                "once the tool was in daily use.",
+                "I was not willing to hold accountability for a control I had no way to show "
+                "was working, so I left and built the instrument that would have checked.",
             ),
             callout=(
-                "The distinction matters: an unassessed risk is not the same claim as a "
-                "realised harm, and it is the one I can actually support."
+                "I am not claiming harm occurred and I am not claiming an unsafe system "
+                "shipped. Neither happened. I am describing a prospective risk I could not get "
+                "assurance against."
             ),
             notes=(
-                "One slide, stated once, then move on. Do not editorialise and do not name "
-                "anyone. The final bullet is the most important sentence in the deck - it is "
-                "precise, defensible, and it is what makes the whole talk credible rather "
-                "than aggrieved. If asked for specifics you cannot share, say plainly that "
-                "you are bound by confidentiality and that the generalized failure modes are "
-                "the transferable content."
+                "One slide, stated once, then move on. The first and last bullets are the two "
+                "that matter. Leading with 'never went live' removes any suggestion that you "
+                "are describing a production failure or accusing anyone of shipping something "
+                "unsafe - and it is what makes the rest of the talk credible rather than "
+                "aggrieved. Expect someone to ask whether you were being premature. The honest "
+                "answer is that resigning over a prospective risk is a judgement call, you made "
+                "it with the information you had, and the instrument is your attempt to turn "
+                "that judgement into something reviewable by other people. If asked for "
+                "specifics you cannot share, say plainly that you are bound by confidentiality."
             ),
         ),
         Slide(

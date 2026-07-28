@@ -58,6 +58,54 @@ class DeIdentificationTests(unittest.TestCase):
                 self.assertNotIn(overclaim, haystack)
 
 
+class SourcingTests(unittest.TestCase):
+    """Regression: acceptance-rate and dwell-time figures originated as sample
+    data invented to exercise the scoring CLI. They were briefly rendered on a
+    slide labelled 'Observed pattern', which asserted field measurements that
+    had no source. Slide bullets must not present numbers as observations."""
+
+    def test_no_bullet_claims_an_observed_measurement(self) -> None:
+        for slide in deck.slides():
+            for bullet in slide.bullets:
+                with self.subTest(slide=slide.title, bullet=bullet[:40]):
+                    self.assertNotIn("observed pattern", bullet.lower())
+                    self.assertNotIn("99.4", bullet)
+                    self.assertNotIn("11 second", bullet.lower())
+
+    def test_demo_output_is_labelled_synthetic(self) -> None:
+        """The demo may use invented figures, but only if it says so on the slide."""
+        demos = [s for s in deck.slides() if s.kind == "demo"]
+        self.assertTrue(demos)
+        for slide in demos:
+            with self.subTest(slide=slide.title):
+                self.assertIn("synthetic", slide.subtitle.lower())
+
+    def test_automation_bias_notes_warn_against_citing_figures(self) -> None:
+        slide = next(s for s in deck.slides() if "automation bias" in s.title.lower())
+        self.assertIn("do not cite specific", slide.notes.lower())
+
+    def test_deck_states_the_system_never_deployed(self) -> None:
+        """The system never reached alpha. A deck implying a production failure
+        would misrepresent the employer as having shipped something unsafe."""
+        for name, content in (
+            ("markdown", deck.build_markdown()),
+            ("html", deck.build_html()),
+        ):
+            with self.subTest(artifact=name):
+                self.assertIn("did not reach deployment", content.lower())
+        self.assertIn("never went live", deck.build_markdown().lower())
+
+    def test_no_slide_claims_the_tool_decided_disposition(self) -> None:
+        """The design spec explicitly prohibited classification and disposition.
+        The deck must not describe capabilities the system was scoped against."""
+        forbidden = ("triage decides", "the ai classifies", "model classifies")
+        for slide in deck.slides():
+            joined = " ".join(slide.bullets).lower() + slide.callout.lower()
+            for phrase in forbidden:
+                with self.subTest(slide=slide.title, phrase=phrase):
+                    self.assertNotIn(phrase, joined)
+
+
 class FramingTests(unittest.TestCase):
     def test_resignation_appears_late_and_only_once(self) -> None:
         titles = [s.title for s in deck.slides()]
