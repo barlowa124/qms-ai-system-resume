@@ -180,12 +180,16 @@ def slides() -> list[Slide]:
                 "it plus a proposed instrument. Expect a question about periodic review. "
                 "The answer is that periodic review as typically practised re-reads the "
                 "documentation rather than interrogating the running system. "
-                "Say explicitly that the design-stage questions were asked well: colleagues "
-                "raised substantive objections about scope, several argued the tool should not "
-                "touch certain record types at all, and those positions were documented and "
-                "debated. Nothing here suggests anyone was careless. The gap was never in the "
-                "design conversation - it was that no equivalent conversation existed for "
-                "checking whether the resulting constraints survived contact with daily use."
+                "Be careful how you characterise colleagues, in both directions. Design-scope "
+                "objections were raised and documented - whether the tool should evaluate "
+                "certain record types at all, whether its assessments would stay internally "
+                "consistent. Those were substantive and nobody was careless. But the "
+                "field-verification question on this slide was not one anyone else raised, and "
+                "you did not persuade the room of it. Own that directly rather than implying "
+                "consensus: you are the lone voice here, which means either you saw something "
+                "others missed or you weighted a risk differently than reasonable colleagues "
+                "did. Say you cannot fully rule out the second. It costs nothing and it is the "
+                "fastest way to show you are analysing rather than litigating."
             ),
         ),
         Slide(
