@@ -23,6 +23,7 @@ This package includes:
 5. [qms_trust_hardened_system_diagram.md](qms_trust_hardened_system_diagram.md)
 6. [clinical_deployment_assessment.md](clinical_deployment_assessment.md) — reviewer instrument
 7. [deployment_assessment.py](deployment_assessment.py) — instrument generator and scoring CLI
+8. [teaching_deck.html](teaching_deck.html) — teaching deck on AI failure modes in GMP-adjacent QMS
 
 ## Assessing a Live Deployment
 
@@ -77,6 +78,18 @@ All of these block individually except `DA-19` and `DA-25`. Adversarial resilien
 `DA-03` additionally requires oversight metrics segmented by queue depth and shift position, since aggregate override and dwell-time figures are exactly what pass on audit day and fail in week three.
 
 **This is an assessment aid, not a regulatory determination.** Interpretation and sign-off require qualified QA, regulatory, and clinical-safety personnel. It does not substitute for validated quality processes or applicable regulatory submissions.
+
+## Teaching Deck
+
+`generate_teaching_deck.py` builds a 20-slide deck (~30 minutes plus questions) for faculty who train the QA and manufacturing workforce that will operate these systems. It teaches four failure modes and presents the assessment instrument.
+
+```bash
+python3 generate_teaching_deck.py --outline   # slide list with timing
+python3 generate_teaching_deck.py             # write .md (Marp) + .html
+open teaching_deck.html                       # present in browser; N toggles notes
+```
+
+The deck is fully de-identified: no employer, client, vendor, or product is named, and it argues from generalized failure modes only. `test_teaching_deck.py` enforces this mechanically, along with the framing decisions — the resignation is one slide in the final quarter, the business case is presented before any criticism, limitations are stated rather than omitted, and no slide claims that harm occurred. The supportable claim is an unassessed risk, not a realised harm.
 
 ## Outcome Summary
 
