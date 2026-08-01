@@ -82,6 +82,7 @@ Speaker notes: This is the pivot of the talk. The failure modes that follow are 
 - One digital organisation can run two engineering standards at once, and both are usually visible in its own systems.
 - Data platform and commercial product: versioned releases in the hundreds, pull-request gating, end-to-end test infrastructure, automated deployment, separate sandbox, test and production environments.
 - AI application layer, including a tool entering the deviation workflow: no written requirements artifact, no automated feedback collection, and manual spot-checking as output validation.
+- No stated competency requirement governed who could build on that layer - no defined prerequisite of experience with the model class, with validated systems, or with the regulated process the output touches.
 - This is not a story about an organisation lacking engineering discipline. The discipline demonstrably existed. It had not reached the AI layer.
 
 > The question is not whether an organisation can do rigorous engineering. It is whether the rigour reaches the system that touches a GMP record.
@@ -292,11 +293,12 @@ Speaker notes: One slide, stated once, then move on. The first and last bullets 
 - It does not cover the failure modes of the specific system, which is what the reviewer is there to catch.
 - Concretely teachable: automation bias and why high accuracy causes it; what incomplete input looks like; how to ask whether the system in front of you is the validated one.
 - One instrument item exists solely to check that reviewers are trained on named failure modes rather than general operation.
+- The same gap exists on the build side: typically no competency standard defines who may develop an AI feature that touches a regulated record, even where equivalent standards exist for the process it feeds.
 
 > Your graduates are the last control in the chain. Right now they are being trained as operators of the system rather than as auditors of it.
 
 <!--
-Speaker notes: This is the ask, and it should feel like a contribution rather than a complaint. Offer something concrete: a guest module, a case-study exercise built from the four failure modes, or the instrument itself as a teaching artifact. Have a specific next step ready if anyone is interested.
+Speaker notes: This is the ask, and it should feel like a contribution rather than a complaint. Offer something concrete: a guest module, a case-study exercise built from the four failure modes, or the instrument itself as a teaching artifact. Have a specific next step ready if anyone is interested. The build-side competency bullet is the one this audience is best placed to act on, since defining and assessing competency is their core business. Keep it structural - an absent standard, not an assessment of any individual. If asked whether you saw this go wrong in practice, say the standard was absent and stop there. Speculating about whether a particular person met a standard that was never written is neither fair nor arguable, and it will cost you the room instantly.
 -->
 
 ---
@@ -307,7 +309,8 @@ Speaker notes: This is the ask, and it should feel like a contribution rather th
 - Should the blocking set vary with the system's risk class rather than being fixed?
 - Where does this belong in a curriculum - validation, quality systems, or its own module?
 - What would convince you that a reviewer is genuinely competent to oversee a model rather than nominally assigned to it?
+- What competency standard would you want met by someone building an AI feature that touches a regulated record?
 
 <!--
-Speaker notes: Ending on genuine questions rather than a summary invites collaboration and signals that you are not there to lecture them. These four are real open problems, not rhetorical. Have your own tentative answer ready for each in case they turn it back on you.
+Speaker notes: Ending on genuine questions rather than a summary invites collaboration and signals that you are not there to lecture them. These are real open problems, not rhetorical. Have your own tentative answer ready for each in case they turn it back on you. The last one is the question you most want answered, so ask it last and let it sit.
 -->

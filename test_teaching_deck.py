@@ -69,6 +69,30 @@ class DeIdentificationTests(unittest.TestCase):
         for content in (deck.build_markdown(), deck.build_html()):
             self.assertIn("does not identify", content.lower())
 
+    def test_no_personal_competence_judgements(self) -> None:
+        """A competency concern is defensible as an absent standard and indefensible
+        as a verdict on an individual. The second form is a personnel claim about an
+        identifiable person and has no place in a de-identified public talk."""
+        forbidden = (
+            "underqualified",
+            "unqualified",
+            "not qualified",
+            "sparse resume",
+            "thin resume",
+            "incompetent",
+            "lacked the experience",
+            "no relevant experience",
+        )
+        haystack = deck.build_markdown().lower() + deck.build_html().lower()
+        for phrase in forbidden:
+            with self.subTest(phrase=phrase):
+                self.assertNotIn(phrase, haystack)
+
+    def test_competency_gap_is_framed_as_an_absent_standard(self) -> None:
+        md = deck.build_markdown().lower()
+        self.assertIn("competency standard", md)
+        self.assertIn("no stated competency requirement", md)
+
     def test_no_claim_that_harm_occurred(self) -> None:
         """The supportable claim is an unassessed risk, not a realised harm."""
         haystack = deck.build_markdown().lower()

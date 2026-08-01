@@ -170,6 +170,9 @@ def slides() -> list[Slide]:
                 "AI application layer, including a tool entering the deviation workflow: no "
                 "written requirements artifact, no automated feedback collection, and manual "
                 "spot-checking as output validation.",
+                "No stated competency requirement governed who could build on that layer - no "
+                "defined prerequisite of experience with the model class, with validated "
+                "systems, or with the regulated process the output touches.",
                 "This is not a story about an organisation lacking engineering discipline. The "
                 "discipline demonstrably existed. It had not reached the AI layer.",
             ),
@@ -507,6 +510,9 @@ def slides() -> list[Slide]:
                 "is the validated one.",
                 "One instrument item exists solely to check that reviewers are trained on "
                 "named failure modes rather than general operation.",
+                "The same gap exists on the build side: typically no competency standard "
+                "defines who may develop an AI feature that touches a regulated record, even "
+                "where equivalent standards exist for the process it feeds.",
             ),
             callout=(
                 "Your graduates are the last control in the chain. Right now they are being "
@@ -516,7 +522,14 @@ def slides() -> list[Slide]:
                 "This is the ask, and it should feel like a contribution rather than a "
                 "complaint. Offer something concrete: a guest module, a case-study exercise "
                 "built from the four failure modes, or the instrument itself as a teaching "
-                "artifact. Have a specific next step ready if anyone is interested."
+                "artifact. Have a specific next step ready if anyone is interested. "
+                "The build-side competency bullet is the one this audience is best placed to "
+                "act on, since defining and assessing competency is their core business. Keep "
+                "it structural - an absent standard, not an assessment of any individual. If "
+                "asked whether you saw this go wrong in practice, say the standard was absent "
+                "and stop there. Speculating about whether a particular person met a standard "
+                "that was never written is neither fair nor arguable, and it will cost you the "
+                "room instantly."
             ),
         ),
         Slide(
@@ -531,12 +544,15 @@ def slides() -> list[Slide]:
                 "its own module?",
                 "What would convince you that a reviewer is genuinely competent to oversee a "
                 "model rather than nominally assigned to it?",
+                "What competency standard would you want met by someone building an AI feature "
+                "that touches a regulated record?",
             ),
             notes=(
                 "Ending on genuine questions rather than a summary invites collaboration and "
-                "signals that you are not there to lecture them. These four are real open "
-                "problems, not rhetorical. Have your own tentative answer ready for each in "
-                "case they turn it back on you."
+                "signals that you are not there to lecture them. These are real open problems, "
+                "not rhetorical. Have your own tentative answer ready for each in case they "
+                "turn it back on you. The last one is the question you most want answered, so "
+                "ask it last and let it sit."
             ),
         ),
     ]
