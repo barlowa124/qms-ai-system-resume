@@ -169,6 +169,19 @@ class DeIdentificationTests(unittest.TestCase):
                 with self.subTest(slide=slide.title):
                     self.assertIn("intern", joined)
 
+    def test_data_access_finding_is_framed_as_a_missing_prerequisite(self) -> None:
+        """The defensible finding is that no prerequisite required build-side access to
+        the records, and that review therefore rested on one person. Framing it as what
+        a colleague did or did not know would be a personnel claim."""
+        slide = next(s for s in deck.slides() if "who could actually see" in s.title.lower())
+        joined = " ".join(slide.bullets).lower()
+        self.assertIn("controlled document", joined)
+        self.assertIn("no prerequisite", joined)
+        self.assertIn("one person", joined)
+        for phrase in ("did not know", "was unaware", "had no idea", "did not understand"):
+            with self.subTest(phrase=phrase):
+                self.assertNotIn(phrase, joined)
+
     def test_missing_procedure_finding_is_present(self) -> None:
         """In a GMP quality system the absence of a controlled procedure is itself the
         finding. This is the deck's most quality-literate point and must not be lost."""

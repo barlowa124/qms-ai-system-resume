@@ -94,6 +94,21 @@ Speaker notes: Deliver the third bullet flatly and do not soften it. Disclosing 
 
 ---
 
+## Who could actually see the data
+
+- A deviation record is a controlled document. Access to it is itself controlled, and granted deliberately.
+- The team assigned to build the tool did not hold that access, and had not needed it in order to be assigned the work.
+- No prerequisite required anyone on the build side to establish that they understood the regulatory status of the records the system would process.
+- Sample review of the dataset therefore rested on one person: the temporary intern who happened to have access.
+
+> A system cannot be validated against data its builders cannot see, and a review function with exactly one person in it is not a review function.
+
+<!--
+Speaker notes: This is the concrete form of the competency point made earlier. The absent standard is not an abstraction - you can see it in who was able to look at the data at all. Keep it structural: the finding is the missing prerequisite and the single point of review, not any individual's knowledge. Press the second half of the callout. A dataset review that depends on one temporary person is a control that disappears when that person leaves, and that is exactly what happened. It also vindicates the concern others raised in the governance forum about the staffing being temporary - they were right, and the dataset review function is the thing that turned out to depend on it. Expect the obvious question: could access not simply have been granted? Yes, trivially, and that is the point. Nothing prevented it. No requirement prompted it, because no requirement existed. That is what an absent standard looks like in practice rather than on paper.
+-->
+
+---
+
 ## The control that did not exist
 
 - In a GMP quality system, a process not described in a controlled procedure is not a controlled process.
