@@ -88,6 +88,35 @@ class DeIdentificationTests(unittest.TestCase):
             with self.subTest(phrase=phrase):
                 self.assertNotIn(phrase, haystack)
 
+    def test_escalation_is_recorded_as_written_to_line_management(self) -> None:
+        """The written escalation is the author's strongest fact - it answers 'why
+        didn't you raise it internally'. It must survive future edits."""
+        slide = next(s for s in deck.slides() if "conclusion i drew" in s.title.lower())
+        joined = " ".join(slide.bullets).lower()
+        self.assertIn("in writing", joined)
+        self.assertIn("line manager", joined)
+
+    def test_no_grievance_framing_about_management(self) -> None:
+        """'The answers did not resolve the question' is the same fact as 'I lost
+        confidence in management' without inviting a character debate.
+
+        Checked against spoken content only. The speaker notes name these phrases in
+        order to forbid them, which is guidance rather than a drift in framing.
+        """
+        haystack = " ".join(
+            f"{s.title} {s.subtitle} {' '.join(s.bullets)} {s.callout}"
+            for s in deck.slides()
+        ).lower()
+        for phrase in (
+            "lost confidence in management",
+            "lost faith in",
+            "management refused",
+            "they ignored",
+            "nobody listened",
+        ):
+            with self.subTest(phrase=phrase):
+                self.assertNotIn(phrase, haystack)
+
     def test_competency_gap_is_framed_as_an_absent_standard(self) -> None:
         md = deck.build_markdown().lower()
         self.assertIn("competency standard", md)
