@@ -169,6 +169,24 @@ class DeIdentificationTests(unittest.TestCase):
                 with self.subTest(slide=slide.title):
                     self.assertIn("intern", joined)
 
+    def test_missing_procedure_finding_is_present(self) -> None:
+        """In a GMP quality system the absence of a controlled procedure is itself the
+        finding. This is the deck's most quality-literate point and must not be lost."""
+        slide = next(s for s in deck.slides() if "control that did not exist" in s.title.lower())
+        joined = " ".join(slide.bullets).lower()
+        self.assertIn("controlled procedure", joined)
+        self.assertIn("no procedure governing", joined)
+        self.assertIn("disclosure surface", joined)
+
+    def test_shadow_ai_finding_names_no_users(self) -> None:
+        """The finding is the absent procedure, not the people who improvised without
+        one."""
+        slide = next(s for s in deck.slides() if "control that did not exist" in s.title.lower())
+        spoken = f"{' '.join(slide.bullets)} {slide.callout}".lower()
+        for tool in ("gemini", "chatgpt", "chat gpt", "claude", "copilot", "perplexity"):
+            with self.subTest(tool=tool):
+                self.assertNotIn(tool, spoken)
+
     def test_resourcing_finding_precedes_the_failure_modes(self) -> None:
         titles = [s.title.lower() for s in deck.slides()]
         resourcing = next(i for i, t in enumerate(titles) if "resourcing actually" in t)

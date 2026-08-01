@@ -188,6 +188,9 @@ def slides() -> list[Slide]:
                 "project's only hire: a temporary intern. That intern was me.",
                 "In a programme governance forum, others independently questioned whether one "
                 "temporary intern could realistically sustain an initiative of that scope.",
+                "Senior engineering capacity existed - developers with a decade or more of "
+                "experience - and was assigned to the commercial product and the data "
+                "platform, not to the work entering the deviation workflow.",
             ),
             callout=(
                 "I am not the hero of this story. The staffing is the finding - the role "
@@ -211,6 +214,47 @@ def slides() -> list[Slide]:
                 "your judgement? Answer it directly. Seniority is not the claim - the records "
                 "are the claim, and they were available to anyone who looked. Say that you were "
                 "the person who happened to look."
+            ),
+        ),
+        Slide(
+            title="The control that did not exist",
+            bullets=(
+                "In a GMP quality system, a process not described in a controlled procedure is "
+                "not a controlled process.",
+                "General-purpose AI was already in use across the organisation - consumer "
+                "chatbots and an enterprise assistant embedded in the office suite - for "
+                "contract drafting, HR schema work, scripting and technical questions.",
+                "There was no procedure governing any of it: no acceptable-use rule, no "
+                "data-classification rule for prompts, no record requirement for AI-assisted "
+                "work.",
+                "Staff said so themselves. People asked whether their information stayed "
+                "confidential, and described not knowing what they should or should not upload.",
+                "The query is itself a disclosure surface. A domain-specific technical question "
+                "can reveal what an organisation is working on with no document attached.",
+            ),
+            callout=(
+                "Absence of a procedure is not a neutral state in a quality system. It means "
+                "the process is running without a control, and the organisation cannot state "
+                "what its own rule is."
+            ),
+            notes=(
+                "This is the most quality-literate point in the deck and this audience will get "
+                "it immediately: in a GMP system an uncontrolled process is outside its "
+                "qualified state, and 'we have no procedure for that' is a finding rather than "
+                "an excuse. "
+                "Give credit where the record supports it. Informal awareness did exist in "
+                "places - at least one function had been told not to expose proprietary client "
+                "material to these tools - which shows the instinct was present but never "
+                "systematised. That distinction is the whole point: a procedure makes a rule "
+                "reviewable, trainable and auditable, and a shared instinct does none of those. "
+                "Dwell on the last bullet, because it is the one people miss. Staff assume "
+                "disclosure requires attaching a document. It does not - the prompt is the "
+                "disclosure, and a sufficiently specific technical question about a process, an "
+                "organism or a molecule can identify the programme it came from. "
+                "If challenged that almost every organisation is in this position, agree "
+                "immediately and without defensiveness. That is exactly why it belongs in a "
+                "curriculum rather than in a complaint about one employer. Name no tools' users "
+                "and quote nobody."
             ),
         ),
         Slide(
