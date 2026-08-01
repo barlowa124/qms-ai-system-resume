@@ -168,12 +168,49 @@ def slides() -> list[Slide]:
                 "and the commercial product is real, and saying so is what makes the rest "
                 "credible. The gap is specific to the AI application layer. "
                 "Do not name the organisation, the products, the individuals, or any ticket "
-                "identifiers, and do not quote colleagues - the substance carries the argument "
-                "without any of that, and the quotes would expose people who spoke candidly "
-                "about their own work. Expect a question about whether AI simply matures later "
-                "than data engineering. That is a fair challenge: the answer is that maturity "
+                "identifiers, and do not quote colleagues. The substance carries the argument "
+                "without any of it, and attributed criticism of identifiable people turns a "
+                "governance argument into a personnel dispute. Expect a question about whether "
+                "AI simply matures later than data engineering. That is a fair challenge: the "
+                "answer is that maturity "
                 "sequencing is reasonable everywhere except where the immature layer is the one "
                 "touching a regulated record."
+            ),
+        ),
+        Slide(
+            title="What the resourcing actually looked like",
+            bullets=(
+                "The portfolio containing this work carried a documented blocker recording "
+                "missing resources and funding to move forward.",
+                "Roughly two thirds of its active items were unassigned, and the median age of "
+                "its backlog was over eight months.",
+                "The product owner for the tool entering the deviation workflow was the "
+                "project's only hire: a temporary intern. That intern was me.",
+                "In a programme governance forum, others independently questioned whether one "
+                "temporary intern could realistically sustain an initiative of that scope.",
+            ),
+            callout=(
+                "I am not the hero of this story. The staffing is the finding - the role "
+                "existed, it was filled by the most junior and least permanent person "
+                "available, and the organisation's own records show it knew the resourcing was "
+                "short."
+            ),
+            notes=(
+                "Deliver the third bullet flatly and do not soften it. Disclosing that you were "
+                "the intern is what makes the rest of the talk survivable: an audience that "
+                "discovers it later concludes you inflated your standing, and an audience that "
+                "hears it from you concludes you are being straight with them. It is also the "
+                "strongest evidence you have, because it converts an abstract resourcing "
+                "finding into a fact nobody can argue with. "
+                "The fourth bullet matters just as much: the capacity question was raised "
+                "independently by other people in a governance forum, which is what separates "
+                "this from one junior person's idiosyncratic worry. Do not overstate it - they "
+                "questioned the realism of the staffing and the pace it implied, not patient "
+                "safety. That framing was yours. "
+                "Expect the obvious challenge: if you were an intern, why should anyone weight "
+                "your judgement? Answer it directly. Seniority is not the claim - the records "
+                "are the claim, and they were available to anyone who looked. Say that you were "
+                "the person who happened to look."
             ),
         ),
         Slide(
@@ -187,6 +224,8 @@ def slides() -> list[Slide]:
                 "person could engage with what sampling temperature does to an output.",
                 "The recurring themes were job impact, whether it would help daily work at "
                 "all, and environmental cost - not how to supervise a model.",
+                "Where enthusiasm did exist it was disappointed by the scale actually "
+                "delivered. Appetite ran well ahead of what the resourcing could support.",
                 "This was not hidden. Leadership inside the technology function itself "
                 "acknowledged considerable scepticism among staff.",
             ),
@@ -518,9 +557,9 @@ def slides() -> list[Slide]:
                 "I followed it up in person with two questions - whether the project had the "
                 "capacity to sustain compliance, and whether the function had the capacity to "
                 "support an AI operating that close to a GMP process over time.",
-                "The answers did not resolve either question for me. I was the accountable "
-                "product owner, I was not prepared to take the alpha live on that basis, and I "
-                "resigned that week.",
+                "The answers did not resolve either question for me. I was a temporary intern "
+                "and the project's only hire, listed as its product owner. I was not prepared "
+                "to take the alpha live on that basis, and I resigned that week.",
             ),
             callout=(
                 "I am not claiming harm occurred and I am not claiming an unsafe system "

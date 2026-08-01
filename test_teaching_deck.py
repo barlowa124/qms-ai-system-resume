@@ -148,6 +148,33 @@ class DeIdentificationTests(unittest.TestCase):
         self.assertIn("appetite was real", joined)
         self.assertIn("largest response", joined)
 
+    def test_intern_status_is_disclosed(self) -> None:
+        """Describing oneself as the product owner while omitting that one was a
+        temporary intern is a material omission. An audience that discovers it
+        afterwards discounts everything else in the talk, so the disclosure must
+        survive future edits."""
+        slide = next(
+            s for s in deck.slides() if "resourcing actually looked" in s.title.lower()
+        )
+        joined = " ".join(slide.bullets).lower()
+        self.assertIn("temporary intern", joined)
+        self.assertIn("that intern was me", joined)
+
+    def test_product_owner_claim_is_qualified_by_seniority(self) -> None:
+        """Wherever the deck claims the product owner role, it must also say who was
+        holding it."""
+        for slide in deck.slides():
+            joined = " ".join(slide.bullets).lower()
+            if "product owner" in joined:
+                with self.subTest(slide=slide.title):
+                    self.assertIn("intern", joined)
+
+    def test_resourcing_finding_precedes_the_failure_modes(self) -> None:
+        titles = [s.title.lower() for s in deck.slides()]
+        resourcing = next(i for i, t in enumerate(titles) if "resourcing actually" in t)
+        first_failure = next(i for i, s in enumerate(deck.slides()) if s.kind == "failure")
+        self.assertLess(resourcing, first_failure)
+
     def test_competency_gap_is_framed_as_an_absent_standard(self) -> None:
         md = deck.build_markdown().lower()
         self.assertIn("competency standard", md)
