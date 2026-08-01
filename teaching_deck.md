@@ -77,17 +77,17 @@ Speaker notes: This is the pivot of the talk. The failure modes that follow are 
 
 ---
 
-## The asymmetry nobody closes
+## The asymmetry inside one organisation
 
-- Design-time review asks: is this system well designed and validated?
-- That question gets asked thoroughly, by qualified people, with documented outcomes.
-- Field assessment asks: is the system running right now still the one we validated?
-- In my experience that second question has no owner, no cadence, and no instrument.
+- One digital organisation can run two engineering standards at once, and both are usually visible in its own systems.
+- Data platform and commercial product: versioned releases in the hundreds, pull-request gating, end-to-end test infrastructure, automated deployment, separate sandbox, test and production environments.
+- AI application layer, including a tool entering the deviation workflow: no written requirements artifact, no automated feedback collection, and manual spot-checking as output validation.
+- This is not a story about an organisation lacking engineering discipline. The discipline demonstrably existed. It had not reached the AI layer.
 
-> Validation is a point-in-time event. An AI-assisted system drifts continuously, and much of the drift is invisible to change control as currently written.
+> The question is not whether an organisation can do rigorous engineering. It is whether the rigour reaches the system that touches a GMP record.
 
 <!--
-Speaker notes: Name the gap precisely, because the rest of the talk is four instances of it plus a proposed instrument. Expect a question about periodic review. The answer is that periodic review as typically practised re-reads the documentation rather than interrogating the running system. Be careful how you characterise colleagues, in both directions. Design-scope objections were raised and documented - whether the tool should evaluate certain record types at all, whether its assessments would stay internally consistent. Those were substantive and nobody was careless. But the field-verification question on this slide was not one anyone else raised, and you did not persuade the room of it. Own that directly rather than implying consensus: you are the lone voice here, which means either you saw something others missed or you weighted a risk differently than reasonable colleagues did. Say you cannot fully rule out the second. It costs nothing and it is the fastest way to show you are analysing rather than litigating.
+Speaker notes: This is the pivot, and unlike the earlier version of this slide it is supportable from an organisation's own records rather than from impression. Make the fairness explicit and early: the strong practice on the data platform and the commercial product is real, and saying so is what makes the rest credible. The gap is specific to the AI application layer. Do not name the organisation, the products, the individuals, or any ticket identifiers, and do not quote colleagues - the substance carries the argument without any of that, and the quotes would expose people who spoke candidly about their own work. Expect a question about whether AI simply matures later than data engineering. That is a fair challenge: the answer is that maturity sequencing is reasonable everywhere except where the immature layer is the one touching a regulated record.
 -->
 
 ---
@@ -274,9 +274,9 @@ Speaker notes: Do not skip this slide, and do not apologise through it. Voluntee
 ## The conclusion I drew
 
 - The system never went live. I resigned before the alpha pilot began, so none of this is an account of a system in production.
-- My design constraints were explicit: no classification, no disposition, no confirming that a report was ready for QA submission.
-- What I could not establish was how anyone would verify those constraints held once the tool was in daily use.
-- I was not willing to hold accountability for a control I had no way to show was working, so I left and built the instrument that would have checked.
+- Before I left I filed a memo asking one question: what operational standard should the alpha ship under, given the gap between the AI layer's practices and the standard the same organisation applied elsewhere.
+- I built that case from the organisation's own records rather than from opinion, and I credited the engineering discipline demonstrated elsewhere in it.
+- I was the product owner. I was not prepared to take the alpha live without an answer to that question, so I left and built the instrument instead.
 
 > I am not claiming harm occurred and I am not claiming an unsafe system shipped. Neither happened. I am describing a prospective risk I could not get assurance against.
 

@@ -24,6 +24,25 @@ IDENTIFYING_TERMS = (
     "my employer",
     "my former employer",
     "the company i",
+    "boulder",
+    # Surfaced by the source memo. Colleague surnames, internal product and repo
+    # names, and ticket identifiers - each of which would make the organisation
+    # and named individuals identifiable.
+    "sohoni",
+    "rocher",
+    "abrahamsen",
+    "morimoto",
+    "minghella",
+    "programview",
+    "datahow",
+    "das-pipelines",
+    "platform-data-engineering",
+    "field intelligence navigator",
+    "ddas-",
+    "ic2f",
+    "posthog",
+    "salesforce",
+    "jira",
 )
 
 
