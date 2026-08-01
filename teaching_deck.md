@@ -62,21 +62,6 @@ Speaker notes: Resist the temptation to strawman the business case. If the audie
 
 ---
 
-## The uncomfortable part: it works in the demo
-
-- Aggregate accuracy on a validation set looks strong.
-- Reviewers report that it saves them time and they like using it.
-- Cycle-time metrics improve, visibly, in the first quarter.
-- Every stakeholder sees confirmation that the decision was correct.
-
-> A system that failed obviously would be safe. The dangerous case is the one that succeeds on every metric anyone is currently measuring.
-
-<!--
-Speaker notes: This is the pivot of the talk. The failure modes that follow are not detectable by the metrics these programs are governed by. That is the structural problem: success indicators and safety indicators are different quantities, and only one set is on the dashboard.
--->
-
----
-
 ## The asymmetry inside one organisation
 
 - One digital organisation can run two engineering standards at once, and both are usually visible in its own systems.
@@ -89,6 +74,37 @@ Speaker notes: This is the pivot of the talk. The failure modes that follow are 
 
 <!--
 Speaker notes: This is the pivot, and unlike the earlier version of this slide it is supportable from an organisation's own records rather than from impression. Make the fairness explicit and early: the strong practice on the data platform and the commercial product is real, and saying so is what makes the rest credible. The gap is specific to the AI application layer. Do not name the organisation, the products, the individuals, or any ticket identifiers, and do not quote colleagues - the substance carries the argument without any of that, and the quotes would expose people who spoke candidly about their own work. Expect a question about whether AI simply matures later than data engineering. That is a fair challenge: the answer is that maturity sequencing is reasonable everywhere except where the immature layer is the one touching a regulated record.
+-->
+
+---
+
+## The other readiness gap: the people who would use it
+
+- Appetite was real. A company-wide AI survey drew the largest response the organisation had on record.
+- I interviewed the respondents who had volunteered interest - the most enthusiastic population available to me.
+- Among them, working familiarity with how these models behave was rare. One person could engage with what sampling temperature does to an output.
+- The recurring themes were job impact, whether it would help daily work at all, and environmental cost - not how to supervise a model.
+- This was not hidden. Leadership inside the technology function itself acknowledged considerable scepticism among staff.
+
+> Enthusiasm is not readiness. A population that wants a tool but cannot describe how it behaves cannot be the effective control on it.
+
+<!--
+Speaker notes: This is the second readiness gap and it pairs with the engineering one: the layer was under-supported technically, and the population designated to supervise its output had little working familiarity with model behaviour. Give the organisation full credit for the survey response - it is evidence of genuine appetite, and saying so keeps this from sounding dismissive. The gap is between appetite and preparation, not between clever and foolish people. These were willing, candid, experienced colleagues, and the enthusiast population is the fairest sample you could have drawn - if familiarity is thin there, it is thinner everywhere else. The temperature question is a fair probe rather than a trivia test, because sampling behaviour is what determines whether the same input yields the same output twice, and that is the first thing a reviewer needs to know. If challenged that this is just normal early adoption, agree: appetite outrunning familiarity is ordinary and harmless everywhere except where the unfamiliar population is the designated control. Name nobody and quote nobody.
+-->
+
+---
+
+## The uncomfortable part: it works in the demo
+
+- Aggregate accuracy on a validation set looks strong.
+- Reviewers report that it saves them time and they like using it.
+- Cycle-time metrics improve, visibly, in the first quarter.
+- Every stakeholder sees confirmation that the decision was correct.
+
+> A system that failed obviously would be safe. The dangerous case is the one that succeeds on every metric anyone is currently measuring.
+
+<!--
+Speaker notes: This slide is the bridge from the two readiness gaps to the failure modes. The obvious objection to everything you have just said is that a system this under-supported would fail visibly and get caught early. It would not. It succeeds on every metric anyone is currently measuring, which is exactly why the gaps matter: success indicators and safety indicators are different quantities, and only one set is on the dashboard.
 -->
 
 ---

@@ -91,7 +91,7 @@
 <body class="hide-notes">
   <div class="toolbar">
     <strong>When Efficiency Targets Meet Patient Safety</strong>
-    <span>20 slides</span>
+    <span>21 slides</span>
     <button id="toggle-notes">Show speaker notes</button>
     <span>Print to PDF for handout (notes are omitted)</span>
   </div>
@@ -101,7 +101,7 @@
       <p class="subtitle">A prospective risk analysis of AI-assisted deviation report review, and an instrument for assessing a live deployment</p>
       <p class="disclaimer">This presentation describes generalized failure modes in AI-assisted quality systems. It does not identify any employer, client, vendor, or product, and it is not a compliance determination about any specific system. The system that motivated this analysis did not reach deployment, so nothing here is an account of a production failure. The assessment instrument shown is a reviewer aid; interpretation and sign-off require qualified QA, regulatory, and clinical-safety personnel.</p>
       <aside class="notes"><strong>Speaker notes.</strong> Open by setting scope honestly: this is not an argument that AI has no place in quality systems. It is an argument that deviation management is an unusually bad place to start, and that the assessment tooling the industry has does not yet ask the right questions. Say up front that no employer or client is named and nothing here is a compliance determination about any specific system.</aside>
-      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>1 / 20</span></footer>
+      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>1 / 21</span></footer>
     </section>
     <section class="slide slide-content" id="s2">
       <h2>Why bring this to a training centre</h2>
@@ -113,7 +113,7 @@
       </ul>
       <blockquote>The control that regulators, vendors, and quality leadership all rely on is the one nobody is specifically trained for.</blockquote>
       <aside class="notes"><strong>Speaker notes.</strong> This is the hook. Establish immediately that this is their problem and not just an industry problem. Every AI-assisted quality system is justified on the basis that a qualified human reviews the output. The entire safety argument therefore depends on the competence of the reviewer, and reviewer training is a curriculum question. Do not rush this slide.</aside>
-      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>2 / 20</span></footer>
+      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>2 / 21</span></footer>
     </section>
     <section class="slide slide-section" id="s3">
       <h2>Where an AI review aid actually sits</h2>
@@ -125,7 +125,7 @@
       </ul>
       <blockquote>Influencing the quality of the record is not the same as deciding the outcome. It is also not harmless. Hold both of those at once.</blockquote>
       <aside class="notes"><strong>Speaker notes.</strong> Be precise here, because the whole talk depends on it and it is the easiest thing to overstate. A draft-review aid does not classify or disposition. It does determine which weaknesses get fixed before a qualified reviewer ever sees the report. If someone objects that this makes the tool low-risk, agree that it lowers the ceiling on the risk and then ask how you would know if it started being used as a readiness gate instead of a drafting aid.</aside>
-      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>3 / 20</span></footer>
+      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>3 / 21</span></footer>
     </section>
     <section class="slide slide-content" id="s4">
       <h2>Why it is an attractive place to deploy AI</h2>
@@ -137,21 +137,9 @@
       </ul>
       <blockquote>Present the business case fairly. The people who build these systems are not reckless; they are responding to genuine operational pressure.</blockquote>
       <aside class="notes"><strong>Speaker notes.</strong> Resist the temptation to strawman the business case. If the audience thinks you are hostile to the technology, credibility is gone. The efficiency gains are real, the backlog pressure is real, and the people driving these programs are usually competent and well-intentioned. The problem is not motive.</aside>
-      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>4 / 20</span></footer>
+      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>4 / 21</span></footer>
     </section>
     <section class="slide slide-content" id="s5">
-      <h2>The uncomfortable part: it works in the demo</h2>
-      <ul>
-        <li>Aggregate accuracy on a validation set looks strong.</li>
-        <li>Reviewers report that it saves them time and they like using it.</li>
-        <li>Cycle-time metrics improve, visibly, in the first quarter.</li>
-        <li>Every stakeholder sees confirmation that the decision was correct.</li>
-      </ul>
-      <blockquote>A system that failed obviously would be safe. The dangerous case is the one that succeeds on every metric anyone is currently measuring.</blockquote>
-      <aside class="notes"><strong>Speaker notes.</strong> This is the pivot of the talk. The failure modes that follow are not detectable by the metrics these programs are governed by. That is the structural problem: success indicators and safety indicators are different quantities, and only one set is on the dashboard.</aside>
-      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>5 / 20</span></footer>
-    </section>
-    <section class="slide slide-content" id="s6">
       <h2>The asymmetry inside one organisation</h2>
       <ul>
         <li>One digital organisation can run two engineering standards at once, and both are usually visible in its own systems.</li>
@@ -162,9 +150,34 @@
       </ul>
       <blockquote>The question is not whether an organisation can do rigorous engineering. It is whether the rigour reaches the system that touches a GMP record.</blockquote>
       <aside class="notes"><strong>Speaker notes.</strong> This is the pivot, and unlike the earlier version of this slide it is supportable from an organisation&#x27;s own records rather than from impression. Make the fairness explicit and early: the strong practice on the data platform and the commercial product is real, and saying so is what makes the rest credible. The gap is specific to the AI application layer. Do not name the organisation, the products, the individuals, or any ticket identifiers, and do not quote colleagues - the substance carries the argument without any of that, and the quotes would expose people who spoke candidly about their own work. Expect a question about whether AI simply matures later than data engineering. That is a fair challenge: the answer is that maturity sequencing is reasonable everywhere except where the immature layer is the one touching a regulated record.</aside>
-      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>6 / 20</span></footer>
+      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>5 / 21</span></footer>
     </section>
-    <section class="slide slide-failure" id="s7">
+    <section class="slide slide-content" id="s6">
+      <h2>The other readiness gap: the people who would use it</h2>
+      <ul>
+        <li>Appetite was real. A company-wide AI survey drew the largest response the organisation had on record.</li>
+        <li>I interviewed the respondents who had volunteered interest - the most enthusiastic population available to me.</li>
+        <li>Among them, working familiarity with how these models behave was rare. One person could engage with what sampling temperature does to an output.</li>
+        <li>The recurring themes were job impact, whether it would help daily work at all, and environmental cost - not how to supervise a model.</li>
+        <li>This was not hidden. Leadership inside the technology function itself acknowledged considerable scepticism among staff.</li>
+      </ul>
+      <blockquote>Enthusiasm is not readiness. A population that wants a tool but cannot describe how it behaves cannot be the effective control on it.</blockquote>
+      <aside class="notes"><strong>Speaker notes.</strong> This is the second readiness gap and it pairs with the engineering one: the layer was under-supported technically, and the population designated to supervise its output had little working familiarity with model behaviour. Give the organisation full credit for the survey response - it is evidence of genuine appetite, and saying so keeps this from sounding dismissive. The gap is between appetite and preparation, not between clever and foolish people. These were willing, candid, experienced colleagues, and the enthusiast population is the fairest sample you could have drawn - if familiarity is thin there, it is thinner everywhere else. The temperature question is a fair probe rather than a trivia test, because sampling behaviour is what determines whether the same input yields the same output twice, and that is the first thing a reviewer needs to know. If challenged that this is just normal early adoption, agree: appetite outrunning familiarity is ordinary and harmless everywhere except where the unfamiliar population is the designated control. Name nobody and quote nobody.</aside>
+      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>6 / 21</span></footer>
+    </section>
+    <section class="slide slide-content" id="s7">
+      <h2>The uncomfortable part: it works in the demo</h2>
+      <ul>
+        <li>Aggregate accuracy on a validation set looks strong.</li>
+        <li>Reviewers report that it saves them time and they like using it.</li>
+        <li>Cycle-time metrics improve, visibly, in the first quarter.</li>
+        <li>Every stakeholder sees confirmation that the decision was correct.</li>
+      </ul>
+      <blockquote>A system that failed obviously would be safe. The dangerous case is the one that succeeds on every metric anyone is currently measuring.</blockquote>
+      <aside class="notes"><strong>Speaker notes.</strong> This slide is the bridge from the two readiness gaps to the failure modes. The obvious objection to everything you have just said is that a system this under-supported would fail visibly and get caught early. It would not. It succeeds on every metric anyone is currently measuring, which is exactly why the gaps matter: success indicators and safety indicators are different quantities, and only one set is on the dashboard.</aside>
+      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>7 / 21</span></footer>
+    </section>
+    <section class="slide slide-failure" id="s8">
       <h2>Failure mode 1 - Automation bias</h2>
       <ul>
         <li>The diagnostic signature: acceptance rates approaching 100 percent, combined with dwell times too short to have read the case.</li>
@@ -174,9 +187,9 @@
       </ul>
       <blockquote>Teaching point: measure override rate and dwell time, segmented by risk class, queue depth, and shift position. Aggregate figures hide this.</blockquote>
       <aside class="notes"><strong>Speaker notes.</strong> This is the most important failure mode because it defeats the control the whole safety case rests on, and it does so while producing perfect documentary evidence of compliance. Emphasise that the reviewers are not lazy - a system that is right 95 percent of the time trains you to trust it, and that training is rational. Automation bias is well established in aviation and radiology literature; this is not speculative. IMPORTANT: do not cite specific acceptance or dwell figures unless you can state their source and are permitted to disclose them. The diagnostic signature is the teachable content and it needs no numbers. If asked whether you measured this, distinguish clearly between what you observed and what you are describing as a general pattern.</aside>
-      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>7 / 20</span></footer>
+      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>8 / 21</span></footer>
     </section>
-    <section class="slide slide-failure" id="s8">
+    <section class="slide slide-failure" id="s9">
       <h2>Failure mode 2 - Silent truncation</h2>
       <ul>
         <li>A long batch record or investigation file exceeds the model&#x27;s input limit.</li>
@@ -186,9 +199,9 @@
       </ul>
       <blockquote>No one is at fault and no one can tell. The reviewer cannot catch an omission they have no way to see.</blockquote>
       <aside class="notes"><strong>Speaker notes.</strong> This is the cleanest example of the unintentional failure class. There is no attacker, no negligence, and no procedural violation. A competent reviewer following the procedure correctly signs off on an assessment built from incomplete input. Ask the audience how their graduates would detect this. The answer is that they cannot, which is why it has to be a system control.</aside>
-      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>8 / 20</span></footer>
+      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>9 / 21</span></footer>
     </section>
-    <section class="slide slide-failure" id="s9">
+    <section class="slide slide-failure" id="s10">
       <h2>Failure mode 3 - The validated system stops being the running system</h2>
       <ul>
         <li>A prompt template is edited to make the wording clearer.</li>
@@ -198,9 +211,9 @@
       </ul>
       <blockquote>Change control as written governs the model. The behaviour of the system is determined by the model plus everything around it.</blockquote>
       <aside class="notes"><strong>Speaker notes.</strong> The OCR upgrade is the one that lands hardest with technical audiences, because it is performed by an infrastructure team that has no idea it is touching a GxP-relevant path, as part of routine patching. It changes what the model sees on every case. Nothing in a conventional change control procedure would flag it.</aside>
-      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>9 / 20</span></footer>
+      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>10 / 21</span></footer>
     </section>
-    <section class="slide slide-failure" id="s10">
+    <section class="slide slide-failure" id="s11">
       <h2>Failure mode 4 - Unbounded blast radius</h2>
       <ul>
         <li>A defect in a model version is confirmed at month six.</li>
@@ -210,9 +223,9 @@
       </ul>
       <blockquote>Most systems can answer &#x27;what happened in this case&#x27;. Far fewer can answer &#x27;what else did this affect&#x27;.</blockquote>
       <aside class="notes"><strong>Speaker notes.</strong> This is the failure mode with the most direct regulatory consequence. Impact assessment and, where warranted, field action both depend on being able to bound the affected population. A traceability capability built for single-case investigation readiness does not automatically give you cohort enumeration by model version and date range. Nobody discovers this until they need it.</aside>
-      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>10 / 20</span></footer>
+      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>11 / 21</span></footer>
     </section>
-    <section class="slide slide-section" id="s11">
+    <section class="slide slide-section" id="s12">
       <h2>The common thread</h2>
       <ul>
         <li>In all four cases: a competent person, following the correct procedure, receives a wrong result with no signal that anything went wrong.</li>
@@ -222,9 +235,9 @@
       </ul>
       <blockquote>The threat model that matters here is internal and unintentional. Security testing aimed at adversaries will not find any of this.</blockquote>
       <aside class="notes"><strong>Speaker notes.</strong> Land this explicitly. Most AI risk discussion is about misuse, prompt injection, or data exfiltration. Those are real but they are not the dominant risk in a controlled internal GMP environment where every user is authenticated, trained, and trying to do their job correctly. The dominant risk is silent wrongness.</aside>
-      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>11 / 20</span></footer>
+      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>12 / 21</span></footer>
     </section>
-    <section class="slide slide-content" id="s12">
+    <section class="slide slide-content" id="s13">
       <h2>Why this is a patient safety question</h2>
       <ul>
         <li>A draft-review aid does not classify, disposition, or release. Say that plainly so nobody in the room thinks otherwise.</li>
@@ -234,9 +247,9 @@
       </ul>
       <blockquote>Data integrity expectations - ALCOA+, Part 11, Annex 11 - exist because quality records drive release decisions. A record a model improved, or failed to improve, is still the record.</blockquote>
       <aside class="notes"><strong>Speaker notes.</strong> This slide converts the preceding material into the language the audience governs by, and it is where you must be most disciplined. Do not claim the tool made release decisions - it was explicitly scoped not to. The honest argument is that it sits upstream of the record a release decision is made from, and that a missed flag is a real if indirect exposure. That argument is weaker than the dramatic version and it is the one you can defend.</aside>
-      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>12 / 20</span></footer>
+      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>13 / 21</span></footer>
     </section>
-    <section class="slide slide-content" id="s13">
+    <section class="slide slide-content" id="s14">
       <h2>Why existing frameworks do not catch it</h2>
       <ul>
         <li>Computer system validation establishes fitness at a point in time; these systems drift continuously.</li>
@@ -246,9 +259,9 @@
       </ul>
       <blockquote>The gap is not a failure of the existing framework. It is a category the framework was not written to cover.</blockquote>
       <aside class="notes"><strong>Speaker notes.</strong> Be careful and generous here. This audience teaches these frameworks. The argument is additive, not dismissive: the existing apparatus is sound for deterministic systems and needs a supplement for probabilistic ones. If you come across as saying validation is broken, you lose the room.</aside>
-      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>13 / 20</span></footer>
+      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>14 / 21</span></footer>
     </section>
-    <section class="slide slide-section" id="s14">
+    <section class="slide slide-section" id="s15">
       <h2>What I built in response</h2>
       <ul>
         <li>A 25-item assessment instrument for a deployment that is already running, not a design under review.</li>
@@ -258,9 +271,9 @@
       </ul>
       <blockquote>The instrument is the deliverable I would want to hand to a QA reviewer who has one day on site and no prior AI background.</blockquote>
       <aside class="notes"><strong>Speaker notes.</strong> Transition from problem to contribution. The important design choice is that every item asks for observed system behaviour or a retrievable artifact, never for an opinion or a self-rating. A reviewer with no machine learning background can execute it, which is the point.</aside>
-      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>14 / 20</span></footer>
+      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>15 / 21</span></footer>
     </section>
-    <section class="slide slide-content" id="s15">
+    <section class="slide slide-content" id="s16">
       <h2>The design principle: fail closed</h2>
       <ul>
         <li>An item recorded as not assessed counts as unresolved, exactly like a failure.</li>
@@ -270,9 +283,9 @@
       </ul>
       <blockquote>Absence of evidence is not evidence of control. Most maturity assessments score the opposite way, and that is how a deployment passes review without anyone having looked.</blockquote>
       <aside class="notes"><strong>Speaker notes.</strong> This is the slide a technical audience will engage with most. The default behaviour of almost every scorecard is that unanswered questions are silently excluded from the denominator, which means an assessment nobody completed can look like a pass. Inverting that default is the single most important property of the tool.</aside>
-      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>15 / 20</span></footer>
+      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>16 / 21</span></footer>
     </section>
-    <section class="slide slide-demo" id="s16">
+    <section class="slide slide-demo" id="s17">
       <h2>What it produces</h2>
       <p class="lead">Synthetic sample data - not findings from any real deployment</p>
       <pre class="demo">$ deployment_assessment.py score sample_responses.json
@@ -292,9 +305,9 @@ OTHER FINDINGS (1):
 $ echo $?
 1</pre>
       <aside class="notes"><strong>Speaker notes.</strong> Say explicitly that this is synthetic input before you walk through it. The figures are invented to exercise the tool and describe nothing real. Three things to point out: the verdict language avoids any implication of approval; the finding cites a specific metric rather than a judgement; and the non-zero exit code means this can gate an automated release pipeline rather than living in a document nobody reads. If there is time, run it live - it is more convincing than a screenshot.</aside>
-      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>16 / 20</span></footer>
+      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>17 / 21</span></footer>
     </section>
-    <section class="slide slide-content" id="s17">
+    <section class="slide slide-content" id="s18">
       <h2>Limitations I want to state plainly</h2>
       <ul>
         <li>Entirely self-attested. There is no evidence hashing and no reviewer independence check - a vendor could complete it about its own product.</li>
@@ -304,9 +317,9 @@ $ echo $?
       </ul>
       <blockquote>High line coverage on the scoring engine proves the logic is consistent. It says nothing about whether the rubric is correctly calibrated.</blockquote>
       <aside class="notes"><strong>Speaker notes.</strong> Do not skip this slide, and do not apologise through it. Volunteering the weaknesses is what separates an analysis from an advocacy pitch, and this audience will find these problems anyway. The calibration issue is the one worth genuinely asking their opinion on - if nearly everything blocks, the instrument stops distinguishing a careless deployment from a careful one.</aside>
-      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>17 / 20</span></footer>
+      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>18 / 21</span></footer>
     </section>
-    <section class="slide slide-content" id="s18">
+    <section class="slide slide-content" id="s19">
       <h2>The conclusion I drew</h2>
       <ul>
         <li>The system never went live. I resigned before the alpha pilot began, so none of this is an account of a system in production.</li>
@@ -316,9 +329,9 @@ $ echo $?
       </ul>
       <blockquote>I am not claiming harm occurred and I am not claiming an unsafe system shipped. Neither happened. I raised a prospective risk in writing, did not get the assurance I needed, and declined to own the launch.</blockquote>
       <aside class="notes"><strong>Speaker notes.</strong> One slide, stated once, then move on. Leading with &#x27;never went live&#x27; removes any suggestion that you are describing a production failure or accusing anyone of shipping something unsafe. The sequence is what makes this credible, so deliver it in order: a written memo to line management, an in-person follow-up with two specific questions, an explicit statement that patient safety was the critical constraint when resourcing was discussed, and a resignation that week. That is an escalation record, and it is your answer to &#x27;why did you not just raise it internally&#x27;. Two disciplines. First, the in-person meeting was not recorded, so describe your own questions and your own conclusion and do not characterise anyone&#x27;s replies - you have no record of them and it was a private conversation. Second, do not say you lost confidence in management, however true it felt at the time. It invites a debate about the character of people the room has never met, which you cannot win and do not need; &#x27;the answers did not resolve either question&#x27; is the same fact without the grievance. Expect to be asked whether resigning was proportionate. It is a judgement call, you made it as the accountable product owner on the information you had, and the instrument is your attempt to make that judgement reviewable by other people. If asked for specifics you cannot share, say plainly that you are bound by confidentiality.</aside>
-      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>18 / 20</span></footer>
+      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>19 / 21</span></footer>
     </section>
-    <section class="slide slide-section" id="s19">
+    <section class="slide slide-section" id="s20">
       <h2>The curriculum gap</h2>
       <ul>
         <li>Reviewer training today covers system operation: how to log in, where to click, how to record a decision.</li>
@@ -329,9 +342,9 @@ $ echo $?
       </ul>
       <blockquote>Your graduates are the last control in the chain. Right now they are being trained as operators of the system rather than as auditors of it.</blockquote>
       <aside class="notes"><strong>Speaker notes.</strong> This is the ask, and it should feel like a contribution rather than a complaint. Offer something concrete: a guest module, a case-study exercise built from the four failure modes, or the instrument itself as a teaching artifact. Have a specific next step ready if anyone is interested. The build-side competency bullet is the one this audience is best placed to act on, since defining and assessing competency is their core business. Keep it structural - an absent standard, not an assessment of any individual. If asked whether you saw this go wrong in practice, say the standard was absent and stop there. Speculating about whether a particular person met a standard that was never written is neither fair nor arguable, and it will cost you the room instantly.</aside>
-      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>19 / 20</span></footer>
+      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>20 / 21</span></footer>
     </section>
-    <section class="slide slide-closing" id="s20">
+    <section class="slide slide-closing" id="s21">
       <h2>Questions I would like your view on</h2>
       <ul>
         <li>Is 18 of 25 items blocking the right calibration, or does it make the instrument useless in practice?</li>
@@ -341,7 +354,7 @@ $ echo $?
         <li>What competency standard would you want met by someone building an AI feature that touches a regulated record?</li>
       </ul>
       <aside class="notes"><strong>Speaker notes.</strong> Ending on genuine questions rather than a summary invites collaboration and signals that you are not there to lecture them. These are real open problems, not rhetorical. Have your own tentative answer ready for each in case they turn it back on you. The last one is the question you most want answered, so ask it last and let it sit.</aside>
-      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>20 / 20</span></footer>
+      <footer><span>When Efficiency Targets Meet Patient Safety</span><span>21 / 21</span></footer>
     </section>
   </main>
 <script>

@@ -33,6 +33,15 @@ IDENTIFYING_TERMS = (
     "abrahamsen",
     "morimoto",
     "minghella",
+    "votkevich",
+    "kavanaugh",
+    "pereda",
+    "fankhauser",
+    "lofton",
+    "bufford",
+    "montalvo",
+    "grissom",
+    "guntz",
     "programview",
     "datahow",
     "das-pipelines",
@@ -116,6 +125,28 @@ class DeIdentificationTests(unittest.TestCase):
         ):
             with self.subTest(phrase=phrase):
                 self.assertNotIn(phrase, haystack)
+
+    def test_both_readiness_gaps_precede_the_failure_modes(self) -> None:
+        """The two readiness gaps are the original argument; the failure modes exist
+        to explain why they matter. If a failure mode leads, the deck reverts to a
+        generic AI-risk talk and the author's own contribution is buried."""
+        titles = [s.title.lower() for s in deck.slides()]
+        engineering = next(i for i, t in enumerate(titles) if "asymmetry inside" in t)
+        acceptance = next(i for i, t in enumerate(titles) if "other readiness gap" in t)
+        first_failure = next(
+            i for i, s in enumerate(deck.slides()) if s.kind == "failure"
+        )
+        self.assertLess(engineering, first_failure)
+        self.assertLess(acceptance, first_failure)
+        self.assertLess(engineering, acceptance, "engineering gap frames the human one")
+
+    def test_readiness_gap_credits_genuine_appetite(self) -> None:
+        """The survey response was the largest the organisation had recorded. Stating
+        that keeps the slide a readiness finding rather than a swipe at colleagues."""
+        slide = next(s for s in deck.slides() if "other readiness gap" in s.title.lower())
+        joined = " ".join(slide.bullets).lower()
+        self.assertIn("appetite was real", joined)
+        self.assertIn("largest response", joined)
 
     def test_competency_gap_is_framed_as_an_absent_standard(self) -> None:
         md = deck.build_markdown().lower()
