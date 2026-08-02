@@ -197,6 +197,10 @@ def slides() -> list[Slide]:
                 "The gap was not indifference. IT was already stretched sustaining its existing "
                 "stack, and the time of both the executive IT sponsor and the senior engineers "
                 "who could have closed the gap was consistently occupied by other priorities.",
+                "The people drawn into the build effort were often the same ones who govern the "
+                "organisation's data and respond to its data-integrity incidents elsewhere - "
+                "real technical credibility, but not background industry knowledge of "
+                "controlled documents like deviations.",
             ),
             callout=(
                 "The question is not whether an organisation can do rigorous engineering. It is "
@@ -212,6 +216,12 @@ def slides() -> list[Slide]:
                 "verdict on anyone's priorities. IT was carrying its existing stack, and the "
                 "specific people who could have closed the gap were occupied by other work, not "
                 "declining to engage. Name no one and quote no one when you say it. "
+                "The data-governance bullet makes the same distinction from a different angle: "
+                "real technical credibility in an adjacent domain - data governance, "
+                "data-integrity incident response - is not the same credibility as knowing what "
+                "a controlled document is and how a deviation record is expected to behave. "
+                "Keep it at the level of functions, not people, and do not name anyone who was "
+                "actually drawn into the build effort. "
                 "Do not name the organisation, the products, the individuals, or any ticket "
                 "identifiers, and do not quote colleagues. The substance carries the argument "
                 "without any of it, and attributed criticism of identifiable people turns a "

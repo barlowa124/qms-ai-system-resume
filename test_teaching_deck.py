@@ -369,6 +369,21 @@ class SourcingTests(unittest.TestCase):
 
 
 class FramingTests(unittest.TestCase):
+    def test_build_side_domain_knowledge_gap_names_no_one(self) -> None:
+        """The build side had real technical credibility from adjacent functions
+        (data governance, data-integrity response) but lacked background knowledge
+        of controlled documents like deviations. Must stay function-level."""
+        slide = next(
+            s for s in deck.slides() if "asymmetry inside one organisation" in s.title.lower()
+        )
+        joined = " ".join(slide.bullets).lower()
+        self.assertIn("data-integrity incidents", joined)
+        self.assertIn("controlled documents like deviations", joined)
+        for forbidden in ("jonathan", "rocher", "mahesh", "sohoni"):
+            with self.subTest(forbidden=forbidden):
+                self.assertNotIn(forbidden, joined)
+                self.assertNotIn(forbidden, slide.notes.lower())
+
     def test_resourcing_corroboration_names_no_one(self) -> None:
         """The resourcing shortfall was independently recognised by a technically
         literate voice in the sponsor chain. This must stay a corroboration point,
