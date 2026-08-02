@@ -165,6 +165,18 @@ class DeIdentificationTests(unittest.TestCase):
         self.assertIn("temporary intern", joined)
         self.assertIn("that intern was me", joined)
 
+    def test_experience_claim_does_not_overstate_exposure(self) -> None:
+        """The presenter's first slide establishes this as a first exposure to the
+        industry. A claim to have observed 'every deployment' or many deployments
+        would contradict that and must not reappear."""
+        haystack = " ".join(
+            f"{s.title} {' '.join(s.bullets)} {s.callout}" for s in deck.slides()
+        ).lower()
+        for phrase in ("every deployment i", "deployments i have seen",
+                       "deployments i've seen", "in every deployment"):
+            with self.subTest(phrase=phrase):
+                self.assertNotIn(phrase, haystack)
+
     def test_product_owner_claim_is_qualified_by_seniority(self) -> None:
         """Wherever the deck claims the product owner role, it must also say who was
         holding it."""

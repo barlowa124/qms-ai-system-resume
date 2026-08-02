@@ -20,7 +20,7 @@ Speaker notes: Open with who you are before what you found: a computer-science-b
 ## Why bring this to a training centre
 
 - You prepare the QA analysts, manufacturing associates, and technicians who will operate these systems.
-- In every deployment I have seen, the safety case rests on a human reviewer catching the model's mistakes.
+- The one deployment I observed closely rested its entire safety case on a human reviewer catching the model's mistakes.
 - That human is your graduate.
 - Training on how to operate the system is not the same as training on how it fails.
 
