@@ -398,8 +398,12 @@ def slides() -> list[Slide]:
                 "been revoked at the one-month mark. Do not speculate about the status today, "
                 "and do not let the moment turn into a story about what happened after you left "
                 "- the finding is the offboarding control, not your own subsequent conduct. If "
-                "asked directly whether it has since been resolved, say you are not in a "
-                "position to confirm current status rather than guessing either way."
+                "asked directly whether it has since been resolved, decline on scope rather than "
+                "on knowledge: say plainly that your current personal situation is not something "
+                "you are going to discuss here, because the finding is the organisation's "
+                "control gap, not a status update on you. Do not claim you are unable to confirm "
+                "something you can - that is its own small dishonesty, and this deck does not "
+                "need it. A stated boundary is honest. A false claim of not knowing is not."
             ),
         ),
         Slide(
