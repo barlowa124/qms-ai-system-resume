@@ -373,6 +373,8 @@ def slides() -> list[Slide]:
                 "understood the regulatory status of the records the system would process.",
                 "Sample review of the dataset therefore rested on one person: the temporary "
                 "intern who happened to have access.",
+                "The access itself outlasted the assignment. A month after departure, that "
+                "access had not been revoked.",
             ),
             callout=(
                 "A system cannot be validated against data its builders cannot see, and a "
@@ -391,7 +393,13 @@ def slides() -> list[Slide]:
                 "Expect the obvious question: could access not simply have been granted? Yes, "
                 "trivially, and that is the point. Nothing prevented it. No requirement "
                 "prompted it, because no requirement existed. That is what an absent standard "
-                "looks like in practice rather than on paper."
+                "looks like in practice rather than on paper. "
+                "State the last bullet strictly as the past-tense fact it is: access had not "
+                "been revoked at the one-month mark. Do not speculate about the status today, "
+                "and do not let the moment turn into a story about what happened after you left "
+                "- the finding is the offboarding control, not your own subsequent conduct. If "
+                "asked directly whether it has since been resolved, say you are not in a "
+                "position to confirm current status rather than guessing either way."
             ),
         ),
         Slide(

@@ -370,6 +370,17 @@ class SourcingTests(unittest.TestCase):
 
 
 class FramingTests(unittest.TestCase):
+    def test_offboarding_access_gap_is_strictly_past_tense(self) -> None:
+        """Repository/data access outlasted the assignment by at least a month. This
+        must be stated as a past-tense fact about the offboarding control, never as
+        a present-tense claim about ongoing access."""
+        slide = next(s for s in deck.slides() if "who could actually see the data" in s.title.lower())
+        joined = " ".join(slide.bullets).lower()
+        self.assertIn("had not been revoked", joined)
+        for present_tense in ("i currently", "i still have", "i still hold"):
+            with self.subTest(phrase=present_tense):
+                self.assertNotIn(present_tense, joined)
+
     def test_no_sop_for_non_regulated_tooling(self) -> None:
         """No SOPs existed for non-regulated engineering activity either - version
         control and ticketing usage drew entirely on the author's prior knowledge,
