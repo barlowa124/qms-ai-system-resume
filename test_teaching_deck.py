@@ -35,6 +35,10 @@ IDENTIFYING_TERMS = (
     "minghella",
     "votkevich",
     "kavanaugh",
+    "lowery",
+    "whitaker",
+    "vazquez",
+    "hoyt",
     "pereda",
     "fankhauser",
     "lofton",
@@ -97,13 +101,14 @@ class DeIdentificationTests(unittest.TestCase):
             with self.subTest(phrase=phrase):
                 self.assertNotIn(phrase, haystack)
 
-    def test_escalation_is_recorded_as_written_to_line_management(self) -> None:
-        """The written escalation is the author's strongest fact - it answers 'why
+    def test_escalation_is_recorded_as_written_and_in_person(self) -> None:
+        """The escalation record is the author's strongest fact - it answers 'why
         didn't you raise it internally'. It must survive future edits."""
         slide = next(s for s in deck.slides() if "conclusion i drew" in s.title.lower())
         joined = " ".join(slide.bullets).lower()
         self.assertIn("in writing", joined)
-        self.assertIn("line manager", joined)
+        self.assertIn("executive sponsor", joined)
+        self.assertIn("compliance leadership", joined)
 
     def test_no_grievance_framing_about_management(self) -> None:
         """'The answers did not resolve the question' is the same fact as 'I lost
@@ -168,6 +173,33 @@ class DeIdentificationTests(unittest.TestCase):
             if "product owner" in joined:
                 with self.subTest(slide=slide.title):
                     self.assertIn("intern", joined)
+
+    def test_escalation_records_the_formal_quality_filing(self) -> None:
+        """The author did not merely raise concerns informally; a formal observation was
+        filed through the organisation's own procedure. That is the complete answer to
+        'why did you not raise it internally' and must not be understated."""
+        slide = next(s for s in deck.slides() if "conclusion i drew" in s.title.lower())
+        joined = " ".join(slide.bullets).lower()
+        self.assertIn("formal quality observation", joined)
+        self.assertIn("deferral", joined)
+        self.assertIn("before i filed it", joined)
+
+    def test_recorded_sequencing_answer_is_stated_without_gloss(self) -> None:
+        """The recorded answer - procedure after deployment - is the strongest single
+        fact in the deck. It must appear, and must not be editorialised."""
+        slide = next(s for s in deck.slides() if "control that did not exist" in s.title.lower())
+        joined = " ".join(slide.bullets).lower()
+        self.assertIn("after the alpha went live", joined)
+        for gloss in ("astonishing", "backwards", "reckless", "absurd", "unbelievable"):
+            with self.subTest(gloss=gloss):
+                self.assertNotIn(gloss, joined)
+
+    def test_maintenance_capacity_finding_is_present(self) -> None:
+        """Who sustains the validated state after launch is a first-order GMP question."""
+        slide = next(s for s in deck.slides() if "resourcing actually" in s.title.lower())
+        joined = " ".join(slide.bullets).lower()
+        self.assertIn("no in-house developer assigned", joined)
+        self.assertIn("no proactive maintenance model", joined)
 
     def test_hiring_finding_uses_the_author_as_its_own_evidence(self) -> None:
         """The competency finding is safe to make precisely because the unverified

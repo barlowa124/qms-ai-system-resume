@@ -178,9 +178,8 @@ def slides() -> list[Slide]:
             title="What the resourcing actually looked like",
             bullets=(
                 "The portfolio containing this work carried a documented blocker recording "
-                "missing resources and funding to move forward.",
-                "Roughly two thirds of its active items were unassigned, and the median age of "
-                "its backlog was over eight months.",
+                "missing resources and funding, roughly two thirds of its active items "
+                "unassigned, and a backlog median over eight months.",
                 "The product owner for the tool entering the deviation workflow was the "
                 "project's only hire: a temporary intern. That intern was me.",
                 "In a programme governance forum, others independently questioned whether one "
@@ -188,6 +187,10 @@ def slides() -> list[Slide]:
                 "Senior engineering capacity existed - developers with a decade or more of "
                 "experience - and was assigned to the commercial product and the data "
                 "platform, not to the work entering the deviation workflow.",
+                "The team that would maintain it long term confirmed on record: no allocated "
+                "funding, no in-house developer assigned, no proactive maintenance model, and a "
+                "reactive queue already holding dozens of unaddressed items at its highest "
+                "priorities.",
             ),
             callout=(
                 "I am not the hero of this story. The staffing is the finding - the role "
@@ -292,6 +295,8 @@ def slides() -> list[Slide]:
                 "There was no procedure governing any of it: no acceptable-use rule, no "
                 "data-classification rule for prompts, no record requirement for AI-assisted "
                 "work.",
+                "When the gap was raised before deployment, the answer recorded at the time was "
+                "that the governing procedure would be developed after the alpha went live.",
                 "Staff said so themselves. People asked whether their information stayed "
                 "confidential, and described not knowing what they should or should not upload.",
                 "The query is itself a disclosure surface. A domain-specific technical question "
@@ -658,44 +663,57 @@ def slides() -> list[Slide]:
             bullets=(
                 "The system never went live. I resigned before the alpha pilot began, so none "
                 "of this is an account of a system in production.",
-                "I put the question in writing to my line manager and to theirs: what "
-                "operational standard should the alpha ship under, given the gap between the "
-                "AI layer's practices and the standard the same organisation applied "
-                "elsewhere. I built the case from its own records, and credited the "
-                "engineering discipline demonstrated elsewhere in it.",
-                "I followed it up in person with two questions - whether the project had the "
-                "capacity to sustain compliance, and whether the function had the capacity to "
-                "support an AI operating that close to a GMP process over time.",
-                "The answers did not resolve either question for me. I was a temporary intern "
-                "and the project's only hire, listed as its product owner. I was not prepared "
-                "to take the alpha live on that basis, and I resigned that week.",
+                "I put the question in writing and then in person to the executive sponsor: "
+                "what operational standard should the alpha ship under, given the gap between "
+                "the AI layer's practices and the standard the same organisation applied "
+                "elsewhere. I built the case from its own records and credited the engineering "
+                "discipline demonstrated elsewhere in it.",
+                "The answer did not resolve the question, so I filed a formal quality "
+                "observation through the organisation's own observation procedure - requesting "
+                "a tracking identifier, a named owner for the gap, a timeline for an AI use "
+                "procedure, and deferral of GMP-adjacent deployment until one existed.",
+                "I told my manager I was filing it before I filed it, and sent the analysis to "
+                "compliance leadership so it would outlast my notice period rather than leave "
+                "with me.",
+                "Then I resigned, worked the notice, and delivered the transition documentation "
+                "I had promised.",
             ),
             callout=(
                 "I am not claiming harm occurred and I am not claiming an unsafe system "
-                "shipped. Neither happened. I raised a prospective risk in writing, did not "
-                "get the assurance I needed, and declined to own the launch."
+                "shipped. Neither happened. I raised a prospective risk through the "
+                "organisation's own quality channel, did not get the assurance I needed, and "
+                "declined to own the launch."
             ),
             notes=(
                 "One slide, stated once, then move on. Leading with 'never went live' removes "
                 "any suggestion that you are describing a production failure or accusing "
                 "anyone of shipping something unsafe. "
-                "The sequence is what makes this credible, so deliver it in order: a written "
-                "memo to line management, an in-person follow-up with two specific questions, "
-                "an explicit statement that patient safety was the critical constraint when "
-                "resourcing was discussed, and a resignation that week. That is an escalation "
-                "record, and it is your answer to 'why did you not just raise it internally'. "
-                "Two disciplines. First, the in-person meeting was not recorded, so describe "
-                "your own questions and your own conclusion and do not characterise anyone's "
-                "replies - you have no record of them and it was a private conversation. "
-                "Second, do not say you lost confidence in management, however true it felt at "
-                "the time. It invites a debate about the character of people the room has never "
-                "met, which you cannot win and do not need; 'the answers did not resolve either "
+                "The sequence is what makes this credible, so deliver it in order: raised in "
+                "writing and in person, answer received, formal quality observation filed "
+                "through the organisation's own procedure, manager told in advance, analysis "
+                "routed to compliance so it would survive your departure, notice worked, "
+                "transition documentation delivered. That is an escalation record rather than a "
+                "complaint, and it is the complete answer to 'why did you not just raise it "
+                "internally'. You did, through the channel the quality system provides. "
+                "The advance notice to your manager is not a small detail and you should say it "
+                "out loud. Filing a quality observation about your own project while telling "
+                "your manager first is the difference between a professional act and a parting "
+                "shot, and a room of quality professionals will register that difference "
+                "immediately. "
+                "You do hold a contemporaneous record of the response, which is why the "
+                "recorded answer appears on the earlier procedure slide. State it as a "
+                "documented answer about sequencing and infer nothing about motive. The "
+                "inversion speaks for itself and any gloss you add will sound like an "
+                "accusation. "
+                "Do not say you lost confidence in management, however true it felt at the "
+                "time. It invites a debate about the character of people the room has never "
+                "met, which you cannot win and do not need; 'the answer did not resolve the "
                 "question' is the same fact without the grievance. "
                 "Expect to be asked whether resigning was proportionate. It is a judgement "
-                "call, you made it as the accountable product owner on the information you had, "
-                "and the instrument is your attempt to make that judgement reviewable by other "
-                "people. If asked for specifics you cannot share, say plainly that you are "
-                "bound by confidentiality."
+                "call, you made it on the information you had while holding the product owner "
+                "role, and the instrument is your attempt to make that judgement reviewable by "
+                "other people. If asked for specifics you cannot share, say plainly that you "
+                "are bound by confidentiality."
             ),
         ),
         Slide(
