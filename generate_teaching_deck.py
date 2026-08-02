@@ -395,6 +395,10 @@ def slides() -> list[Slide]:
                 "rare - one could engage with what sampling temperature does to an output.",
                 "The recurring themes were job impact, environmental cost, and whether it "
                 "would help daily work at all - not how to supervise a model.",
+                "There was no organisation-wide training programme for AI use of any kind. "
+                "The organisation's own training function was still scoping its first AI "
+                "course, and raised the possibility of my involvement in building or "
+                "delivering it - during or after the alpha's deployment.",
             ),
             callout=(
                 "Enthusiasm is not readiness. A population that wants a tool but cannot "
@@ -431,7 +435,12 @@ def slides() -> list[Slide]:
                 "If challenged that this is just normal early adoption, agree: appetite "
                 "outrunning familiarity is ordinary and harmless everywhere except where the "
                 "unfamiliar population is the designated control. Name nobody and quote "
-                "nobody."
+                "nobody. "
+                "Deliver the last bullet as a fact about organisational sequencing, not as a "
+                "credential - the point is not that you were asked, it is that even the "
+                "organisation's own remedy was scoped to arrive during or after the thing it "
+                "was meant to prepare people for. That is the timing failure in one sentence, "
+                "and it needs no further comment from you."
             ),
         ),
         Slide(

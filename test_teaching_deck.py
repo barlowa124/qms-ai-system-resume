@@ -153,6 +153,15 @@ class DeIdentificationTests(unittest.TestCase):
         self.assertIn("appetite was real", joined)
         self.assertIn("largest response", joined)
 
+    def test_no_organisation_wide_ai_training_existed(self) -> None:
+        """No AI training programme existed at all, and even the organisation's own
+        first course was scoped to arrive during or after deployment - the timing
+        failure behind the 'nobody trained for it' claim on the case-study slide."""
+        slide = next(s for s in deck.slides() if "other readiness gap" in s.title.lower())
+        joined = " ".join(slide.bullets).lower()
+        self.assertIn("no organisation-wide training programme", joined)
+        self.assertIn("during or after the alpha's deployment", joined)
+
     def test_intern_status_is_disclosed(self) -> None:
         """Describing oneself as the product owner while omitting that one was a
         temporary intern is a material omission. An audience that discovers it
