@@ -156,6 +156,12 @@ def slides() -> list[Slide]:
                 "Typical business case: 40 percent reduction in triage time, 25 percent "
                 "reduction in CAPA cycle time.",
                 "Those numbers are real and achievable. That is what makes this hard.",
+                "In a meeting, my supervisor told me directly that a single failed batch costs "
+                "on the order of $9 million.",
+                "At that price point, a tool that reliably caught what leads to a failed batch "
+                "would have value well beyond one site's efficiency metrics - the kind of value "
+                "that could plausibly be sold to the wider life sciences industry as its own "
+                "product, not only used internally.",
             ),
             callout=(
                 "Present the business case fairly. The people who build these systems are "
@@ -165,7 +171,14 @@ def slides() -> list[Slide]:
                 "Resist the temptation to strawman the business case. If the audience thinks "
                 "you are hostile to the technology, credibility is gone. The efficiency gains "
                 "are real, the backlog pressure is real, and the people driving these programs "
-                "are usually competent and well-intentioned. The problem is not motive."
+                "are usually competent and well-intentioned. The problem is not motive. "
+                "Be precise about provenance on the last two bullets. The $9 million figure is "
+                "a number one supervisor stated verbally in one meeting, not an audited or "
+                "published company figure - say so if asked. The commercial-product point is "
+                "your own inference about incentive, not something anyone told you was the "
+                "plan. Both bullets exist to explain the scale of the pressure driving speed, "
+                "not to imply anyone had a hidden commercial motive; keep that distinction "
+                "explicit if challenged."
             ),
         ),
         Slide(

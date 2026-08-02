@@ -369,6 +369,21 @@ class SourcingTests(unittest.TestCase):
 
 
 class FramingTests(unittest.TestCase):
+    def test_failed_batch_cost_is_attributed_as_verbal_testimony(self) -> None:
+        """The $9 million figure came from one supervisor in one meeting. It must
+        stay attributed as testimony, not asserted as an audited company figure,
+        and the commercial-upside point must stay framed as the author's own
+        inference rather than a documented plan."""
+        slide = next(
+            s for s in deck.slides() if "attractive place to deploy ai" in s.title.lower()
+        )
+        joined = " ".join(slide.bullets).lower()
+        self.assertIn("my supervisor told me directly", joined)
+        self.assertIn("9 million", joined)
+        notes = slide.notes.lower()
+        self.assertIn("not an audited or", notes)
+        self.assertIn("your own inference", notes)
+
     def test_regulatory_acceptance_argument_is_named(self) -> None:
         """The compliance case for a draft-review aid rests on the tool's input being
         optional and a human always approving. Naming this explicitly on the
