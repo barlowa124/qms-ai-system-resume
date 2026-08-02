@@ -332,16 +332,17 @@ def slides() -> list[Slide]:
             bullets=(
                 "Appetite was real. A company-wide AI survey drew the largest response the "
                 "organisation had on record.",
-                "I interviewed the respondents who had volunteered interest - the most "
-                "enthusiastic population available to me.",
-                "Among them, working familiarity with how these models behave was rare. One "
-                "person could engage with what sampling temperature does to an output.",
-                "The recurring themes were job impact, whether it would help daily work at "
-                "all, and environmental cost - not how to supervise a model.",
-                "Where enthusiasm did exist it was disappointed by the scale actually "
-                "delivered. Appetite ran well ahead of what the resourcing could support.",
-                "This was not hidden. Leadership inside the technology function itself "
-                "acknowledged considerable scepticism among staff.",
+                "It also measured the gap. Around two thirds described themselves as "
+                "beginners or non-users, and roughly one in ten as advanced.",
+                "Nearly half named unclear rules as a barrier, and the single most requested "
+                "form of support was clear guidance - ahead of training, ahead of use cases.",
+                "Reported use of external AI services ran several times higher than use of the "
+                "sanctioned internal tool.",
+                "I then interviewed the respondents who had volunteered interest. Among that "
+                "most enthusiastic group, working familiarity with model behaviour was still "
+                "rare - one could engage with what sampling temperature does to an output.",
+                "The recurring themes were job impact, environmental cost, and whether it "
+                "would help daily work at all - not how to supervise a model.",
             ),
             callout=(
                 "Enthusiasm is not readiness. A population that wants a tool but cannot "
@@ -351,6 +352,21 @@ def slides() -> list[Slide]:
                 "This is the second readiness gap and it pairs with the engineering one: the "
                 "layer was under-supported technically, and the population designated to "
                 "supervise its output had little working familiarity with model behaviour. "
+                "The figures are the organisation's own, from its own survey, which is what "
+                "makes them usable. You are not characterising colleagues from impression, you "
+                "are reporting what the organisation measured about itself. "
+                "Keep the third bullet in reserve for the discussion, because it is the one "
+                "that closes the argument. Nearly half the workforce named unclear rules as a "
+                "barrier and asked for guidance above all else, which means the missing "
+                "procedure was not only a governance defect visible to auditors - it was the "
+                "single thing staff most wanted and did not have. The survey's own executive "
+                "summary concluded that the constraint was trust and governance rather than "
+                "lack of interest. If challenged on whether that is your interpretation, say "
+                "that it was the organisation's. "
+                "The free-text responses included a minority of strongly hostile comments. Do "
+                "not quote them and do not characterise their authors. The substantive concerns "
+                "inside them, environmental cost and job displacement, are already on the slide "
+                "and are the part that deserves an answer. "
                 "Give the organisation full credit for the survey response - it is evidence of "
                 "genuine appetite, and saying so keeps this from sounding dismissive. The gap "
                 "is between appetite and preparation, not between clever and foolish people. "
@@ -448,17 +464,36 @@ def slides() -> list[Slide]:
                 "The OCR engine or document parser is upgraded as routine infrastructure "
                 "maintenance.",
                 "None of these is a model change, so none reliably triggers change control.",
+                "Then the case that is not a change at all: a system designed to adjust its own "
+                "scoring from accumulated reviewer corrections. Its behaviour evolves by "
+                "design, continuously, with no edit for anyone to review.",
+                "On the project I worked on this was confirmed on record. Human-initiated "
+                "changes were tracked. The system's own behavioural changes were not, because "
+                "the tracking system exists to record what people do.",
             ),
             callout=(
                 "Change control as written governs the model. The behaviour of the system is "
-                "determined by the model plus everything around it."
+                "determined by the model, plus everything around it, plus - increasingly - what "
+                "the system has taught itself since validation."
             ),
             notes=(
                 "The OCR upgrade is the one that lands hardest with technical audiences, "
                 "because it is performed by an infrastructure team that has no idea it is "
                 "touching a GxP-relevant path, as part of routine patching. It changes what "
                 "the model sees on every case. Nothing in a conventional change control "
-                "procedure would flag it."
+                "procedure would flag it. "
+                "The last two bullets are the ones worth slowing down for, because they are the "
+                "version of this problem that is arriving now rather than hypothetically. A "
+                "feedback loop that improves a system is a feature, and it is the reason these "
+                "tools get better in use. It is also a behavioural change to a validated system "
+                "that no existing mechanism records, because activity tracking was designed "
+                "around human work. State the confirmation neutrally and do not editorialise - "
+                "the answer was a candid and accurate description of how the tracking system "
+                "was designed, not a lapse by the person who gave it. The gap is in the "
+                "instrument, not the individual. "
+                "If asked what the fix looks like, say the honest thing: the accumulated "
+                "adjustments need to be versioned, reviewable and approvable through the same "
+                "route as a human change, and almost nobody has built that yet."
             ),
         ),
         Slide(
@@ -559,13 +594,22 @@ def slides() -> list[Slide]:
             title="What I built in response",
             kind="section",
             bullets=(
-                "A 25-item assessment instrument for a deployment that is already running, "
-                "not a design under review.",
+                "First, in the product itself: a safety framework of 19 registered mechanisms "
+                "covering prompt integrity verification, audit logging, scope detection, "
+                "uncertainty annotation, disagreement escalation and deterministic replay.",
+                "A 25-item assessment instrument for a deployment that is already running, not "
+                "a design under review.",
                 "Each item specifies what to inspect, what evidence to request, an objective "
                 "pass criterion, and a disqualifying finding.",
                 "Items are traced to named release gates, so a finding maps to a control "
                 "someone owns.",
                 "Reviewer-administered, with a scoring engine that produces a findings report.",
+                "Some controls I deliberately did not build. Authentication, authorisation and "
+                "drift thresholds each depend on a decision that belongs to Quality rather than "
+                "to a developer, so I documented each gap for the next maintainer instead of "
+                "pre-empting them.",
+                "A technical control is only meaningful inside the procedure that defines it. "
+                "That is why the instrument inspects procedures rather than code.",
             ),
             callout=(
                 "The instrument is the deliverable I would want to hand to a QA reviewer who "

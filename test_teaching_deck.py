@@ -194,6 +194,33 @@ class DeIdentificationTests(unittest.TestCase):
             with self.subTest(gloss=gloss):
                 self.assertNotIn(gloss, joined)
 
+    def test_self_modifying_system_is_covered_by_change_control_slide(self) -> None:
+        """A system that adjusts its own behaviour from accumulated feedback changes a
+        validated system with no edit for anyone to review. This is the current form of
+        the drift problem and the deck must carry it."""
+        slide = next(s for s in deck.slides() if "stops being the running system" in s.title.lower())
+        joined = " ".join(slide.bullets).lower()
+        self.assertIn("adjust its own", joined)
+        self.assertIn("confirmed on record", joined)
+
+    def test_change_control_finding_blames_the_instrument_not_a_person(self) -> None:
+        """Activity tracking not recording machine-initiated change is a design property
+        of the tracking system, not a failing of whoever described it."""
+        slide = next(s for s in deck.slides() if "stops being the running system" in s.title.lower())
+        spoken = f"{' '.join(slide.bullets)} {slide.callout}".lower()
+        for phrase in ("failed to", "should have", "neglected", "did not bother",
+                       "was wrong to"):
+            with self.subTest(phrase=phrase):
+                self.assertNotIn(phrase, spoken)
+
+    def test_built_slide_records_restraint_and_the_thesis(self) -> None:
+        """Declining to build controls that encode Quality's decisions is a professional
+        signal, and the procedure-defines-the-control line is the deck's thesis."""
+        slide = next(s for s in deck.slides() if "what i built" in s.title.lower())
+        joined = " ".join(slide.bullets).lower()
+        self.assertIn("deliberately did not build", joined)
+        self.assertIn("only meaningful inside the procedure that defines it", joined)
+
     def test_maintenance_capacity_finding_is_present(self) -> None:
         """Who sustains the validated state after launch is a first-order GMP question."""
         slide = next(s for s in deck.slides() if "resourcing actually" in s.title.lower())
