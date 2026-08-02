@@ -213,7 +213,16 @@ def slides() -> list[Slide]:
                 "Expect the obvious challenge: if you were an intern, why should anyone weight "
                 "your judgement? Answer it directly. Seniority is not the claim - the records "
                 "are the claim, and they were available to anyone who looked. Say that you were "
-                "the person who happened to look."
+                "the person who happened to look. "
+                "Two supporting points to hold in reserve. First, the scope exceeded the "
+                "classification: the same intern was running technical assessments of external "
+                "AI vendors and corresponding with them on the organisation's behalf under the "
+                "strategy office. If anyone suggests 'intern' understates your involvement, "
+                "that is the answer. Second, be honest about the provenance of the portfolio "
+                "figures. They are your own contemporaneous analysis of a ticket export you no "
+                "longer hold, so present them as a finding you made at the time rather than as "
+                "a document you can produce on request. If pressed for the underlying data, say "
+                "plainly that it stayed with the employer."
             ),
         ),
         Slide(
