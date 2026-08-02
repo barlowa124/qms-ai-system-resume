@@ -369,6 +369,19 @@ class SourcingTests(unittest.TestCase):
 
 
 class FramingTests(unittest.TestCase):
+    def test_regulatory_acceptance_argument_is_named(self) -> None:
+        """The compliance case for a draft-review aid rests on the tool's input being
+        optional and a human always approving. Naming this explicitly on the
+        'where it sits' slide is what makes the later human-oversight finding read
+        as a test of the premise rather than an unrelated complaint."""
+        slide = next(
+            s for s in deck.slides() if "actually sits" in s.title.lower()
+        )
+        joined = " ".join(slide.bullets).lower()
+        self.assertIn("regulatory acceptance argument", joined)
+        self.assertIn("optional", joined)
+        self.assertIn("final approval", joined)
+
     def test_resignation_appears_late_and_only_once(self) -> None:
         titles = [s.title for s in deck.slides()]
         matches = [i for i, s in enumerate(deck.slides()) if "conclusion i drew" in s.title.lower()]

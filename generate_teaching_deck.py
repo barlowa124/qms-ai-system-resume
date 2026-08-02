@@ -123,6 +123,9 @@ def slides() -> list[Slide]:
                 "That report is what QA reviews, and what an inspector reads years later.",
                 "A tool that reviews draft reports before QA reaches them does not make the "
                 "disposition decision. It shapes the record the decision is made from.",
+                "That distinction is also the crux of the regulatory acceptance argument for a "
+                "system like this: the tool's input is optional, and a human always makes the "
+                "final approval.",
             ),
             callout=(
                 "Influencing the quality of the record is not the same as deciding the "
@@ -134,7 +137,13 @@ def slides() -> list[Slide]:
                 "does determine which weaknesses get fixed before a qualified reviewer ever "
                 "sees the report. If someone objects that this makes the tool low-risk, agree "
                 "that it lowers the ceiling on the risk and then ask how you would know if it "
-                "started being used as a readiness gate instead of a drafting aid."
+                "started being used as a readiness gate instead of a drafting aid. "
+                "Name the regulatory argument explicitly on this slide, because it is the "
+                "premise every later finding tests rather than contradicts. 'Optional, with a "
+                "human always approving' is the whole compliance case in one sentence, and it "
+                "is true as designed. Do not resolve the tension yet - just mark that it exists, "
+                "and that the human-oversight finding later in the deck is a direct test of "
+                "whether 'optional' survives contact with a 99 percent acceptance rate."
             ),
         ),
         Slide(

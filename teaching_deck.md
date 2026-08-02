@@ -38,11 +38,12 @@ Speaker notes: Orient the case study before any findings: one tool, one placemen
 - The investigation report is the record: root cause, impact assessment, CAPA, and the risk rationale behind the classification.
 - That report is what QA reviews, and what an inspector reads years later.
 - A tool that reviews draft reports before QA reaches them does not make the disposition decision. It shapes the record the decision is made from.
+- That distinction is also the crux of the regulatory acceptance argument for a system like this: the tool's input is optional, and a human always makes the final approval.
 
 > Influencing the quality of the record is not the same as deciding the outcome. It is also not harmless. Hold both of those at once.
 
 <!--
-Speaker notes: Be precise here, because the whole talk depends on it and it is the easiest thing to overstate. A draft-review aid does not classify or disposition. It does determine which weaknesses get fixed before a qualified reviewer ever sees the report. If someone objects that this makes the tool low-risk, agree that it lowers the ceiling on the risk and then ask how you would know if it started being used as a readiness gate instead of a drafting aid.
+Speaker notes: Be precise here, because the whole talk depends on it and it is the easiest thing to overstate. A draft-review aid does not classify or disposition. It does determine which weaknesses get fixed before a qualified reviewer ever sees the report. If someone objects that this makes the tool low-risk, agree that it lowers the ceiling on the risk and then ask how you would know if it started being used as a readiness gate instead of a drafting aid. Name the regulatory argument explicitly on this slide, because it is the premise every later finding tests rather than contradicts. 'Optional, with a human always approving' is the whole compliance case in one sentence, and it is true as designed. Do not resolve the tension yet - just mark that it exists, and that the human-oversight finding later in the deck is a direct test of whether 'optional' survives contact with a 99 percent acceptance rate.
 -->
 
 ---
