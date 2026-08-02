@@ -67,7 +67,6 @@ Speaker notes: Resist the temptation to strawman the business case. If the audie
 - One digital organisation can run two engineering standards at once, and both are usually visible in its own systems.
 - Data platform and commercial product: versioned releases in the hundreds, pull-request gating, end-to-end test infrastructure, automated deployment, separate sandbox, test and production environments.
 - AI application layer, including a tool entering the deviation workflow: no written requirements artifact, no automated feedback collection, and manual spot-checking as output validation.
-- No stated competency requirement governed who could build on that layer - no defined prerequisite of experience with the model class, with validated systems, or with the regulated process the output touches.
 - This is not a story about an organisation lacking engineering discipline. The discipline demonstrably existed. It had not reached the AI layer.
 
 > The question is not whether an organisation can do rigorous engineering. It is whether the rigour reaches the system that touches a GMP record.
@@ -90,6 +89,21 @@ Speaker notes: This is the pivot, and unlike the earlier version of this slide i
 
 <!--
 Speaker notes: Deliver the third bullet flatly and do not soften it. Disclosing that you were the intern is what makes the rest of the talk survivable: an audience that discovers it later concludes you inflated your standing, and an audience that hears it from you concludes you are being straight with them. It is also the strongest evidence you have, because it converts an abstract resourcing finding into a fact nobody can argue with. The fourth bullet matters just as much: the capacity question was raised independently by other people in a governance forum, which is what separates this from one junior person's idiosyncratic worry. Do not overstate it - they questioned the realism of the staffing and the pace it implied, not patient safety. That framing was yours. Expect the obvious challenge: if you were an intern, why should anyone weight your judgement? Answer it directly. Seniority is not the claim - the records are the claim, and they were available to anyone who looked. Say that you were the person who happened to look.
+-->
+
+---
+
+## The standard for who builds it
+
+- No stated competency requirement governed who could build on the AI layer - no defined prerequisite of experience with the model class, with validated systems, or with the regulated process the output touches.
+- The absence was visible at the point of entry. I was hired onto this work without being asked for a code sample, a repository, or any technical demonstration.
+- My claim to be able to build it was accepted on assertion. For a technical role, that is an unusual step to skip.
+- I am the evidence for this one. The point is not that the judgement was wrong. It is that no step existed that could have established it either way.
+
+> Every other control in a GMP environment requires demonstrated competence before the work starts. This one required a conversation.
+
+<!--
+Speaker notes: This is the competency finding, and it is the safest one in the deck to make because the person who went unverified was you. Nobody in the room can accuse you of settling a score with a colleague when you are the example. It should also land harder with this audience than any other slide, because verifying competence is what a training centre exists to do. If industry assigns GMP-adjacent build work without checking whether the person can do it, that bears directly on what their qualifications are for and what they are worth. Ask them that question rather than answering it. Do not turn the fourth bullet into false modesty - it is a governance point, not self-deprecation. A hiring process that cannot distinguish a capable candidate from an incapable one has not made a good decision when it happens to get a capable one. It has made an unexamined decision with a fortunate outcome, and the next outcome is independent of this one. Say nothing about how anyone else on the project was hired. You do not know their process, and the argument does not need it.
 -->
 
 ---
@@ -374,6 +388,7 @@ Speaker notes: This is the ask, and it should feel like a contribution rather th
 - Where does this belong in a curriculum - validation, quality systems, or its own module?
 - What would convince you that a reviewer is genuinely competent to oversee a model rather than nominally assigned to it?
 - What competency standard would you want met by someone building an AI feature that touches a regulated record?
+- If you defined that standard, what would make an employer verify it before assigning the work? Mine was never verified.
 
 <!--
 Speaker notes: Ending on genuine questions rather than a summary invites collaboration and signals that you are not there to lecture them. These are real open problems, not rhetorical. Have your own tentative answer ready for each in case they turn it back on you. The last one is the question you most want answered, so ask it last and let it sit.

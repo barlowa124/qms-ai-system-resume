@@ -151,9 +151,6 @@ def slides() -> list[Slide]:
                 "AI application layer, including a tool entering the deviation workflow: no "
                 "written requirements artifact, no automated feedback collection, and manual "
                 "spot-checking as output validation.",
-                "No stated competency requirement governed who could build on that layer - no "
-                "defined prerequisite of experience with the model class, with validated "
-                "systems, or with the regulated process the output touches.",
                 "This is not a story about an organisation lacking engineering discipline. The "
                 "discipline demonstrably existed. It had not reached the AI layer.",
             ),
@@ -214,6 +211,42 @@ def slides() -> list[Slide]:
                 "your judgement? Answer it directly. Seniority is not the claim - the records "
                 "are the claim, and they were available to anyone who looked. Say that you were "
                 "the person who happened to look."
+            ),
+        ),
+        Slide(
+            title="The standard for who builds it",
+            bullets=(
+                "No stated competency requirement governed who could build on the AI layer - no "
+                "defined prerequisite of experience with the model class, with validated "
+                "systems, or with the regulated process the output touches.",
+                "The absence was visible at the point of entry. I was hired onto this work "
+                "without being asked for a code sample, a repository, or any technical "
+                "demonstration.",
+                "My claim to be able to build it was accepted on assertion. For a technical "
+                "role, that is an unusual step to skip.",
+                "I am the evidence for this one. The point is not that the judgement was wrong. "
+                "It is that no step existed that could have established it either way.",
+            ),
+            callout=(
+                "Every other control in a GMP environment requires demonstrated competence "
+                "before the work starts. This one required a conversation."
+            ),
+            notes=(
+                "This is the competency finding, and it is the safest one in the deck to make "
+                "because the person who went unverified was you. Nobody in the room can accuse "
+                "you of settling a score with a colleague when you are the example. "
+                "It should also land harder with this audience than any other slide, because "
+                "verifying competence is what a training centre exists to do. If industry "
+                "assigns GMP-adjacent build work without checking whether the person can do it, "
+                "that bears directly on what their qualifications are for and what they are "
+                "worth. Ask them that question rather than answering it. "
+                "Do not turn the fourth bullet into false modesty - it is a governance point, "
+                "not self-deprecation. A hiring process that cannot distinguish a capable "
+                "candidate from an incapable one has not made a good decision when it happens "
+                "to get a capable one. It has made an unexamined decision with a fortunate "
+                "outcome, and the next outcome is independent of this one. "
+                "Say nothing about how anyone else on the project was hired. You do not know "
+                "their process, and the argument does not need it."
             ),
         ),
         Slide(
@@ -714,6 +747,8 @@ def slides() -> list[Slide]:
                 "model rather than nominally assigned to it?",
                 "What competency standard would you want met by someone building an AI feature "
                 "that touches a regulated record?",
+                "If you defined that standard, what would make an employer verify it before "
+                "assigning the work? Mine was never verified.",
             ),
             notes=(
                 "Ending on genuine questions rather than a summary invites collaboration and "

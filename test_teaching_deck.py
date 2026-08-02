@@ -169,6 +169,27 @@ class DeIdentificationTests(unittest.TestCase):
                 with self.subTest(slide=slide.title):
                     self.assertIn("intern", joined)
 
+    def test_hiring_finding_uses_the_author_as_its_own_evidence(self) -> None:
+        """The competency finding is safe to make precisely because the unverified
+        person was the author. If it ever generalises to how colleagues were hired it
+        becomes an unevidenced claim about identifiable people."""
+        slide = next(s for s in deck.slides() if "standard for who builds" in s.title.lower())
+        joined = " ".join(slide.bullets).lower()
+        self.assertIn("i was hired", joined)
+        self.assertIn("i am the evidence", joined)
+        for phrase in ("they were hired", "he was hired", "was hired without",
+                       "nobody on the team was"):
+            with self.subTest(phrase=phrase):
+                self.assertNotIn(phrase, joined)
+
+    def test_hiring_finding_does_not_claim_the_decision_was_wrong(self) -> None:
+        """The finding is an absent verification step, not a bad outcome. Claiming the
+        hire was wrong would be both unfalsifiable and self-defeating."""
+        slide = next(s for s in deck.slides() if "standard for who builds" in s.title.lower())
+        joined = " ".join(slide.bullets).lower()
+        self.assertIn("no step existed", joined)
+        self.assertIn("not that the judgement was wrong", joined)
+
     def test_data_access_finding_is_framed_as_a_missing_prerequisite(self) -> None:
         """The defensible finding is that no prerequisite required build-side access to
         the records, and that review therefore rested on one person. Framing it as what
