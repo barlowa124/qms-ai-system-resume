@@ -542,6 +542,11 @@ def slides() -> list[Slide]:
             bullets=(
                 "This is the pattern this class of system follows elsewhere, not an account "
                 "of what happened here - the tool never reached deployment.",
+                "A documented example: a sepsis-prediction model deployed at hundreds of US "
+                "hospitals reported strong developer-side performance, but an independent "
+                "external validation found it missed two-thirds of actual sepsis cases while "
+                "flagging nearly one in five patients, causing severe alert fatigue (Wong et "
+                "al., JAMA Internal Medicine, 2021).",
                 "Aggregate accuracy on a validation set would look strong.",
                 "Reviewers would report that it saves them time and that they like using it.",
                 "Cycle-time metrics would visibly improve within the first quarter of use.",
@@ -554,12 +559,17 @@ def slides() -> list[Slide]:
             ),
             notes=(
                 "This slide is the bridge from the two readiness gaps to the failure modes. "
-                "Lead with the first bullet and do not let it get skimmed: everything else on "
-                "this slide is a forward-looking pattern, not a report of what this tool's "
-                "reviewers or metrics actually did, because there were no reviewers and no "
-                "metrics - it never reached deployment. Blurring that line is the one mistake "
-                "that would undermine the deck's own credibility on the exact point it keeps "
-                "insisting on elsewhere. "
+                "Lead with the first bullet and do not let it get skimmed: everything else about "
+                "this tool is a forward-looking pattern, not a report of what its reviewers or "
+                "metrics actually did, because there were no reviewers and no metrics - it never "
+                "reached deployment. Blurring that line is the one mistake that would undermine "
+                "the deck's own credibility on the exact point it keeps insisting on elsewhere. "
+                "The sepsis-model citation is what makes the pattern more than a plausible-"
+                "sounding assertion: it is a peer-reviewed, published account of exactly this "
+                "shape of failure - a widely adopted clinical model whose own vendor-reported "
+                "metrics looked strong, undone by an external party actually checking. Have the "
+                "citation ready if asked, and do not overreach it - it illustrates the pattern, "
+                "it does not stand in for evidence about this specific tool. "
                 "The obvious objection to everything you have just said is that a system this "
                 "under-supported would fail visibly and get caught early. It would not. It "
                 "would succeed on every metric anyone is currently measuring, which is exactly "

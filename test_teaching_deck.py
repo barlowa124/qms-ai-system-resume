@@ -378,6 +378,7 @@ class FramingTests(unittest.TestCase):
         joined = " ".join(slide.bullets).lower()
         self.assertIn("not an account of what happened here", joined)
         self.assertIn("never reached deployment", joined)
+        self.assertIn("wong et al., jama internal medicine, 2021", joined)
         for factual_claim in (
             "reviewers report that",
             "cycle-time metrics improve,",
