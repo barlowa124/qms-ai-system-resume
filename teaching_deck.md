@@ -170,15 +170,16 @@ Speaker notes: This is the second readiness gap and it pairs with the engineerin
 
 ## The uncomfortable part: it works in the demo
 
-- Aggregate accuracy on a validation set looks strong.
-- Reviewers report that it saves them time and they like using it.
-- Cycle-time metrics improve, visibly, in the first quarter.
-- Every stakeholder sees confirmation that the decision was correct.
+- This is the pattern this class of system follows elsewhere, not an account of what happened here - the tool never reached deployment.
+- Aggregate accuracy on a validation set would look strong.
+- Reviewers would report that it saves them time and that they like using it.
+- Cycle-time metrics would visibly improve within the first quarter of use.
+- Every stakeholder would see confirmation that the decision to deploy was correct.
 
 > A system that failed obviously would be safe. The dangerous case is the one that succeeds on every metric anyone is currently measuring.
 
 <!--
-Speaker notes: This slide is the bridge from the two readiness gaps to the failure modes. The obvious objection to everything you have just said is that a system this under-supported would fail visibly and get caught early. It would not. It succeeds on every metric anyone is currently measuring, which is exactly why the gaps matter: success indicators and safety indicators are different quantities, and only one set is on the dashboard.
+Speaker notes: This slide is the bridge from the two readiness gaps to the failure modes. Lead with the first bullet and do not let it get skimmed: everything else on this slide is a forward-looking pattern, not a report of what this tool's reviewers or metrics actually did, because there were no reviewers and no metrics - it never reached deployment. Blurring that line is the one mistake that would undermine the deck's own credibility on the exact point it keeps insisting on elsewhere. The obvious objection to everything you have just said is that a system this under-supported would fail visibly and get caught early. It would not. It would succeed on every metric anyone is currently measuring, which is exactly why the gaps matter: success indicators and safety indicators are different quantities, and only one set is on the dashboard.
 -->
 
 ---

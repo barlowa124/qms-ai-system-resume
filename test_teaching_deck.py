@@ -370,6 +370,22 @@ class SourcingTests(unittest.TestCase):
 
 
 class FramingTests(unittest.TestCase):
+    def test_demo_slide_does_not_claim_a_deployment_that_never_happened(self) -> None:
+        """The tool never reached deployment, so this slide's reviewer and
+        cycle-time claims must read as a forward-looking pattern ('would'),
+        never as a factual report of what happened, and must say so explicitly."""
+        slide = next(s for s in deck.slides() if "it works in the demo" in s.title.lower())
+        joined = " ".join(slide.bullets).lower()
+        self.assertIn("not an account of what happened here", joined)
+        self.assertIn("never reached deployment", joined)
+        for factual_claim in (
+            "reviewers report that",
+            "cycle-time metrics improve,",
+            "every stakeholder sees confirmation",
+        ):
+            with self.subTest(phrase=factual_claim):
+                self.assertNotIn(factual_claim, joined)
+
     def test_no_one_asked_about_safety_is_present_and_self_referential(self) -> None:
         """Across an entire tenure, nobody asked about safety, decision impact,
         GMP proximity, prompt injection, or drift. This is the concrete
