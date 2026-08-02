@@ -56,6 +56,7 @@ IDENTIFYING_TERMS = (
     "posthog",
     "salesforce",
     "jira",
+    "github",
 )
 
 
@@ -369,6 +370,22 @@ class SourcingTests(unittest.TestCase):
 
 
 class FramingTests(unittest.TestCase):
+    def test_no_sop_for_non_regulated_tooling(self) -> None:
+        """No SOPs existed for non-regulated engineering activity either - version
+        control and ticketing usage drew entirely on the author's prior knowledge,
+        with no direction given. Must stay self-referential and must not name the
+        specific vendor products."""
+        slide = next(
+            s for s in deck.slides() if "resourcing actually looked" in s.title.lower()
+        )
+        joined = " ".join(slide.bullets).lower()
+        self.assertIn("no standard operating procedures existed for non-regulated", joined)
+        self.assertIn("version-control", joined)
+        self.assertIn("ticketing systems", joined)
+        for vendor in ("github", "jira"):
+            with self.subTest(vendor=vendor):
+                self.assertNotIn(vendor, joined)
+
     def test_promised_procedure_had_no_tracking_identifier(self) -> None:
         """The promised governing procedure was not even tracked as a commitment,
         despite a training programme assuming its existence being discussed at the
