@@ -388,6 +388,7 @@ class FramingTests(unittest.TestCase):
         self.assertIn("never reached deployment", joined)
         self.assertIn("wong et al., jama internal medicine, 2021", joined)
         self.assertIn("stat news, based on internal company", joined)
+        self.assertIn("the parallel to this case study is structural", joined)
         for factual_claim in (
             "reviewers report that",
             "cycle-time metrics improve,",

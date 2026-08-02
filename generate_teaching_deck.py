@@ -543,15 +543,21 @@ def slides() -> list[Slide]:
                 "This is the pattern this class of system follows elsewhere, not an account "
                 "of what happened here - the tool never reached deployment.",
                 "A documented example: a sepsis-prediction model deployed at hundreds of US "
-                "hospitals reported strong developer-side performance, but an independent "
-                "external validation found it missed two-thirds of actual sepsis cases while "
-                "flagging nearly one in five patients, causing severe alert fatigue (Wong et "
-                "al., JAMA Internal Medicine, 2021).",
+                "hospitals reported a developer-side accuracy score in the high 0.70s to low "
+                "0.80s. An independent external validation found it fell to 0.63, missing "
+                "two-thirds of actual sepsis cases while flagging nearly one in five patients - "
+                "a large enough volume of false alarms to cause severe alert fatigue among the "
+                "clinicians relying on it (Wong et al., JAMA Internal Medicine, 2021).",
                 "A second, independent example from a different clinical domain: an oncology "
-                "decision-support tool was marketed and adopted at over 200 hospitals worldwide "
-                "while internal reviews had already found 'multiple examples of unsafe and "
-                "incorrect treatment recommendations' (STAT News, based on internal company "
-                "documents, 2018).",
+                "decision-support tool was trained on a small number of hypothetical cases "
+                "curated by a handful of specialists rather than broad real-world evidence, yet "
+                "was marketed and adopted at over 200 hospitals worldwide - all while internal "
+                "reviews had already found 'multiple examples of unsafe and incorrect treatment "
+                "recommendations' (STAT News, based on internal company documents, 2018).",
+                "The parallel to this case study is structural, not coincidental: in both "
+                "examples, the metric the organization could see - vendor-reported accuracy, "
+                "adoption scale - was not the metric that mattered, and no independent "
+                "validation requirement stood between the two.",
                 "Aggregate accuracy on a validation set would look strong.",
                 "Reviewers would report that it saves them time and that they like using it.",
                 "Cycle-time metrics would visibly improve within the first quarter of use.",
@@ -579,6 +585,21 @@ def slides() -> list[Slide]:
                 "different ways the same pattern surfaces. Have both citations ready if asked, "
                 "and do not overreach either - they illustrate the pattern, they do not stand in "
                 "for evidence about this specific tool. "
+                "Walk through the parallels explicitly rather than leaving the audience to infer "
+                "them. The sepsis model's gap is the readiness-and-validation gap this case "
+                "study describes in its own findings: a system trusted at scale on the strength "
+                "of a developer-reported number, with no independent check required before that "
+                "trust was extended, and a false-alarm volume large enough to train the exact "
+                "override-and-tune-out behavior described in the next slide. The oncology tool's "
+                "gap is closer to the escalation material at the end of this deck: someone "
+                "inside the organization already had the concern on record, and it did not "
+                "change what was marketed or deployed. That is not proof that raising a concern "
+                "is pointless - it is exactly the risk that makes documenting the escalation "
+                "yourself, in writing, through the formal channel, matter as much as it does. "
+                "If asked why these two and not others, say plainly that they were chosen because "
+                "they are independently published, well-documented, and span two different "
+                "clinical domains and two different failure mechanisms - not because they are "
+                "the most dramatic examples available. "
                 "The obvious objection to everything you have just said is that a system this "
                 "under-supported would fail visibly and get caught early. It would not. It "
                 "would succeed on every metric anyone is currently measuring, which is exactly "
