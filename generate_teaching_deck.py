@@ -1,7 +1,12 @@
 """Generate the teaching deck on AI failure modes in GMP-adjacent QMS.
 
-Audience: faculty at a biomanufacturing training and education centre who prepare
-the QA and manufacturing workforce that will operate AI-assisted quality systems.
+Audience: faculty in a biomanufacturing master's program - the speaker's own
+program - who prepare the QA and manufacturing workforce that will operate
+AI-assisted quality systems. The speaker is a computer-science-background student
+in that program; the placement described was their first exposure to the life
+sciences industry, and the observations are offered as evidence for how they intend
+to approach compliant, patient-safety-first AI implementation in life sciences
+going forward.
 
 Framing decisions, deliberate:
   - The deployment discussed is de-identified throughout. No employer, client,
@@ -62,12 +67,16 @@ def slides() -> list[Slide]:
             kind="title",
             subtitle=DECK_SUBTITLE,
             notes=(
-                "Open by setting scope honestly: this is not an argument that AI has no "
-                "place in quality systems. It is an argument that deviation management is "
-                "an unusually bad place to start, and that the assessment tooling the "
-                "industry has does not yet ask the right questions. Say up front that no "
-                "employer or client is named and nothing here is a compliance "
-                "determination about any specific system."
+                "Open with who you are before what you found: a computer-science-background "
+                "student in this program, and this placement was your first exposure to the "
+                "life sciences industry. That framing matters twice over - it explains why you "
+                "noticed what an insider might not, and it tells the room this talk is about "
+                "how you intend to practise, not a grievance against a former employer. Then "
+                "set scope honestly: this is not an argument that AI has no place in quality "
+                "systems. It is an argument that deviation management is an unusually bad "
+                "place to start, and that the assessment tooling the industry has does not yet "
+                "ask the right questions. Say up front that no employer or client is named and "
+                "nothing here is a compliance determination about any specific system."
             ),
         ),
         Slide(
@@ -87,7 +96,9 @@ def slides() -> list[Slide]:
             ),
             notes=(
                 "This is the hook. Establish immediately that this is their problem and not "
-                "just an industry problem. Every AI-assisted quality system is justified on "
+                "just an industry problem - and that you are one of their students, not an "
+                "outside consultant telling them their business. Every AI-assisted quality "
+                "system is justified on "
                 "the basis that a qualified human reviews the output. The entire safety "
                 "argument therefore depends on the competence of the reviewer, and reviewer "
                 "training is a curriculum question. Do not rush this slide."
@@ -790,7 +801,12 @@ def slides() -> list[Slide]:
                 "call, you made it on the information you had while holding the product owner "
                 "role, and the instrument is your attempt to make that judgement reviewable by "
                 "other people. If asked for specifics you cannot share, say plainly that you "
-                "are bound by confidentiality."
+                "are bound by confidentiality. "
+                "If asked why you are still pursuing AI in life sciences after this, answer it "
+                "directly: this is the experience that told you what compliant, patient-safety-"
+                "first implementation has to look like, not a reason to avoid the field. The "
+                "instrument on the earlier slides is the first output of that intent, not a "
+                "hypothetical one."
             ),
         ),
         Slide(
