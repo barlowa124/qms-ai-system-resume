@@ -369,6 +369,20 @@ class SourcingTests(unittest.TestCase):
 
 
 class FramingTests(unittest.TestCase):
+    def test_resourcing_corroboration_names_no_one(self) -> None:
+        """The resourcing shortfall was independently recognised by a technically
+        literate voice in the sponsor chain. This must stay a corroboration point,
+        never a named claim about a specific individual's background or judgement."""
+        slide = next(
+            s for s in deck.slides() if "resourcing actually looked" in s.title.lower()
+        )
+        joined = " ".join(slide.bullets).lower()
+        self.assertIn("technically literate voice", joined)
+        for forbidden in ("pytorch", "scientific programming", "jonathan", "rocher"):
+            with self.subTest(forbidden=forbidden):
+                self.assertNotIn(forbidden, joined)
+                self.assertNotIn(forbidden, slide.notes.lower())
+
     def test_asymmetry_gap_is_explained_by_capacity_not_indifference(self) -> None:
         """The AI layer's gap in engineering rigour is explained by IT already being
         stretched thin, not by anyone declining to engage. This must stay unnamed

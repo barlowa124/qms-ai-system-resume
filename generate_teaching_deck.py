@@ -239,6 +239,9 @@ def slides() -> list[Slide]:
                 "funding, no in-house developer assigned, no proactive maintenance model, and a "
                 "reactive queue already holding dozens of unaddressed items at its highest "
                 "priorities.",
+                "That the resourcing was short was not only a documentation finding. A "
+                "technically literate voice in the sponsor chain, consulted before staffing was "
+                "finalised, reached the same conclusion.",
             ),
             callout=(
                 "I am not the hero of this story. The staffing is the finding - the role "
@@ -287,7 +290,12 @@ def slides() -> list[Slide]:
                 "figures. They are your own contemporaneous analysis of a ticket export you no "
                 "longer hold, so present them as a finding you made at the time rather than as "
                 "a document you can produce on request. If pressed for the underlying data, say "
-                "plainly that it stayed with the employer."
+                "plainly that it stayed with the employer. "
+                "The last bullet exists only to show the shortfall was not invisible to someone "
+                "technically qualified to judge it - stop there. Do not name the person, do not "
+                "describe their background or credentials, and do not say what they recommended. "
+                "Any of those turns a corroboration point into a claim about an identifiable "
+                "individual's judgement, which this slide does not need and cannot support."
             ),
         ),
         Slide(
