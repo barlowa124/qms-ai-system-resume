@@ -369,6 +369,20 @@ class SourcingTests(unittest.TestCase):
 
 
 class FramingTests(unittest.TestCase):
+    def test_asymmetry_gap_is_explained_by_capacity_not_indifference(self) -> None:
+        """The AI layer's gap in engineering rigour is explained by IT already being
+        stretched thin, not by anyone declining to engage. This must stay unnamed
+        and framed as occupied capacity."""
+        slide = next(
+            s for s in deck.slides() if "asymmetry inside one organisation" in s.title.lower()
+        )
+        joined = " ".join(slide.bullets).lower()
+        self.assertIn("not indifference", joined)
+        self.assertIn("consistently occupied", joined)
+        for name in ("mahesh", "sohoni"):
+            with self.subTest(name=name):
+                self.assertNotIn(name, joined)
+
     def test_failed_batch_cost_is_attributed_as_verbal_testimony(self) -> None:
         """The $9 million figure came from one supervisor in one meeting. It must
         stay attributed as testimony, not asserted as an audited company figure,

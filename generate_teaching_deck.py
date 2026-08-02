@@ -194,6 +194,9 @@ def slides() -> list[Slide]:
                 "spot-checking as output validation.",
                 "This is not a story about an organisation lacking engineering discipline. The "
                 "discipline demonstrably existed. It had not reached the AI layer.",
+                "The gap was not indifference. IT was already stretched sustaining its existing "
+                "stack, and the time of both the executive IT sponsor and the senior engineers "
+                "who could have closed the gap was consistently occupied by other priorities.",
             ),
             callout=(
                 "The question is not whether an organisation can do rigorous engineering. It is "
@@ -205,6 +208,10 @@ def slides() -> list[Slide]:
                 "Make the fairness explicit and early: the strong practice on the data platform "
                 "and the commercial product is real, and saying so is what makes the rest "
                 "credible. The gap is specific to the AI application layer. "
+                "The capacity bullet is what keeps this a resourcing finding rather than a "
+                "verdict on anyone's priorities. IT was carrying its existing stack, and the "
+                "specific people who could have closed the gap were occupied by other work, not "
+                "declining to engage. Name no one and quote no one when you say it. "
                 "Do not name the organisation, the products, the individuals, or any ticket "
                 "identifiers, and do not quote colleagues. The substance carries the argument "
                 "without any of it, and attributed criticism of identifiable people turns a "
