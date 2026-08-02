@@ -26,7 +26,7 @@ IDENTIFYING_TERMS = (
     "the company i",
     "boulder",
     # Surfaced by the source memo. Colleague surnames, internal product and repo
-    # names, and ticket identifiers - each of which would make the organisation
+    # names, and ticket identifiers - each of which would make the organization
     # and named individuals identifiable.
     "sohoni",
     "rocher",
@@ -83,7 +83,7 @@ class DeIdentificationTests(unittest.TestCase):
         for content in (deck.build_markdown(), deck.build_html()):
             self.assertIn("does not identify", content.lower())
 
-    def test_no_personal_competence_judgements(self) -> None:
+    def test_no_personal_competence_judgments(self) -> None:
         """A competency concern is defensible as an absent standard and indefensible
         as a verdict on an individual. The second form is a personnel claim about an
         identifiable person and has no place in a de-identified public talk."""
@@ -147,20 +147,20 @@ class DeIdentificationTests(unittest.TestCase):
         self.assertLess(engineering, acceptance, "engineering gap frames the human one")
 
     def test_readiness_gap_credits_genuine_appetite(self) -> None:
-        """The survey response was the largest the organisation had recorded. Stating
+        """The survey response was the largest the organization had recorded. Stating
         that keeps the slide a readiness finding rather than a swipe at colleagues."""
         slide = next(s for s in deck.slides() if "other readiness gap" in s.title.lower())
         joined = " ".join(slide.bullets).lower()
         self.assertIn("appetite was real", joined)
         self.assertIn("largest response", joined)
 
-    def test_no_organisation_wide_ai_training_existed(self) -> None:
-        """No AI training programme existed at all, and even the organisation's own
+    def test_no_organization_wide_ai_training_existed(self) -> None:
+        """No AI training program existed at all, and even the organization's own
         first course was scoped to arrive during or after deployment - the timing
         failure behind the 'nobody trained for it' claim on the case-study slide."""
         slide = next(s for s in deck.slides() if "other readiness gap" in s.title.lower())
         joined = " ".join(slide.bullets).lower()
-        self.assertIn("no organisation-wide training programme", joined)
+        self.assertIn("no organization-wide training program", joined)
         self.assertIn("during or after the alpha's deployment", joined)
 
     def test_intern_status_is_disclosed(self) -> None:
@@ -198,7 +198,7 @@ class DeIdentificationTests(unittest.TestCase):
 
     def test_escalation_records_the_formal_quality_filing(self) -> None:
         """The author did not merely raise concerns informally; a formal observation was
-        filed through the organisation's own procedure. That is the complete answer to
+        filed through the organization's own procedure. That is the complete answer to
         'why did you not raise it internally' and must not be understated."""
         slide = next(s for s in deck.slides() if "conclusion i drew" in s.title.lower())
         joined = " ".join(slide.bullets).lower()
@@ -217,7 +217,7 @@ class DeIdentificationTests(unittest.TestCase):
                 self.assertNotIn(gloss, joined)
 
     def test_self_modifying_system_is_covered_by_change_control_slide(self) -> None:
-        """A system that adjusts its own behaviour from accumulated feedback changes a
+        """A system that adjusts its own behavior from accumulated feedback changes a
         validated system with no edit for anyone to review. This is the current form of
         the drift problem and the deck must carry it."""
         slide = next(s for s in deck.slides() if "stops being the running system" in s.title.lower())
@@ -269,7 +269,7 @@ class DeIdentificationTests(unittest.TestCase):
         slide = next(s for s in deck.slides() if "standard for who builds" in s.title.lower())
         joined = " ".join(slide.bullets).lower()
         self.assertIn("no step existed", joined)
-        self.assertIn("not that the judgement was wrong", joined)
+        self.assertIn("not that the judgment was wrong", joined)
 
     def test_data_access_finding_is_framed_as_a_missing_prerequisite(self) -> None:
         """The defensible finding is that no prerequisite required build-side access to
@@ -412,19 +412,19 @@ class FramingTests(unittest.TestCase):
 
     def test_promised_procedure_had_no_tracking_identifier(self) -> None:
         """The promised governing procedure was not even tracked as a commitment,
-        despite a training programme assuming its existence being discussed at the
+        despite a training program assuming its existence being discussed at the
         same time - the concrete evidence that the promise was not yet a control."""
         slide = next(s for s in deck.slides() if "control that did not exist" in s.title.lower())
         joined = " ".join(slide.bullets).lower()
         self.assertIn("no tracking identifier of its own", joined)
-        self.assertIn("global training programme", joined)
+        self.assertIn("global training program", joined)
 
     def test_build_side_domain_knowledge_gap_names_no_one(self) -> None:
         """The build side had real technical credibility from adjacent functions
         (data governance, data-integrity response) but lacked background knowledge
         of controlled documents like deviations. Must stay function-level."""
         slide = next(
-            s for s in deck.slides() if "asymmetry inside one organisation" in s.title.lower()
+            s for s in deck.slides() if "asymmetry inside one organization" in s.title.lower()
         )
         joined = " ".join(slide.bullets).lower()
         self.assertIn("data-integrity incidents", joined)
@@ -437,7 +437,7 @@ class FramingTests(unittest.TestCase):
     def test_resourcing_corroboration_names_no_one(self) -> None:
         """The resourcing shortfall was independently recognised by a technically
         literate voice in the sponsor chain. This must stay a corroboration point,
-        never a named claim about a specific individual's background or judgement."""
+        never a named claim about a specific individual's background or judgment."""
         slide = next(
             s for s in deck.slides() if "resourcing actually looked" in s.title.lower()
         )
@@ -449,11 +449,11 @@ class FramingTests(unittest.TestCase):
                 self.assertNotIn(forbidden, slide.notes.lower())
 
     def test_asymmetry_gap_is_explained_by_capacity_not_indifference(self) -> None:
-        """The AI layer's gap in engineering rigour is explained by IT already being
+        """The AI layer's gap in engineering rigor is explained by IT already being
         stretched thin, not by anyone declining to engage. This must stay unnamed
         and framed as occupied capacity."""
         slide = next(
-            s for s in deck.slides() if "asymmetry inside one organisation" in s.title.lower()
+            s for s in deck.slides() if "asymmetry inside one organization" in s.title.lower()
         )
         joined = " ".join(slide.bullets).lower()
         self.assertIn("not indifference", joined)

@@ -76,7 +76,7 @@ def slides() -> list[Slide]:
                 "student in this program, and this placement was your first exposure to the "
                 "life sciences industry. That framing matters twice over - it explains why you "
                 "noticed what an insider might not, and it tells the room this talk is about "
-                "how you intend to practise, not a grievance against a former employer. Then "
+                "how you intend to practice, not a grievance against a former employer. Then "
                 "set scope honestly: this is not an argument that AI has no place in quality "
                 "systems. It is an argument that deviation management is an unusually bad "
                 "place to start, and that the assessment tooling the industry has does not yet "
@@ -182,9 +182,9 @@ def slides() -> list[Slide]:
             ),
         ),
         Slide(
-            title="The asymmetry inside one organisation",
+            title="The asymmetry inside one organization",
             bullets=(
-                "One digital organisation can run two engineering standards at once, and both "
+                "One digital organization can run two engineering standards at once, and both "
                 "are usually visible in its own systems.",
                 "Data platform and commercial product: versioned releases in the hundreds, "
                 "pull-request gating, end-to-end test infrastructure, automated deployment, "
@@ -192,23 +192,23 @@ def slides() -> list[Slide]:
                 "AI application layer, including a tool entering the deviation workflow: no "
                 "written requirements artifact, no automated feedback collection, and manual "
                 "spot-checking as output validation.",
-                "This is not a story about an organisation lacking engineering discipline. The "
+                "This is not a story about an organization lacking engineering discipline. The "
                 "discipline demonstrably existed. It had not reached the AI layer.",
                 "The gap was not indifference. IT was already stretched sustaining its existing "
                 "stack, and the time of both the executive IT sponsor and the senior engineers "
                 "who could have closed the gap was consistently occupied by other priorities.",
                 "The people drawn into the build effort were often the same ones who govern the "
-                "organisation's data and respond to its data-integrity incidents elsewhere - "
+                "organization's data and respond to its data-integrity incidents elsewhere - "
                 "real technical credibility, but not background industry knowledge of "
                 "controlled documents like deviations.",
             ),
             callout=(
-                "The question is not whether an organisation can do rigorous engineering. It is "
-                "whether the rigour reaches the system that touches a GMP record."
+                "The question is not whether an organization can do rigorous engineering. It is "
+                "whether the rigor reaches the system that touches a GMP record."
             ),
             notes=(
                 "This is the pivot, and unlike the earlier version of this slide it is "
-                "supportable from an organisation's own records rather than from impression. "
+                "supportable from an organization's own records rather than from impression. "
                 "Make the fairness explicit and early: the strong practice on the data platform "
                 "and the commercial product is real, and saying so is what makes the rest "
                 "credible. The gap is specific to the AI application layer. "
@@ -222,7 +222,7 @@ def slides() -> list[Slide]:
                 "a controlled document is and how a deviation record is expected to behave. "
                 "Keep it at the level of functions, not people, and do not name anyone who was "
                 "actually drawn into the build effort. "
-                "Do not name the organisation, the products, the individuals, or any ticket "
+                "Do not name the organization, the products, the individuals, or any ticket "
                 "identifiers, and do not quote colleagues. The substance carries the argument "
                 "without any of it, and attributed criticism of identifiable people turns a "
                 "governance argument into a personnel dispute. Expect a question about whether "
@@ -240,7 +240,7 @@ def slides() -> list[Slide]:
                 "unassigned, and a backlog median over eight months.",
                 "The product owner for the tool entering the deviation workflow was the "
                 "project's only hire: a temporary intern. That intern was me.",
-                "In a programme governance forum, others independently questioned whether one "
+                "In a program governance forum, others independently questioned whether one "
                 "temporary intern could realistically sustain an initiative of that scope.",
                 "Senior engineering capacity existed - developers with a decade or more of "
                 "experience - and was assigned to the commercial product and the data "
@@ -250,17 +250,17 @@ def slides() -> list[Slide]:
                 "reactive queue already holding dozens of unaddressed items at its highest "
                 "priorities.",
                 "No standard operating procedures existed for non-regulated engineering activity "
-                "either. No direction was given on how to use the organisation's version-control "
+                "either. No direction was given on how to use the organization's version-control "
                 "or ticketing systems - what I used drew entirely on knowledge I already had "
                 "going in.",
                 "That the resourcing was short was not only a documentation finding. A "
                 "technically literate voice in the sponsor chain, consulted before staffing was "
-                "finalised, reached the same conclusion.",
+                "finalized, reached the same conclusion.",
             ),
             callout=(
                 "I am not the hero of this story. The staffing is the finding - the role "
                 "existed, it was filled by the most junior and least permanent person "
-                "available, and the organisation's own records show it knew the resourcing was "
+                "available, and the organization's own records show it knew the resourcing was "
                 "short."
             ),
             notes=(
@@ -284,7 +284,7 @@ def slides() -> list[Slide]:
                 "accusation that someone heard it and proceeded regardless. The written filing "
                 "makes the same point and cannot be disputed. "
                 "Expect the obvious challenge: if you were an intern, why should anyone weight "
-                "your judgement? Answer it directly. Seniority is not the claim - the records "
+                "your judgment? Answer it directly. Seniority is not the claim - the records "
                 "are the claim, and they were available to anyone who looked. Say that you were "
                 "the person who happened to look. "
                 "The maintenance-team bullet deserves a sentence of interpretation rather than "
@@ -300,12 +300,12 @@ def slides() -> list[Slide]:
                 "not a claim about anyone else's. Frame it as one more data point on what "
                 "'resourced' meant in practice - even ordinary engineering tooling had no "
                 "onboarding of its own, so what filled the gap was whatever you already knew "
-                "coming in, not anything the organisation provided. Say 'version-control and "
+                "coming in, not anything the organization provided. Say 'version-control and "
                 "ticketing systems' rather than naming the specific products if asked directly "
                 "which ones - the point is the absence of onboarding, not the tools themselves. "
                 "Two supporting points to hold in reserve. First, the scope exceeded the "
                 "classification: the same intern was running technical assessments of external "
-                "AI vendors and corresponding with them on the organisation's behalf under the "
+                "AI vendors and corresponding with them on the organization's behalf under the "
                 "strategy office. If anyone suggests 'intern' understates your involvement, "
                 "that is the answer. Second, be honest about the provenance of the portfolio "
                 "figures. They are your own contemporaneous analysis of a ticket export you no "
@@ -316,7 +316,7 @@ def slides() -> list[Slide]:
                 "technically qualified to judge it - stop there. Do not name the person, do not "
                 "describe their background or credentials, and do not say what they recommended. "
                 "Any of those turns a corroboration point into a claim about an identifiable "
-                "individual's judgement, which this slide does not need and cannot support."
+                "individual's judgment, which this slide does not need and cannot support."
             ),
         ),
         Slide(
@@ -330,7 +330,7 @@ def slides() -> list[Slide]:
                 "demonstration.",
                 "My claim to be able to build it was accepted on assertion. For a technical "
                 "role, that is an unusual step to skip.",
-                "I am the evidence for this one. The point is not that the judgement was wrong. "
+                "I am the evidence for this one. The point is not that the judgment was wrong. "
                 "It is that no step existed that could have established it either way.",
             ),
             callout=(
@@ -342,7 +342,7 @@ def slides() -> list[Slide]:
                 "because the person who went unverified was you. Nobody in the room can accuse "
                 "you of settling a score with a colleague when you are the example. "
                 "It should also land harder with this audience than any other slide, because "
-                "verifying competence is what a training centre exists to do. If industry "
+                "verifying competence is what a training center exists to do. If industry "
                 "assigns GMP-adjacent build work without checking whether the person can do it, "
                 "that bears directly on what their qualifications are for and what they are "
                 "worth. Ask them that question rather than answering it. "
@@ -400,7 +400,7 @@ def slides() -> list[Slide]:
                 "- the finding is the offboarding control, not your own subsequent conduct. If "
                 "asked directly whether it has since been resolved, decline on scope rather than "
                 "on knowledge: say plainly that your current personal situation is not something "
-                "you are going to discuss here, because the finding is the organisation's "
+                "you are going to discuss here, because the finding is the organization's "
                 "control gap, not a status update on you. Do not claim you are unable to confirm "
                 "something you can - that is its own small dishonesty, and this deck does not "
                 "need it. A stated boundary is honest. A false claim of not knowing is not."
@@ -411,7 +411,7 @@ def slides() -> list[Slide]:
             bullets=(
                 "In a GMP quality system, a process not described in a controlled procedure is "
                 "not a controlled process.",
-                "General-purpose AI was already in use across the organisation - consumer "
+                "General-purpose AI was already in use across the organization - consumer "
                 "chatbots and an enterprise assistant embedded in the office suite - for "
                 "contract drafting, HR schema work, scripting and technical questions.",
                 "There was no procedure governing any of it: no acceptable-use rule, no "
@@ -420,16 +420,16 @@ def slides() -> list[Slide]:
                 "When the gap was raised before deployment, the answer recorded at the time was "
                 "that the governing procedure would be developed after the alpha went live.",
                 "That promised procedure had no tracking identifier of its own - notable given "
-                "that a global training programme assuming the procedure would already exist "
+                "that a global training program assuming the procedure would already exist "
                 "was being discussed at the same time.",
                 "Staff said so themselves. People asked whether their information stayed "
                 "confidential, and described not knowing what they should or should not upload.",
                 "The query is itself a disclosure surface. A domain-specific technical question "
-                "can reveal what an organisation is working on with no document attached.",
+                "can reveal what an organization is working on with no document attached.",
             ),
             callout=(
                 "Absence of a procedure is not a neutral state in a quality system. It means "
-                "the process is running without a control, and the organisation cannot state "
+                "the process is running without a control, and the organization cannot state "
                 "what its own rule is."
             ),
             notes=(
@@ -440,20 +440,20 @@ def slides() -> list[Slide]:
                 "Give credit where the record supports it. Informal awareness did exist in "
                 "places - at least one function had been told not to expose proprietary client "
                 "material to these tools - which shows the instinct was present but never "
-                "systematised. That distinction is the whole point: a procedure makes a rule "
+                "systematized. That distinction is the whole point: a procedure makes a rule "
                 "reviewable, trainable and auditable, and a shared instinct does none of those. "
                 "The tracking-identifier bullet is a quality-system-literate way to show a "
                 "promise was not yet a commitment: in a mature quality system, a future "
                 "deliverable gets a tracking identifier and an owner the moment it is promised, "
                 "precisely so someone can be held to it. This one had neither, which is worth "
-                "flagging forward to the training-programme finding on the next slide - the "
-                "organisation was already discussing the downstream training before the "
+                "flagging forward to the training-program finding on the next slide - the "
+                "organization was already discussing the downstream training before the "
                 "procedure it depends on was even tracked as a commitment. "
                 "Dwell on the last bullet, because it is the one people miss. Staff assume "
                 "disclosure requires attaching a document. It does not - the prompt is the "
                 "disclosure, and a sufficiently specific technical question about a process, an "
-                "organism or a molecule can identify the programme it came from. "
-                "If challenged that almost every organisation is in this position, agree "
+                "organism or a molecule can identify the program it came from. "
+                "If challenged that almost every organization is in this position, agree "
                 "immediately and without defensiveness. That is exactly why it belongs in a "
                 "curriculum rather than in a complaint about one employer. Name no tools' users "
                 "and quote nobody."
@@ -463,7 +463,7 @@ def slides() -> list[Slide]:
             title="The other readiness gap: the people who would use it",
             bullets=(
                 "Appetite was real. A company-wide AI survey drew the largest response the "
-                "organisation had on record.",
+                "organization had on record.",
                 "It also measured the gap. Around two thirds described themselves as "
                 "beginners or non-users, and roughly one in ten as advanced.",
                 "Nearly half named unclear rules as a barrier, and the single most requested "
@@ -471,12 +471,12 @@ def slides() -> list[Slide]:
                 "Reported use of external AI services ran several times higher than use of the "
                 "sanctioned internal tool.",
                 "I then interviewed the respondents who had volunteered interest. Among that "
-                "most enthusiastic group, working familiarity with model behaviour was still "
+                "most enthusiastic group, working familiarity with model behavior was still "
                 "rare - one could engage with what sampling temperature does to an output.",
                 "The recurring themes were job impact, environmental cost, and whether it "
                 "would help daily work at all - not how to supervise a model.",
-                "There was no organisation-wide training programme for AI use of any kind. "
-                "The organisation's own training function was still scoping its first AI "
+                "There was no organization-wide training program for AI use of any kind. "
+                "The organization's own training function was still scoping its first AI "
                 "course, and raised the possibility of my involvement in building or "
                 "delivering it - during or after the alpha's deployment.",
                 "In the entire time I was there, not one person asked me whether it was safe, "
@@ -491,10 +491,10 @@ def slides() -> list[Slide]:
             notes=(
                 "This is the second readiness gap and it pairs with the engineering one: the "
                 "layer was under-supported technically, and the population designated to "
-                "supervise its output had little working familiarity with model behaviour. "
-                "The figures are the organisation's own, from its own survey, which is what "
-                "makes them usable. You are not characterising colleagues from impression, you "
-                "are reporting what the organisation measured about itself. "
+                "supervise its output had little working familiarity with model behavior. "
+                "The figures are the organization's own, from its own survey, which is what "
+                "makes them usable. You are not characterizing colleagues from impression, you "
+                "are reporting what the organization measured about itself. "
                 "Keep the third bullet in reserve for the discussion, because it is the one "
                 "that closes the argument. Nearly half the workforce named unclear rules as a "
                 "barrier and asked for guidance above all else, which means the missing "
@@ -502,27 +502,27 @@ def slides() -> list[Slide]:
                 "single thing staff most wanted and did not have. The survey's own executive "
                 "summary concluded that the constraint was trust and governance rather than "
                 "lack of interest. If challenged on whether that is your interpretation, say "
-                "that it was the organisation's. "
+                "that it was the organization's. "
                 "The free-text responses included a minority of strongly hostile comments. Do "
-                "not quote them and do not characterise their authors. The substantive concerns "
+                "not quote them and do not characterize their authors. The substantive concerns "
                 "inside them, environmental cost and job displacement, are already on the slide "
                 "and are the part that deserves an answer. "
-                "Give the organisation full credit for the survey response - it is evidence of "
+                "Give the organization full credit for the survey response - it is evidence of "
                 "genuine appetite, and saying so keeps this from sounding dismissive. The gap "
                 "is between appetite and preparation, not between clever and foolish people. "
                 "These were willing, candid, experienced colleagues, and the enthusiast "
                 "population is the fairest sample you could have drawn - if familiarity is "
                 "thin there, it is thinner everywhere else. "
                 "The temperature question is a fair probe rather than a trivia test, because "
-                "sampling behaviour is what determines whether the same input yields the same "
+                "sampling behavior is what determines whether the same input yields the same "
                 "output twice, and that is the first thing a reviewer needs to know. "
                 "If challenged that this is just normal early adoption, agree: appetite "
                 "outrunning familiarity is ordinary and harmless everywhere except where the "
                 "unfamiliar population is the designated control. Name nobody and quote "
                 "nobody. "
-                "Deliver the training-programme bullet as a fact about organisational "
+                "Deliver the training-program bullet as a fact about organizational "
                 "sequencing, not as a credential - the point is not that you were asked, it is "
-                "that even the organisation's own remedy was scoped to arrive during or after "
+                "that even the organization's own remedy was scoped to arrive during or after "
                 "the thing it was meant to prepare people for. That is the timing failure in "
                 "one sentence, and it needs no further comment from you. "
                 "The final bullet is the concrete counterpart to everything the survey measured "
@@ -577,7 +577,7 @@ def slides() -> list[Slide]:
             notes=(
                 "This is the most important failure mode because it defeats the control the "
                 "whole safety case rests on, and it does so while producing perfect "
-                "documentary evidence of compliance. Emphasise that the reviewers are not "
+                "documentary evidence of compliance. Emphasize that the reviewers are not "
                 "lazy - a system that is right 95 percent of the time trains you to trust it, "
                 "and that training is rational. Automation bias is well established in "
                 "aviation and radiology literature; this is not speculative. "
@@ -620,14 +620,14 @@ def slides() -> list[Slide]:
                 "maintenance.",
                 "None of these is a model change, so none reliably triggers change control.",
                 "Then the case that is not a change at all: a system designed to adjust its own "
-                "scoring from accumulated reviewer corrections. Its behaviour evolves by "
+                "scoring from accumulated reviewer corrections. Its behavior evolves by "
                 "design, continuously, with no edit for anyone to review.",
                 "On the project I worked on this was confirmed on record. Human-initiated "
-                "changes were tracked. The system's own behavioural changes were not, because "
+                "changes were tracked. The system's own behavioral changes were not, because "
                 "the tracking system exists to record what people do.",
             ),
             callout=(
-                "Change control as written governs the model. The behaviour of the system is "
+                "Change control as written governs the model. The behavior of the system is "
                 "determined by the model, plus everything around it, plus - increasingly - what "
                 "the system has taught itself since validation."
             ),
@@ -640,7 +640,7 @@ def slides() -> list[Slide]:
                 "The last two bullets are the ones worth slowing down for, because they are the "
                 "version of this problem that is arriving now rather than hypothetically. A "
                 "feedback loop that improves a system is a feature, and it is the reason these "
-                "tools get better in use. It is also a behavioural change to a validated system "
+                "tools get better in use. It is also a behavioral change to a validated system "
                 "that no existing mechanism records, because activity tracking was designed "
                 "around human work. State the confirmation neutrally and do not editorialise - "
                 "the answer was a candid and accurate description of how the tracking system "
@@ -728,7 +728,7 @@ def slides() -> list[Slide]:
             bullets=(
                 "Computer system validation establishes fitness at a point in time; these "
                 "systems drift continuously.",
-                "Risk-based categorisation assumes deterministic input-output behaviour.",
+                "Risk-based categorization assumes deterministic input-output behavior.",
                 "Annex 11 and Part 11 predate language models and say nothing about "
                 "acceptance-rate monitoring or context-window limits.",
                 "None of these frameworks is wrong. They are necessary and currently "
@@ -759,7 +759,7 @@ def slides() -> list[Slide]:
                 "Items are traced to named release gates, so a finding maps to a control "
                 "someone owns.",
                 "Reviewer-administered, with a scoring engine that produces a findings report.",
-                "Some controls I deliberately did not build. Authentication, authorisation and "
+                "Some controls I deliberately did not build. Authentication, authorization and "
                 "drift thresholds each depend on a decision that belongs to Quality rather than "
                 "to a developer, so I documented each gap for the next maintainer instead of "
                 "pre-empting them.",
@@ -772,7 +772,7 @@ def slides() -> list[Slide]:
             ),
             notes=(
                 "Transition from problem to contribution. The important design choice is that "
-                "every item asks for observed system behaviour or a retrievable artifact, "
+                "every item asks for observed system behavior or a retrievable artifact, "
                 "never for an opinion or a self-rating. A reviewer with no machine learning "
                 "background can execute it, which is the point."
             ),
@@ -795,7 +795,7 @@ def slides() -> list[Slide]:
             ),
             notes=(
                 "This is the slide a technical audience will engage with most. The default "
-                "behaviour of almost every scorecard is that unanswered questions are "
+                "behavior of almost every scorecard is that unanswered questions are "
                 "silently excluded from the denominator, which means an assessment nobody "
                 "completed can look like a pass. Inverting that default is the single most "
                 "important property of the tool."
@@ -827,7 +827,7 @@ def slides() -> list[Slide]:
                 "Say explicitly that this is synthetic input before you walk through it. The "
                 "figures are invented to exercise the tool and describe nothing real. "
                 "Three things to point out: the verdict language avoids any implication of "
-                "approval; the finding cites a specific metric rather than a judgement; and the "
+                "approval; the finding cites a specific metric rather than a judgment; and the "
                 "non-zero exit code means this can gate an automated release pipeline rather "
                 "than living in a document nobody reads. If there is time, run it live - it is "
                 "more convincing than a screenshot."
@@ -850,7 +850,7 @@ def slides() -> list[Slide]:
                 "says nothing about whether the rubric is correctly calibrated."
             ),
             notes=(
-                "Do not skip this slide, and do not apologise through it. Volunteering the "
+                "Do not skip this slide, and do not apologize through it. Volunteering the "
                 "weaknesses is what separates an analysis from an advocacy pitch, and this "
                 "audience will find these problems anyway. The calibration issue is the one "
                 "worth genuinely asking their opinion on - if nearly everything blocks, the "
@@ -864,11 +864,11 @@ def slides() -> list[Slide]:
                 "of this is an account of a system in production.",
                 "I put the question in writing and then in person to the executive sponsor: "
                 "what operational standard should the alpha ship under, given the gap between "
-                "the AI layer's practices and the standard the same organisation applied "
+                "the AI layer's practices and the standard the same organization applied "
                 "elsewhere. I built the case from its own records and credited the engineering "
                 "discipline demonstrated elsewhere in it.",
                 "The answer did not resolve the question, so I filed a formal quality "
-                "observation through the organisation's own observation procedure - requesting "
+                "observation through the organization's own observation procedure - requesting "
                 "a tracking identifier, a named owner for the gap, a timeline for an AI use "
                 "procedure, and deferral of GMP-adjacent deployment until one existed.",
                 "I told my manager I was filing it before I filed it, and sent the analysis to "
@@ -880,7 +880,7 @@ def slides() -> list[Slide]:
             callout=(
                 "I am not claiming harm occurred and I am not claiming an unsafe system "
                 "shipped. Neither happened. I raised a prospective risk through the "
-                "organisation's own quality channel, did not get the assurance I needed, and "
+                "organization's own quality channel, did not get the assurance I needed, and "
                 "declined to own the launch."
             ),
             notes=(
@@ -889,7 +889,7 @@ def slides() -> list[Slide]:
                 "anyone of shipping something unsafe. "
                 "The sequence is what makes this credible, so deliver it in order: raised in "
                 "writing and in person, answer received, formal quality observation filed "
-                "through the organisation's own procedure, manager told in advance, analysis "
+                "through the organization's own procedure, manager told in advance, analysis "
                 "routed to compliance so it would survive your departure, notice worked, "
                 "transition documentation delivered. That is an escalation record rather than a "
                 "complaint, and it is the complete answer to 'why did you not just raise it "
@@ -908,9 +908,9 @@ def slides() -> list[Slide]:
                 "time. It invites a debate about the character of people the room has never "
                 "met, which you cannot win and do not need; 'the answer did not resolve the "
                 "question' is the same fact without the grievance. "
-                "Expect to be asked whether resigning was proportionate. It is a judgement "
+                "Expect to be asked whether resigning was proportionate. It is a judgment "
                 "call, you made it on the information you had while holding the product owner "
-                "role, and the instrument is your attempt to make that judgement reviewable by "
+                "role, and the instrument is your attempt to make that judgment reviewable by "
                 "other people. If asked for specifics you cannot share, say plainly that you "
                 "are bound by confidentiality. "
                 "If asked why you are still pursuing AI in life sciences after this, answer it "
