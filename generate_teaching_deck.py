@@ -479,6 +479,10 @@ def slides() -> list[Slide]:
                 "The organisation's own training function was still scoping its first AI "
                 "course, and raised the possibility of my involvement in building or "
                 "delivering it - during or after the alpha's deployment.",
+                "In the entire time I was there, not one person asked me whether it was safe, "
+                "whether its output could affect a decision, or whether it belonged that close "
+                "to a GMP process. Nobody raised the possibility of accidental prompt injection "
+                "or accidental drift.",
             ),
             callout=(
                 "Enthusiasm is not readiness. A population that wants a tool but cannot "
@@ -516,11 +520,21 @@ def slides() -> list[Slide]:
                 "outrunning familiarity is ordinary and harmless everywhere except where the "
                 "unfamiliar population is the designated control. Name nobody and quote "
                 "nobody. "
-                "Deliver the last bullet as a fact about organisational sequencing, not as a "
-                "credential - the point is not that you were asked, it is that even the "
-                "organisation's own remedy was scoped to arrive during or after the thing it "
-                "was meant to prepare people for. That is the timing failure in one sentence, "
-                "and it needs no further comment from you."
+                "Deliver the training-programme bullet as a fact about organisational "
+                "sequencing, not as a credential - the point is not that you were asked, it is "
+                "that even the organisation's own remedy was scoped to arrive during or after "
+                "the thing it was meant to prepare people for. That is the timing failure in "
+                "one sentence, and it needs no further comment from you. "
+                "The final bullet is the concrete counterpart to everything the survey measured "
+                "in the abstract. It is a first-hand observation about you, not a claim about "
+                "anyone else's competence, so it carries none of the naming risk the rest of "
+                "this slide is careful about. Deliver it as absence of evidence you personally "
+                "looked for throughout your time there, not as a survey of what colleagues knew - "
+                "you cannot know what every individual silently understood, only that in your "
+                "own experience the question never once came up unprompted. Prompt injection and "
+                "drift are named here because they are the two failure modes least likely to "
+                "announce themselves, which is exactly why nobody asking about them is the "
+                "finding rather than a reassuring silence."
             ),
         ),
         Slide(

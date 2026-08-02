@@ -370,6 +370,19 @@ class SourcingTests(unittest.TestCase):
 
 
 class FramingTests(unittest.TestCase):
+    def test_no_one_asked_about_safety_is_present_and_self_referential(self) -> None:
+        """Across an entire tenure, nobody asked about safety, decision impact,
+        GMP proximity, prompt injection, or drift. This is the concrete
+        counterpart to the survey statistics on this slide, and must stay a
+        first-hand observation rather than a claim about colleagues' knowledge."""
+        slide = next(
+            s for s in deck.slides() if "the people who would use it" in s.title.lower()
+        )
+        joined = " ".join(slide.bullets).lower()
+        self.assertIn("not one person asked me", joined)
+        self.assertIn("prompt injection", joined)
+        self.assertIn("drift", joined)
+
     def test_offboarding_access_gap_is_strictly_past_tense(self) -> None:
         """Repository/data access outlasted the assignment by at least a month. This
         must be stated as a past-tense fact about the offboarding control, never as
