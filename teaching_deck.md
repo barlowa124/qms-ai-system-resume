@@ -17,17 +17,17 @@ Speaker notes: Open with who you are before what you found: a computer-science-b
 
 ---
 
-## Why bring this to a training centre
+## What this case study covers
 
-- You prepare the QA analysts, manufacturing associates, and technicians who will operate these systems.
+- A single AI-assisted deviation-review tool, built during my first placement in a regulated life sciences environment.
+- The tool never reached deployment, so this is a prospective risk analysis, not an account of a live failure.
 - The one deployment I observed closely rested its entire safety case on a human reviewer catching the model's mistakes.
-- That human is your graduate.
-- Training on how to operate the system is not the same as training on how it fails.
+- Two governance questions surfaced during the placement: how reviewers are prepared to catch failure, and how builders are qualified to avoid causing it.
 
-> The control that regulators, vendors, and quality leadership all rely on is the one nobody is specifically trained for.
+> The control every stakeholder relied on - the human reviewer - was, in this case, one nobody had been specifically trained for.
 
 <!--
-Speaker notes: This is the hook. Establish immediately that this is their problem and not just an industry problem - and that you are one of their students, not an outside consultant telling them their business. Every AI-assisted quality system is justified on the basis that a qualified human reviews the output. The entire safety argument therefore depends on the competence of the reviewer, and reviewer training is a curriculum question. Do not rush this slide.
+Speaker notes: Orient the case study before any findings: one tool, one placement, never deployed. This is a case study submitted for review, not a pitch that their curriculum has a gap - let that implication surface later from the findings themselves rather than asserting it now. Every AI-assisted quality system is justified on the basis that a qualified human reviews the output, so the entire safety argument depends on the reviewer's competence. State that as an observation from the case study, not as a claim about this program. Do not rush this slide.
 -->
 
 ---
@@ -380,10 +380,10 @@ Speaker notes: One slide, stated once, then move on. Leading with 'never went li
 - One instrument item exists solely to check that reviewers are trained on named failure modes rather than general operation.
 - The same gap exists on the build side: typically no competency standard defines who may develop an AI feature that touches a regulated record, even where equivalent standards exist for the process it feeds.
 
-> Your graduates are the last control in the chain. Right now they are being trained as operators of the system rather than as auditors of it.
+> In this case study, the last control in the chain was a reviewer trained to operate the system, not to audit it.
 
 <!--
-Speaker notes: This is the ask, and it should feel like a contribution rather than a complaint. Offer something concrete: a guest module, a case-study exercise built from the four failure modes, or the instrument itself as a teaching artifact. Have a specific next step ready if anyone is interested. The build-side competency bullet is the one this audience is best placed to act on, since defining and assessing competency is their core business. Keep it structural - an absent standard, not an assessment of any individual. If asked whether you saw this go wrong in practice, say the standard was absent and stop there. Speculating about whether a particular person met a standard that was never written is neither fair nor arguable, and it will cost you the room instantly.
+Speaker notes: This is a finding of the case study, not a request. Present it and let the faculty draw their own curriculum implications rather than proposing what they should change; if asked directly whether you have a suggestion, the four failure modes and the instrument itself are concrete material you can point to, but lead with the finding, not the offer. The build-side competency bullet is the one this audience is best placed to evaluate, since defining and assessing competency is their core business. Keep it structural - an absent standard, not an assessment of any individual. If asked whether you saw this go wrong in practice, say the standard was absent and stop there. Speculating about whether a particular person met a standard that was never written is neither fair nor arguable, and it will cost you the room instantly.
 -->
 
 ---

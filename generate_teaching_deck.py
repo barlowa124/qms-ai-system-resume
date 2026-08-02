@@ -1,17 +1,22 @@
 """Generate the teaching deck on AI failure modes in GMP-adjacent QMS.
 
 Audience: faculty in a biomanufacturing master's program - the speaker's own
-program - who prepare the QA and manufacturing workforce that will operate
-AI-assisted quality systems. The speaker is a computer-science-background student
-in that program; the placement described was their first exposure to the life
-sciences industry, and the observations are offered as evidence for how they intend
-to approach compliant, patient-safety-first AI implementation in life sciences
-going forward.
+program - reviewing this placement as a case study of an AI implementation in life
+sciences. This is a case-study review, not an advocacy pitch: the faculty are not
+being told their curriculum has a gap they must fix, they are evaluating a case study
+submitted to them. The speaker is a computer-science-background student in that
+program; the placement described was their first exposure to the life sciences
+industry, and the observations are offered as evidence for how they intend to
+approach compliant, patient-safety-first AI implementation in life sciences going
+forward.
 
 Framing decisions, deliberate:
   - The deployment discussed is de-identified throughout. No employer, client,
     vendor, or product is named. Every failure mode is stated generically enough
     to apply to any AI-assisted deviation-management deployment.
+  - The tone is descriptive, not prescriptive. Curriculum-relevant implications are
+    stated as findings of the case study for the faculty to weigh, never as a
+    request that they change anything.
   - The content is the failure modes and the assessment instrument. The speaker's
     resignation is a single late slide stated as a conclusion, not a thesis.
   - Limitations are presented explicitly. An academic audience discounts a deck
@@ -80,28 +85,31 @@ def slides() -> list[Slide]:
             ),
         ),
         Slide(
-            title="Why bring this to a training centre",
+            title="What this case study covers",
             bullets=(
-                "You prepare the QA analysts, manufacturing associates, and technicians "
-                "who will operate these systems.",
+                "A single AI-assisted deviation-review tool, built during my first "
+                "placement in a regulated life sciences environment.",
+                "The tool never reached deployment, so this is a prospective risk "
+                "analysis, not an account of a live failure.",
                 "The one deployment I observed closely rested its entire safety case on a "
                 "human reviewer catching the model's mistakes.",
-                "That human is your graduate.",
-                "Training on how to operate the system is not the same as training on how "
-                "it fails.",
+                "Two governance questions surfaced during the placement: how reviewers are "
+                "prepared to catch failure, and how builders are qualified to avoid causing "
+                "it.",
             ),
             callout=(
-                "The control that regulators, vendors, and quality leadership all rely on "
-                "is the one nobody is specifically trained for."
+                "The control every stakeholder relied on - the human reviewer - was, in "
+                "this case, one nobody had been specifically trained for."
             ),
             notes=(
-                "This is the hook. Establish immediately that this is their problem and not "
-                "just an industry problem - and that you are one of their students, not an "
-                "outside consultant telling them their business. Every AI-assisted quality "
-                "system is justified on "
-                "the basis that a qualified human reviews the output. The entire safety "
-                "argument therefore depends on the competence of the reviewer, and reviewer "
-                "training is a curriculum question. Do not rush this slide."
+                "Orient the case study before any findings: one tool, one placement, never "
+                "deployed. This is a case study submitted for review, not a pitch that their "
+                "curriculum has a gap - let that implication surface later from the findings "
+                "themselves rather than asserting it now. Every AI-assisted quality system is "
+                "justified on the basis that a qualified human reviews the output, so the "
+                "entire safety argument depends on the reviewer's competence. State that as "
+                "an observation from the case study, not as a claim about this program. Do "
+                "not rush this slide."
             ),
         ),
         Slide(
@@ -827,16 +835,17 @@ def slides() -> list[Slide]:
                 "where equivalent standards exist for the process it feeds.",
             ),
             callout=(
-                "Your graduates are the last control in the chain. Right now they are being "
-                "trained as operators of the system rather than as auditors of it."
+                "In this case study, the last control in the chain was a reviewer trained to "
+                "operate the system, not to audit it."
             ),
             notes=(
-                "This is the ask, and it should feel like a contribution rather than a "
-                "complaint. Offer something concrete: a guest module, a case-study exercise "
-                "built from the four failure modes, or the instrument itself as a teaching "
-                "artifact. Have a specific next step ready if anyone is interested. "
+                "This is a finding of the case study, not a request. Present it and let the "
+                "faculty draw their own curriculum implications rather than proposing what "
+                "they should change; if asked directly whether you have a suggestion, the "
+                "four failure modes and the instrument itself are concrete material you can "
+                "point to, but lead with the finding, not the offer. "
                 "The build-side competency bullet is the one this audience is best placed to "
-                "act on, since defining and assessing competency is their core business. Keep "
+                "evaluate, since defining and assessing competency is their core business. Keep "
                 "it structural - an absent standard, not an assessment of any individual. If "
                 "asked whether you saw this go wrong in practice, say the standard was absent "
                 "and stop there. Speculating about whether a particular person met a standard "
