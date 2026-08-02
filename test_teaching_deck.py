@@ -369,6 +369,15 @@ class SourcingTests(unittest.TestCase):
 
 
 class FramingTests(unittest.TestCase):
+    def test_promised_procedure_had_no_tracking_identifier(self) -> None:
+        """The promised governing procedure was not even tracked as a commitment,
+        despite a training programme assuming its existence being discussed at the
+        same time - the concrete evidence that the promise was not yet a control."""
+        slide = next(s for s in deck.slides() if "control that did not exist" in s.title.lower())
+        joined = " ".join(slide.bullets).lower()
+        self.assertIn("no tracking identifier of its own", joined)
+        self.assertIn("global training programme", joined)
+
     def test_build_side_domain_knowledge_gap_names_no_one(self) -> None:
         """The build side had real technical credibility from adjacent functions
         (data governance, data-integrity response) but lacked background knowledge

@@ -396,6 +396,9 @@ def slides() -> list[Slide]:
                 "work.",
                 "When the gap was raised before deployment, the answer recorded at the time was "
                 "that the governing procedure would be developed after the alpha went live.",
+                "That promised procedure had no tracking identifier of its own - notable given "
+                "that a global training programme assuming the procedure would already exist "
+                "was being discussed at the same time.",
                 "Staff said so themselves. People asked whether their information stayed "
                 "confidential, and described not knowing what they should or should not upload.",
                 "The query is itself a disclosure surface. A domain-specific technical question "
@@ -416,6 +419,13 @@ def slides() -> list[Slide]:
                 "material to these tools - which shows the instinct was present but never "
                 "systematised. That distinction is the whole point: a procedure makes a rule "
                 "reviewable, trainable and auditable, and a shared instinct does none of those. "
+                "The tracking-identifier bullet is a quality-system-literate way to show a "
+                "promise was not yet a commitment: in a mature quality system, a future "
+                "deliverable gets a tracking identifier and an owner the moment it is promised, "
+                "precisely so someone can be held to it. This one had neither, which is worth "
+                "flagging forward to the training-programme finding on the next slide - the "
+                "organisation was already discussing the downstream training before the "
+                "procedure it depends on was even tracked as a commitment. "
                 "Dwell on the last bullet, because it is the one people miss. Staff assume "
                 "disclosure requires attaching a document. It does not - the prompt is the "
                 "disclosure, and a sufficiently specific technical question about a process, an "
