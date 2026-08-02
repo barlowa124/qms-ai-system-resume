@@ -370,6 +370,14 @@ class SourcingTests(unittest.TestCase):
 
 
 class FramingTests(unittest.TestCase):
+    def test_automation_bias_slide_cites_a_concrete_named_case(self) -> None:
+        """The automation-bias claim should point to a concrete, citable case
+        rather than a vague appeal to 'the literature'."""
+        slide = next(s for s in deck.slides() if "automation bias" in s.title.lower())
+        joined = " ".join(slide.bullets).lower()
+        self.assertIn("uss vincennes", joined)
+        self.assertIn("cummings", joined)
+
     def test_demo_slide_does_not_claim_a_deployment_that_never_happened(self) -> None:
         """The tool never reached deployment, so this slide's reviewer and
         cycle-time claims must read as a forward-looking pattern ('would'),
@@ -379,6 +387,7 @@ class FramingTests(unittest.TestCase):
         self.assertIn("not an account of what happened here", joined)
         self.assertIn("never reached deployment", joined)
         self.assertIn("wong et al., jama internal medicine, 2021", joined)
+        self.assertIn("stat news, based on internal company", joined)
         for factual_claim in (
             "reviewers report that",
             "cycle-time metrics improve,",

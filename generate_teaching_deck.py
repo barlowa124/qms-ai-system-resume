@@ -547,6 +547,11 @@ def slides() -> list[Slide]:
                 "external validation found it missed two-thirds of actual sepsis cases while "
                 "flagging nearly one in five patients, causing severe alert fatigue (Wong et "
                 "al., JAMA Internal Medicine, 2021).",
+                "A second, independent example from a different clinical domain: an oncology "
+                "decision-support tool was marketed and adopted at over 200 hospitals worldwide "
+                "while internal reviews had already found 'multiple examples of unsafe and "
+                "incorrect treatment recommendations' (STAT News, based on internal company "
+                "documents, 2018).",
                 "Aggregate accuracy on a validation set would look strong.",
                 "Reviewers would report that it saves them time and that they like using it.",
                 "Cycle-time metrics would visibly improve within the first quarter of use.",
@@ -564,12 +569,16 @@ def slides() -> list[Slide]:
                 "metrics actually did, because there were no reviewers and no metrics - it never "
                 "reached deployment. Blurring that line is the one mistake that would undermine "
                 "the deck's own credibility on the exact point it keeps insisting on elsewhere. "
-                "The sepsis-model citation is what makes the pattern more than a plausible-"
-                "sounding assertion: it is a peer-reviewed, published account of exactly this "
-                "shape of failure - a widely adopted clinical model whose own vendor-reported "
-                "metrics looked strong, undone by an external party actually checking. Have the "
-                "citation ready if asked, and do not overreach it - it illustrates the pattern, "
-                "it does not stand in for evidence about this specific tool. "
+                "The two citations are what make the pattern more than a plausible-sounding "
+                "assertion. The sepsis model is a peer-reviewed, published account of vendor-"
+                "reported metrics looking strong until an external party actually checked. The "
+                "oncology tool is a different mechanism in the same family: internal reviewers "
+                "had already identified unsafe recommendations while the product continued to "
+                "be marketed and adopted at scale, which shows the gap can persist even when "
+                "someone inside the organization does raise it. Two independent domains, two "
+                "different ways the same pattern surfaces. Have both citations ready if asked, "
+                "and do not overreach either - they illustrate the pattern, they do not stand in "
+                "for evidence about this specific tool. "
                 "The obvious objection to everything you have just said is that a system this "
                 "under-supported would fail visibly and get caught early. It would not. It "
                 "would succeed on every metric anyone is currently measuring, which is exactly "
@@ -588,6 +597,11 @@ def slides() -> list[Slide]:
                 "A few seconds is not enough to read a deviation, let alone evaluate the "
                 "recommendation behind it.",
                 "The control exists, is inspectable, and is not functioning.",
+                "Automation bias is not new or speculative: it is the documented mechanism "
+                "behind the 1988 USS Vincennes shootdown of a civilian airliner, where a "
+                "trained crew trusted an automated tactical display over the actual situation "
+                "(Cummings, 'Automation Bias in Intelligent Time-Critical Decision Support "
+                "Systems,' AIAA, 2004).",
             ),
             callout=(
                 "Teaching point: measure override rate and dwell time, segmented by risk "
@@ -598,8 +612,12 @@ def slides() -> list[Slide]:
                 "whole safety case rests on, and it does so while producing perfect "
                 "documentary evidence of compliance. Emphasize that the reviewers are not "
                 "lazy - a system that is right 95 percent of the time trains you to trust it, "
-                "and that training is rational. Automation bias is well established in "
-                "aviation and radiology literature; this is not speculative. "
+                "and that training is rational. Automation bias is well established in aviation "
+                "and radiology literature, and the Vincennes citation gives you a concrete, "
+                "named case rather than a vague appeal to 'the literature' if pressed on it. "
+                "Keep the comparison at the level of mechanism, not stakes - you are not "
+                "equating a deviation review with a wartime engagement, only pointing at the "
+                "same documented cognitive pattern. "
                 "IMPORTANT: do not cite specific acceptance or dwell figures unless you can "
                 "state their source and are permitted to disclose them. The diagnostic "
                 "signature is the teachable content and it needs no numbers. If asked whether "
