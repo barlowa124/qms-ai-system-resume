@@ -611,6 +611,9 @@ def slides() -> list[Slide]:
             title="Failure mode 1 - Automation bias",
             kind="failure",
             bullets=(
+                "This is not an argument that human review is missing. This system has it. The "
+                "argument is about what happens to that specific control under realistic "
+                "conditions - which is the only way it can fail while still passing every audit.",
                 "The diagnostic signature: acceptance rates approaching 100 percent, combined "
                 "with dwell times too short to have read the case.",
                 "Human review is documented, enforced in the workflow, and present in every "
@@ -618,32 +621,42 @@ def slides() -> list[Slide]:
                 "A few seconds is not enough to read a deviation, let alone evaluate the "
                 "recommendation behind it.",
                 "The control exists, is inspectable, and is not functioning.",
-                "Automation bias is not new or speculative: it is the documented mechanism "
-                "behind the 1988 USS Vincennes shootdown of a civilian airliner, where a "
-                "trained crew trusted an automated tactical display over the actual situation "
-                "(Cummings, 'Automation Bias in Intelligent Time-Critical Decision Support "
-                "Systems,' AIAA, 2004).",
+                "This is documented within life sciences, not just imported from another "
+                "industry: reviews of computerized drug-safety alerts found override rates of "
+                "49 to 96 percent across clinical settings (van der Sijs et al., JAMIA, 2006).",
+                "A mammography study found the effect hit hardest where it is least expected: "
+                "the most skilled radiologists became measurably less sensitive to difficult "
+                "cancers specifically when a computer-aided detection tool prompted incorrectly "
+                "(Povyakalo et al., Medical Decision Making, 2013).",
             ),
             callout=(
                 "Teaching point: measure override rate and dwell time, segmented by risk "
                 "class, queue depth, and shift position. Aggregate figures hide this."
             ),
             notes=(
+                "Open with the first bullet and mean it - the most common misreading of this "
+                "slide is that it argues human review is absent, which invites the flat and "
+                "correct rebuttal that this system has it. The actual argument is narrower and "
+                "harder to dismiss: human review is the control the entire safety case rests on, "
+                "and this is the documented failure mode of that specific control, not a general "
+                "complaint about oversight. "
                 "This is the most important failure mode because it defeats the control the "
                 "whole safety case rests on, and it does so while producing perfect "
                 "documentary evidence of compliance. Emphasize that the reviewers are not "
                 "lazy - a system that is right 95 percent of the time trains you to trust it, "
-                "and that training is rational. Automation bias is well established in aviation "
-                "and radiology literature, and the Vincennes citation gives you a concrete, "
-                "named case rather than a vague appeal to 'the literature' if pressed on it. "
-                "Keep the comparison at the level of mechanism, not stakes - you are not "
-                "equating a deviation review with a wartime engagement, only pointing at the "
-                "same documented cognitive pattern. "
-                "IMPORTANT: do not cite specific acceptance or dwell figures unless you can "
-                "state their source and are permitted to disclose them. The diagnostic "
-                "signature is the teachable content and it needs no numbers. If asked whether "
-                "you measured this, distinguish clearly between what you observed and what you "
-                "are describing as a general pattern."
+                "and that training is rational. "
+                "Use the two life-sciences citations to close off the 'that is a different "
+                "industry' objection before it is raised. The alert-override review spans "
+                "clinical settings directly comparable to this one - a computerized system "
+                "producing a recommendation a qualified professional is expected to check. The "
+                "mammography finding is the sharper point and worth lingering on: the effect was "
+                "largest in the most skilled readers, not the least skilled, which pre-empts the "
+                "objection that experienced reviewers would simply not be susceptible to this. "
+                "IMPORTANT: do not cite specific acceptance or dwell figures for this tool "
+                "unless you can state their source and are permitted to disclose them. The "
+                "diagnostic signature is the teachable content and it needs no numbers of your "
+                "own. If asked whether you measured this, distinguish clearly between what you "
+                "observed and what you are describing as a documented general pattern."
             ),
         ),
         Slide(

@@ -370,13 +370,15 @@ class SourcingTests(unittest.TestCase):
 
 
 class FramingTests(unittest.TestCase):
-    def test_automation_bias_slide_cites_a_concrete_named_case(self) -> None:
-        """The automation-bias claim should point to a concrete, citable case
-        rather than a vague appeal to 'the literature'."""
+    def test_automation_bias_slide_cites_life_sciences_examples(self) -> None:
+        """The automation-bias claim should point to concrete, citable cases
+        within life sciences, not just an out-of-domain analogy, and must
+        explicitly state that the slide does not argue human review is absent."""
         slide = next(s for s in deck.slides() if "automation bias" in s.title.lower())
         joined = " ".join(slide.bullets).lower()
-        self.assertIn("uss vincennes", joined)
-        self.assertIn("cummings", joined)
+        self.assertIn("van der sijs et al., jamia, 2006", joined)
+        self.assertIn("povyakalo et al., medical decision making, 2013", joined)
+        self.assertIn("not an argument that human review is missing", joined)
 
     def test_demo_slide_does_not_claim_a_deployment_that_never_happened(self) -> None:
         """The tool never reached deployment, so this slide's reviewer and
