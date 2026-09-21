@@ -17,8 +17,8 @@ This package includes:
 ## Quick start
 
 ```bash
-git clone https://github.com/barlowa124/qms-ai-system-resume.git
-cd qms-ai-system-resume
+git clone https://github.com/barlowa124/qms-ai-governance.git
+cd qms-ai-governance
 python3 -m pytest -q
 
 # Generate the reviewer instrument and score a completed assessment
