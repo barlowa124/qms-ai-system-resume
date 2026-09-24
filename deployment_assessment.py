@@ -47,7 +47,7 @@ class Response(str, Enum):
     NOT_APPLICABLE = "not_applicable"
 
 
-# Responses that do NOT clear an item. NOT_ASSESSED is deliberately included:
+# Responses that do NOT clear an item. NOT_ASSESSED counts as unresolved by design:
 # absence of evidence is treated as absence of control (fail-closed).
 NON_CLEARING_RESPONSES = frozenset(
     {Response.PARTIAL, Response.NON_CONFORMANT, Response.NOT_ASSESSED}
@@ -77,7 +77,7 @@ PLACEHOLDER_JUSTIFICATIONS = frozenset(
 
 
 def is_substantive_justification(note: str) -> bool:
-    """A not_applicable claim must say why, not just assert itself.
+    """A not_applicable claim must say why.
 
     Rejects placeholder tokens and anything too short to carry a reason, so
     that scoping an item out costs more effort than assessing it.
