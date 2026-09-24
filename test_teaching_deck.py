@@ -154,6 +154,58 @@ class DeIdentificationTests(unittest.TestCase):
         self.assertIn("appetite was real", joined)
         self.assertIn("largest response", joined)
 
+    def test_it_interest_figure_has_no_count_and_names_the_capacity_tension(self) -> None:
+        """The IT function's volunteered interest in the AI project, measured on
+        the same survey, must stay qualitative ('effectively negligible') with
+        no count or denominator - a specific number on a small function would
+        narrow down who did or did not volunteer. Notes must also acknowledge
+        the tension with the asymmetry slide's capacity framing rather than
+        silently asserting they agree."""
+        slide = next(s for s in deck.slides() if "other readiness gap" in s.title.lower())
+        joined = " ".join(slide.bullets).lower()
+        it_interest_bullet = next(
+            b for b in slide.bullets if "it function specifically" in b.lower()
+        ).lower()
+        self.assertIn("effectively negligible", joined)
+        self.assertIn("cannot separate genuine disinterest from a team", joined)
+        self.assertIn("not one person from that function reached out", it_interest_bullet)
+        for count_phrase in ("only 1", "one of", "1 of"):
+            with self.subTest(phrase=count_phrase):
+                self.assertNotIn(count_phrase, it_interest_bullet)
+        notes = slide.notes.lower()
+        self.assertIn("gives no count and no denominator", notes)
+        self.assertIn("do not deny the tension", notes)
+
+    def test_framework_gaps_are_tied_to_concrete_failure_mode_examples(self) -> None:
+        """Each named framework limitation (CSV point-in-time validation, risk-based
+        categorization, Annex 11/Part 11, change control/recall scoping) must be
+        illustrated with a concrete example, not left as an abstract assertion, and
+        each must callback to the specific failure mode it corresponds to."""
+        slide = next(
+            s for s in deck.slides() if "existing frameworks do not catch it" in s.title.lower()
+        )
+        joined = " ".join(slide.bullets).lower()
+        self.assertIn("failure mode 3", joined)
+        self.assertIn("failure modes 1 and 2", joined)
+        self.assertIn("failure mode 4", joined)
+        self.assertIn("submit the same draft twice", joined)
+        self.assertIn("cohort-query capability", joined)
+
+    def test_instrument_legitimacy_challenge_is_answered_in_three_parts(self) -> None:
+        """The sharpest anticipated challenge - if no competency standard and no
+        SOP existed, why trust an instrument built by the same unverified person,
+        and why not just fix the system instead - must be answered directly in
+        notes: (1) the instrument does not depend on the assessor's competence,
+        (2) it is not asserted as a validated SOP, and (3) the resourcing gap
+        already established, not authority or scope, is why the underlying
+        system itself was not rewritten."""
+        slide = next(s for s in deck.slides() if "what i built in response" in s.title.lower())
+        notes = slide.notes.lower()
+        self.assertIn("why should anyone trust this instrument", notes)
+        self.assertIn("does not ask anyone to trust your competence", notes)
+        self.assertIn("does not claim to be a validated procedure or an approved sop", notes)
+        self.assertIn("resourcing slide already established", notes)
+
     def test_no_organization_wide_ai_training_existed(self) -> None:
         """No AI training program existed at all, and even the organization's own
         first course was scoped to arrive during or after deployment - the timing
@@ -358,6 +410,19 @@ class SourcingTests(unittest.TestCase):
                 self.assertIn("did not reach deployment", content.lower())
         self.assertIn("never went live", deck.build_markdown().lower())
 
+    def test_no_slide_implies_the_system_reached_live_deployment(self) -> None:
+        """Nothing outside the disclaimer/conclusion framing may describe the
+        case-study system itself as already live, running, or deployed - that
+        would directly contradict 'never went live' and 'did not reach
+        deployment' stated elsewhere."""
+        forbidden = ("live deployment", "deployment that is already running", "already live")
+        for slide in deck.slides():
+            joined = " ".join(slide.bullets).lower() + slide.callout.lower()
+            for phrase in forbidden:
+                with self.subTest(slide=slide.title, phrase=phrase):
+                    self.assertNotIn(phrase, joined)
+        self.assertNotIn("live deployment", deck.DECK_SUBTITLE.lower())
+
     def test_no_slide_claims_the_tool_decided_disposition(self) -> None:
         """The design spec explicitly prohibited classification and disposition.
         The deck must not describe capabilities the system was scoped against."""
@@ -490,6 +555,132 @@ class FramingTests(unittest.TestCase):
         for name in ("mahesh", "sohoni"):
             with self.subTest(name=name):
                 self.assertNotIn(name, joined)
+
+    def test_caseload_observation_stays_qualitative_and_names_no_one(self) -> None:
+        """The queue-depth/case-age observation on the automation-bias slide is a
+        genuine finding from reviewing on-the-ground records, but it must stay at
+        the level of shape (uneven distribution) rather than disclosing any real
+        figures, day counts, headcounts, or reviewer identities from that data."""
+        slide = next(s for s in deck.slides() if "automation bias" in s.title.lower())
+        joined = " ".join(slide.bullets).lower()
+        self.assertIn("open caseload and case-age", joined)
+        self.assertIn("not spread evenly", joined)
+        notes = slide.notes.lower()
+        self.assertIn("do not give a case count", notes)
+        self.assertIn("name any", notes)
+        haystack = joined + notes
+        for forbidden in IDENTIFYING_TERMS:
+            with self.subTest(term=forbidden):
+                self.assertNotIn(forbidden, haystack)
+        for digit_bearing in ("30 ", "188", "57.75", "days open"):
+            with self.subTest(phrase=digit_bearing):
+                self.assertNotIn(digit_bearing, joined)
+
+    def test_blast_radius_cites_batch_genealogy_and_ml_observability_analogs(self) -> None:
+        """The 'far fewer systems' claim should be grounded in real, existing
+        capabilities: GMP batch genealogy ('where-used' queries) as the primary,
+        audience-native teaching point on the slide itself (kept vendor-free),
+        with named, independently verifiable products - SAP Global Batch
+        Traceability and Arize AI - cited as backup evidence in the notes only."""
+        slide = next(s for s in deck.slides() if "unbounded blast radius" in s.title.lower())
+        joined = " ".join(slide.bullets).lower()
+        self.assertIn("batch genealogy", joined)
+        self.assertIn("where-used", joined)
+        self.assertIn("recall-scoping capability", joined)
+        for vendor in ("sap", "arize"):
+            with self.subTest(vendor=vendor, artifact="bullets"):
+                self.assertNotIn(vendor, joined)
+        notes = slide.notes.lower()
+        self.assertIn("sap global batch traceability", notes)
+        self.assertIn("arize ai", notes)
+        self.assertIn("model-version field alongside every prediction", notes)
+
+    def test_fail_closed_cites_cmmi_scampi_as_the_opposite_scoring_example(self) -> None:
+        """The 'most maturity assessments score the opposite way' callout should
+        be backed, in the notes only, by a named, independently verifiable
+        example: CMMI's official SCAMPI method, which excludes goals and
+        process areas lacking sufficient evidence from the rating rather than
+        counting them as a gap."""
+        slide = next(s for s in deck.slides() if "design principle: fail closed" in s.title.lower())
+        joined = " ".join(slide.bullets).lower() + slide.callout.lower()
+        for vendor in ("cmmi", "scampi"):
+            with self.subTest(vendor=vendor, artifact="bullets_and_callout"):
+                self.assertNotIn(vendor, joined)
+        notes = slide.notes.lower()
+        self.assertIn("cmmi", notes)
+        self.assertIn("scampi", notes)
+        self.assertIn("not rated", notes)
+        self.assertIn("excluded from the rating", notes)
+
+    def test_blast_radius_connects_to_feedback_loop_and_states_the_fix(self) -> None:
+        """The blast-radius scoping problem must (1) connect explicitly to the
+        self-adjusting feedback loop from failure mode 3, since a defect's
+        effect on future model behavior isn't bounded by a cohort-by-date
+        query, (2) name the ordinary-engineering part of the fix, and (3) stay
+        hypothetical rather than implying a defect actually occurred here."""
+        slide = next(s for s in deck.slides() if "unbounded blast radius" in s.title.lower())
+        joined = " ".join(slide.bullets).lower()
+        self.assertIn("shifted the model's behavior on every case that followed", joined)
+        self.assertIn("detection latency raises the stakes further", joined)
+        notes = slide.notes.lower()
+        self.assertIn("model-version and timestamp tag", notes)
+        self.assertIn("cohort-query capability", notes)
+        self.assertIn("nobody in the field has a clean answer for it yet", notes)
+        self.assertIn("not that this happened here", notes)
+
+    def test_truncation_fix_is_tied_to_the_resourcing_gap(self) -> None:
+        """A cheap-to-build fix (surfacing the truncation/parse-failure signal to
+        review) is not the same as a resourced-to-build fix. This must connect
+        explicitly to the earlier resourcing finding rather than implying the
+        gap was mere oversight, and must not name who would have built it."""
+        slide = next(s for s in deck.slides() if "silent truncation" in s.title.lower())
+        joined = " ".join(slide.bullets).lower()
+        self.assertIn("cheap to build is not the same as resourced to build", joined)
+        self.assertIn("unfunded, reactive maintenance queue", joined)
+        notes = slide.notes.lower()
+        self.assertIn("not a counterexample to the resourcing finding", notes)
+        self.assertIn("you do not know who at that function had the spare", notes)
+        haystack = joined + notes
+        for forbidden in IDENTIFYING_TERMS:
+            with self.subTest(term=forbidden):
+                self.assertNotIn(forbidden, haystack)
+
+    def test_interface_design_example_is_generic_and_names_no_one(self) -> None:
+        """The build-side competency example (a narrow, undocumented input format
+        that degrades into incoherent output) must stay a generic illustration,
+        never tied to any specific tool or identifiable person's work."""
+        slide = next(s for s in deck.slides() if "curriculum gap" in s.title.lower())
+        joined = " ".join(slide.bullets).lower()
+        self.assertIn("narrow, undocumented way", joined)
+        self.assertIn("shifting the cognitive burden", joined)
+        notes = slide.notes.lower()
+        self.assertIn("generic illustration", notes)
+        self.assertIn("not an account of any specific tool or person's work", notes)
+        haystack = joined + notes
+        for forbidden in IDENTIFYING_TERMS:
+            with self.subTest(term=forbidden):
+                self.assertNotIn(forbidden, haystack)
+        self.assertNotIn("his application", haystack)
+
+    def test_turnover_claim_is_attributed_testimony_within_tenure(self) -> None:
+        """The team named workload as a driver of turnover in conversation, not in
+        a documented exit-interview record. Must stay attributed as testimony,
+        scoped to the author's own tenure, unnamed, and without an exact count."""
+        slide = next(s for s in deck.slides() if "automation bias" in s.title.lower())
+        joined = " ".join(slide.bullets).lower()
+        self.assertIn("named that workload directly as a driver of turnover", joined)
+        self.assertIn("more than one resignation during my own time on the placement", joined)
+        notes = slide.notes.lower()
+        self.assertIn("verbal testimony from the team itself", notes)
+        self.assertIn("not a documented exit-interview finding", notes)
+        self.assertIn("more than one", notes)
+        haystack = joined + notes
+        for forbidden in IDENTIFYING_TERMS:
+            with self.subTest(term=forbidden):
+                self.assertNotIn(forbidden, haystack)
+        for overclaim in ("two resignations", "three resignations", "the sole reason", "official reason"):
+            with self.subTest(phrase=overclaim):
+                self.assertNotIn(overclaim, haystack)
 
     def test_failed_batch_cost_is_attributed_as_verbal_testimony(self) -> None:
         """The $9 million figure came from one supervisor in one meeting. It must
