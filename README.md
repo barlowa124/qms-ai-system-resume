@@ -1,4 +1,4 @@
-# QMS AI System Portfolio (Private)
+# QMS AI Governance: fail-closed assessment and reference architecture for AI in regulated quality systems
 
 This repository packages my independently developed artifacts for an AI-enabled Quality Management System (QMS) strategy, architecture, and governance design, built as a design exercise for regulated (GxP) biotech/pharma environments, including patient-safety, compliance, and ESG considerations.
 
@@ -13,6 +13,19 @@ This package includes:
 5. A human-AI compatibility release criterion (RG-09) addressing the empirically documented performance/compatibility tradeoff in human-AI teams, so accuracy-only model updates cannot silently degrade reviewer decision quality.
 6. An extension applying the same control patterns to organ virtualization / in-silico model programs (model-to-biology traceability, simulation reproducibility, wet-lab cross-validation, and ESG amplification via reduced animal use).
 7. A **clinical deployment assessment instrument and fail-closed scoring engine** for evaluating an AI-enabled QMS that is already running in production, not reviewing design intent.
+
+## Quick start
+
+```bash
+git clone https://github.com/barlowa124/qms-ai-system-resume.git
+cd qms-ai-system-resume
+python3 -m pytest -q
+
+# Generate the reviewer instrument and score a completed assessment
+python3 deployment_assessment.py instrument
+python3 deployment_assessment.py template --out responses.json
+python3 deployment_assessment.py score responses.json
+```
 
 ## Key Artifacts
 
@@ -116,4 +129,8 @@ The suite covers artifact generation, patient-safety invariants of the governanc
 ## Notes
 
 1. This is a personal, independently authored portfolio package. It does not reference or include any employer-specific systems, repositories, or findings. All examples and scans described here are presented generically as a demonstration of methodology and skill, not as an audit of any named organization.
-2. Designed to adapt to a specific company's tools and stack.
+2. Designed to be adapted directly to a specific company's tools and stack.
+
+## License
+
+[MIT](LICENSE)
