@@ -1,6 +1,6 @@
 # QMS AI System Portfolio (Private)
 
-This repository packages my independently developed artifacts for an AI-enabled Quality Management System (QMS) strategy, architecture, and governance design — built as a design exercise for regulated (GxP) biotech/pharma environments, including patient-safety, compliance, and ESG considerations.
+This repository packages my independently developed artifacts for an AI-enabled Quality Management System (QMS) strategy, architecture, and governance design, built as a design exercise for regulated (GxP) biotech/pharma environments, including patient-safety, compliance, and ESG considerations.
 
 ## Scope
 
@@ -12,7 +12,7 @@ This package includes:
 4. A hardened reference architecture addressing common AI-system trust gaps (provenance, reproducibility, human-in-the-loop enforcement).
 5. A human-AI compatibility release criterion (RG-09) addressing the empirically documented performance/compatibility tradeoff in human-AI teams, so accuracy-only model updates cannot silently degrade reviewer decision quality.
 6. An extension applying the same control patterns to organ virtualization / in-silico model programs (model-to-biology traceability, simulation reproducibility, wet-lab cross-validation, and ESG amplification via reduced animal use).
-7. A **clinical deployment assessment instrument and fail-closed scoring engine** for evaluating an AI-enabled QMS that is already running in production, rather than reviewing design intent.
+7. A **clinical deployment assessment instrument and fail-closed scoring engine** for evaluating an AI-enabled QMS that is already running in production, not reviewing design intent.
 
 ## Key Artifacts
 
@@ -21,13 +21,13 @@ This package includes:
 3. [qms_system_diagram.md](qms_system_diagram.md)
 4. [qms_solution_diagram.mmd](qms_solution_diagram.mmd)
 5. [qms_trust_hardened_system_diagram.md](qms_trust_hardened_system_diagram.md)
-6. [clinical_deployment_assessment.md](clinical_deployment_assessment.md) — reviewer instrument
-7. [deployment_assessment.py](deployment_assessment.py) — instrument generator and scoring CLI
-8. [teaching_deck.html](teaching_deck.html) — teaching deck on AI failure modes in GMP-adjacent QMS
+6. [clinical_deployment_assessment.md](clinical_deployment_assessment.md) - reviewer instrument
+7. [deployment_assessment.py](deployment_assessment.py) - instrument generator and scoring CLI
+8. [teaching_deck.html](teaching_deck.html) - teaching deck on AI failure modes in GMP-adjacent QMS
 
 ## Assessing a Live Deployment
 
-The design artifacts above describe what a compliant system should look like. `deployment_assessment.py` is the counterpart used against a system that is actually running: a 25-item evidence-gathering instrument plus a scoring engine that refuses to return a clean result when evidence is absent.
+The design artifacts above describe what a compliant system should look like. `deployment_assessment.py` is the counterpart used against a running system. It is a 25-item evidence-gathering instrument plus a scoring engine that refuses to return a clean result when evidence is absent.
 
 ```bash
 # Generate the reviewer instrument (markdown + HTML)
@@ -45,14 +45,14 @@ Design properties:
 
 1. **Fail-closed.** `not_assessed` is treated as unresolved, so an untouched template scores `BLOCKING_FINDINGS`, not a pass. Absence of evidence is never treated as evidence of control.
 2. **Patient-safety items block individually.** Any single unresolved `patient_safety_critical` item forces a blocking verdict regardless of how the rest scores.
-3. **Structural abuse is rejected.** Unknown item ids, malformed entries, missing response fields, and unjustified `not_applicable` claims all yield `INVALID_SUBMISSION` rather than quietly clearing an item.
+3. **Structural abuse is rejected.** Unknown item ids, malformed entries, missing response fields, and unjustified `not_applicable` claims all yield `INVALID_SUBMISSION` instead of quietly clearing an item.
 4. **No approval language.** The cleanest possible verdict is `NO_BLOCKING_FINDINGS_IDENTIFIED`. The tool produces findings, never a compliance determination.
 5. **Traceable to the gate model.** Each assessment item links to the RG-xx gates defined in the solution proposal, and tests enforce that those references resolve.
-6. **Scoping out costs more than assessing.** `not_applicable` is permitted on only three items — third-party models, in-silico evidence, and document retrieval — and placeholder justifications such as `n/a` are rejected as `INVALID_SUBMISSION`.
+6. **Scoping out costs more than assessing.** `not_applicable` is permitted on only three items (third-party models, in-silico evidence, and document retrieval), and placeholder justifications such as `n/a` are rejected as `INVALID_SUBMISSION`.
 
 ### Threat model
 
-The items are weighted toward **internal and unintentional** failure rather than external attack, because that is the dominant risk in a regulated internal deployment. The scenario the instrument is built around is a competent user, following procedure correctly, receiving a wrong answer with no signal that anything went wrong.
+The items are weighted toward **internal and unintentional** failure over external attack, because that is the dominant risk in a regulated internal deployment. The scenario the instrument is built around is a competent user, following procedure correctly, receiving a wrong answer with no signal that anything went wrong.
 
 **The system silently answers when it should not.**
 
@@ -68,14 +68,14 @@ The items are weighted toward **internal and unintentional** failure rather than
 
 **The failure cannot be bounded, traced, or undone.**
 
-- **`DA-20` Retrospective impact assessment.** When a defect is confirmed, every record the affected model version touched must be enumerable. `DA-05` reconstructs one case on demand; bounding a recall needs the whole cohort.
+- **`DA-20` Retrospective impact assessment.** When a defect is confirmed, every record the affected model version touched must be enumerable. `DA-05` reconstructs one case on demand. Bounding a recall needs the whole cohort.
 - **`DA-19` Repeat submission and anchoring.** Only the accepted output is retained, so re-running an event until a milder result appears leaves no trace.
 - **`DA-24` Output-to-record transcription.** A correct output that loses its qualifiers in transit still misstates the official record.
 - **`DA-25` Long-horizon reconstruction.** Record retention outlives the model version that produced the record, and reconstruction quietly becomes impossible after vendor sunset.
 
-All of these block individually except `DA-19` and `DA-25`. Adversarial resilience (`DA-14`) is deliberately scoped as `major`: it checks that misuse testing was performed and that open findings have an owner, and routes any confirmed patient-impacting defect to `DA-11`, which does block.
+All of these block individually except `DA-19` and `DA-25`. Adversarial resilience (`DA-14`) is scoped as `major`: it checks that misuse testing was performed and that open findings have an owner, and routes any confirmed patient-impacting defect to `DA-11`, which does block.
 
-`DA-03` additionally requires oversight metrics segmented by queue depth and shift position, since aggregate override and dwell-time figures are exactly what pass on audit day and fail in week three.
+`DA-03` additionally requires oversight metrics segmented by queue depth and shift position, since aggregate override and dwell-time figures are what pass on audit day and fail in week three.
 
 **This is an assessment aid, not a regulatory determination.** Interpretation and sign-off require qualified QA, regulatory, and clinical-safety personnel. It does not substitute for validated quality processes or applicable regulatory submissions.
 
@@ -89,7 +89,7 @@ python3 generate_teaching_deck.py             # write .md (Marp) + .html
 open teaching_deck.html                       # present in browser; N toggles notes
 ```
 
-The deck is fully de-identified: no employer, client, vendor, or product is named, and it argues from generalized failure modes only. `test_teaching_deck.py` enforces this mechanically, along with the framing decisions — the resignation is one slide in the final quarter, the business case is presented before any criticism, limitations are stated rather than omitted, and no slide claims that harm occurred. The supportable claim is an unassessed risk, not a realised harm.
+The deck is fully de-identified: no employer, client, vendor, or product is named, and it argues from generalized failure modes only. `test_teaching_deck.py` enforces this mechanically, along with the framing decisions. The resignation is one slide in the final quarter, the business case is presented before any criticism, limitations are stated, never omitted, and no slide claims that harm occurred. The supportable claim is an unassessed risk, not a realised harm.
 
 ## Outcome Summary
 
@@ -115,5 +115,5 @@ The suite covers artifact generation, patient-safety invariants of the governanc
 
 ## Notes
 
-1. This is a personal, independently authored portfolio package. It does not reference or include any employer-specific systems, repositories, or findings — all examples and scans described here are presented generically as a demonstration of methodology and skill, not as an audit of any named organization.
-2. Designed to be adapted directly to a specific company's tools and stack.
+1. This is a personal, independently authored portfolio package. It does not reference or include any employer-specific systems, repositories, or findings. All examples and scans described here are presented generically as a demonstration of methodology and skill, not as an audit of any named organization.
+2. Designed to adapt to a specific company's tools and stack.
