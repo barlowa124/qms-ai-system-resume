@@ -63,7 +63,7 @@ The items are weighted toward **internal and unintentional** failure over extern
 
 **The validated configuration quietly stops being what runs.**
 
-- **`DA-18` Configuration drift.** Prompts, parameters, and thresholds are what people actually edit between releases.
+- **`DA-18` Configuration drift.** Prompts, parameters, and thresholds are what people edit between releases.
 - **`DA-22` Upstream pipeline drift.** OCR engines, parsers, tokenizers, and embedding models get upgraded as routine infrastructure maintenance, silently changing model input. Together with `DA-08` (model) these three cover the whole input path.
 
 **The failure cannot be bounded, traced, or undone.**

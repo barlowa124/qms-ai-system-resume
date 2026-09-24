@@ -19,7 +19,7 @@ def extract_gate_ids(text: str) -> set[str]:
 # Wording that must never appear as an *allowance* in the governance artifacts.
 FORBIDDEN_AUTONOMY_PATTERNS = (
     r"autonomous(?:ly)?\s+clos",
-    # Deliberately broad: any automatic-closure claim in these artifacts must
+    # Broad on purpose: any automatic-closure claim in these artifacts must
     # be negated. Requiring an adjacent risk qualifier missed real phrasings
     # such as "automatically closed for patient complaints".
     r"auto(?:matically)?\s+clos",
@@ -651,7 +651,7 @@ class PatientSafetyInvariantTests(unittest.TestCase):
 
 
 class AutonomyGuardSelfTests(unittest.TestCase):
-    """Proves the patient-safety autonomy guard actually works.
+    """Proves the patient-safety autonomy guard works.
 
     A safety scanner that never fires is indistinguishable from no scanner.
     These tests feed it known-bad and known-good text so a passing result on
