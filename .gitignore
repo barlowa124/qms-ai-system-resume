@@ -13,3 +13,7 @@ Thumbs.db
 .pytest_cache/
 .coverage
 htmlcov/
+
+# Personal BTEC coursework — not part of the professional repo
+btec_presentation*
+build_teaching_deck_pptx.py
