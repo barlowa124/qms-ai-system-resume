@@ -6,38 +6,68 @@
   <title>Clinical Deployment Assessment Instrument</title>
   <style>
     :root {
-      --bg: #f7f7f2; --card: #ffffff; --ink: #1e1f24; --muted: #4d5562;
-      --accent: #0c5ea8; --line: #d7dde5; --crit: #a31c1c; --major: #a86a00;
-      --minor: #1f7a45;
+      --bg: #f2f4f7; --card: #ffffff; --ink: #101828; --muted: #475467;
+      --accent: #0b4e8f; --accent-soft: #e8f1fb; --line: #e4e7ec;
+      --line-strong: #cfd6e0;
+      --crit: #b42318; --crit-soft: #fef3f2; --crit-line: #fecdca;
+      --major: #b54708; --major-soft: #fffaeb; --major-line: #fedf89;
+      --minor: #067647; --minor-soft: #ecfdf3; --minor-line: #a6f4c5;
     }
     * { box-sizing: border-box; }
-    body { margin: 0; padding: 32px 20px; background: var(--bg); color: var(--ink);
-      font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { margin: 0; padding: 40px 20px 56px;
+      background:
+        radial-gradient(circle at 10% 0%, #e9f4ff 0%, transparent 32%),
+        var(--bg);
+      color: var(--ink);
+      font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased; }
     .wrap { max-width: 1080px; margin: 0 auto; }
-    h1 { font-size: 26px; margin: 0 0 6px; }
-    h2 { font-size: 19px; margin: 28px 0 10px; padding-bottom: 6px;
-      border-bottom: 2px solid var(--accent); }
-    h3 { font-size: 15px; margin: 0 0 4px; }
+    h1 { font-size: 27px; font-weight: 750; letter-spacing: -0.02em;
+      margin: 0 0 6px; color: #0a2540; }
+    h2 { font-size: 17px; font-weight: 700; letter-spacing: -0.01em;
+      margin: 30px 0 12px; padding-bottom: 8px; color: #0a2540;
+      border-bottom: 2px solid var(--accent-soft); }
+    h3 { font-size: 14.5px; font-weight: 650; margin: 0 0 4px; }
     section, .disclaimer { background: var(--card); border: 1px solid var(--line);
-      border-radius: 10px; padding: 18px 20px; margin-bottom: 16px; }
-    .disclaimer { border-left: 4px solid var(--crit); color: var(--muted); }
-    table { width: 100%; border-collapse: collapse; margin-top: 8px; }
-    th, td { border: 1px solid var(--line); padding: 7px 9px; text-align: left;
-      vertical-align: top; font-size: 13.5px; }
-    th { background: #eef4fb; }
-    code { background: #eef1f5; padding: 1px 5px; border-radius: 4px; font-size: 12.5px; }
-    .item { border-top: 1px solid var(--line); padding: 14px 0; }
+      border-radius: 14px; padding: 22px 26px; margin-bottom: 18px;
+      box-shadow: 0 1px 2px rgba(16,24,40,.05), 0 8px 24px -12px rgba(16,24,40,.12); }
+    .disclaimer { border-left: 4px solid var(--crit); color: var(--muted);
+      background: linear-gradient(to right, #fffaf9, var(--card) 30%);
+      font-size: 14px; line-height: 1.55; }
+    table { width: 100%; border-collapse: collapse; margin-top: 8px;
+      font-variant-numeric: tabular-nums; }
+    th, td { border: none; border-bottom: 1px solid var(--line); padding: 8px 12px;
+      text-align: left; vertical-align: top; font-size: 13px; line-height: 1.45; }
+    th { background: #f8fafc; color: #334155; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      border-bottom: 2px solid var(--line-strong); }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover td { background: #f8fafd; }
+    code { background: #f1f4f9; border: 1px solid var(--line);
+      padding: 1px 6px; border-radius: 5px; font-size: 12px; font-weight: 600;
+      color: #0a2540; }
+    .item { border-top: 1px solid var(--line); padding: 16px 0; }
     .item:first-of-type { border-top: none; }
-    .meta { color: var(--muted); font-size: 12.5px; margin: 0 0 8px; }
+    .meta { color: var(--muted); font-size: 12.5px; margin: 0 0 8px; line-height: 1.5; }
     .dq { color: var(--crit); }
+    .dq li::marker { color: var(--crit); }
     .na { color: var(--muted); font-style: italic; font-size: 13px; }
-    .sev { font-size: 11.5px; font-weight: 600; padding: 2px 7px; border-radius: 20px;
-      color: #fff; white-space: nowrap; }
-    .sev-patient_safety_critical { background: var(--crit); }
-    .sev-major { background: var(--major); }
-    .sev-minor { background: var(--minor); }
+    .sev { font-size: 11px; font-weight: 650; padding: 3px 9px; border-radius: 999px;
+      white-space: nowrap; letter-spacing: 0.02em; border: 1px solid transparent; }
+    .sev-patient_safety_critical { background: var(--crit-soft); color: var(--crit);
+      border-color: var(--crit-line); }
+    .sev-major { background: var(--major-soft); color: var(--major);
+      border-color: var(--major-line); }
+    .sev-minor { background: var(--minor-soft); color: var(--minor);
+      border-color: var(--minor-line); }
     ul { margin: 4px 0 8px 18px; padding: 0; }
-    li { margin: 2px 0; }
+    li { margin: 3px 0; }
+    li::marker { color: var(--accent); }
+    @media print {
+      body { background: #fff; padding: 0; }
+      section, .disclaimer { box-shadow: none; break-inside: avoid; }
+      .sev, th { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    }
   </style>
 </head>
 <body>
