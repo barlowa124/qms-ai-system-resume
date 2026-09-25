@@ -1053,124 +1053,196 @@ def build_html(mermaid: str) -> str:
   <title>QMS Digital Process Proposal</title>
   <style>
     :root {{
-      --bg: #f7f7f2;
+      --bg: #f2f4f7;
       --card: #ffffff;
-      --ink: #1e1f24;
-      --muted: #4d5562;
-      --accent: #0c5ea8;
-      --accent-soft: #d9ebff;
-      --line: #d7dde5;
+      --ink: #101828;
+      --muted: #475467;
+      --accent: #0b4e8f;
+      --accent-soft: #e8f1fb;
+      --line: #e4e7ec;
+      --line-strong: #cfd6e0;
       --ok: #1f7a45;
       --warn: #a86a00;
     }}
 
+    * {{ box-sizing: border-box; }}
+
     body {{
       margin: 0;
-      font-family: Segoe UI, Tahoma, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, "Helvetica Neue", Tahoma, sans-serif;
       background:
         radial-gradient(circle at 10% 0%, #e9f4ff 0%, transparent 35%),
         radial-gradient(circle at 90% 100%, #fbeed8 0%, transparent 30%),
         var(--bg);
       color: var(--ink);
+      font-size: 15px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
     }}
 
     .wrap {{
       max-width: 1200px;
       margin: 0 auto;
-      padding: 24px;
+      padding: 32px 28px 56px;
     }}
 
     .hero {{
-      background: linear-gradient(125deg, #0c5ea8, #117844);
+      background:
+        radial-gradient(circle at 85% 15%, rgba(94, 234, 212, 0.28), transparent 45%),
+        linear-gradient(120deg, #0a2540 0%, #0b4e8f 55%, #0f766e 100%);
       color: white;
-      border-radius: 14px;
-      padding: 22px 24px;
-      box-shadow: 0 10px 24px rgba(16, 54, 92, 0.25);
+      border-radius: 18px;
+      padding: 36px 40px;
+      box-shadow: 0 18px 44px rgba(10, 37, 64, 0.35);
+      position: relative;
+      overflow: hidden;
+    }}
+
+    .hero::after {{
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      pointer-events: none;
     }}
 
     .hero h1 {{
-      margin: 0 0 8px;
-      font-size: 1.7rem;
-      letter-spacing: 0.01em;
+      margin: 0 0 10px;
+      font-size: 1.9rem;
+      font-weight: 750;
+      letter-spacing: -0.015em;
     }}
 
     .hero p {{
       margin: 0;
-      opacity: 0.94;
-      line-height: 1.45;
+      opacity: 0.92;
+      line-height: 1.55;
+      max-width: 75ch;
     }}
 
     .grid {{
       display: grid;
       grid-template-columns: 2fr 1fr;
-      gap: 18px;
-      margin-top: 18px;
+      gap: 20px;
+      margin-top: 20px;
     }}
 
     .card {{
       background: var(--card);
       border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 16px;
-      box-shadow: 0 4px 10px rgba(16, 24, 40, 0.05);
+      border-radius: 14px;
+      padding: 24px 28px;
+      box-shadow:
+        0 1px 2px rgba(16, 24, 40, 0.05),
+        0 8px 24px -12px rgba(16, 24, 40, 0.12);
     }}
 
     h2 {{
-      margin: 4px 0 12px;
-      font-size: 1.15rem;
+      margin: 0 0 14px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: #0a2540;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--accent-soft);
+    }}
+
+    h2 + h2, h2[style] {{
+      border-bottom: 2px solid var(--accent-soft);
     }}
 
     .muted {{
       color: var(--muted);
-      margin: 0 0 8px;
-      line-height: 1.4;
+      margin: 0 0 12px;
+      line-height: 1.5;
+      font-size: 0.92rem;
     }}
 
     table {{
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.93rem;
+      font-size: 0.88rem;
+      font-variant-numeric: tabular-nums;
     }}
 
     th, td {{
-      border: 1px solid var(--line);
-      padding: 8px;
+      border: none;
+      border-bottom: 1px solid var(--line);
+      padding: 9px 12px;
       text-align: left;
       vertical-align: top;
+      line-height: 1.45;
     }}
 
     th {{
-      background: var(--accent-soft);
-      color: #0d3356;
+      background: #f8fafc;
+      color: #334155;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      border-bottom: 2px solid var(--line-strong);
+      white-space: nowrap;
     }}
+
+    tbody tr:last-child td {{ border-bottom: none; }}
+    tbody tr:hover td {{ background: #f8fafd; }}
+    td:first-child {{ font-weight: 600; color: #1d2939; }}
 
     ul {{
       margin-top: 8px;
       padding-left: 20px;
     }}
 
+    li {{ margin-bottom: 4px; }}
+    li::marker {{ color: var(--accent); }}
+
     .badge {{
       display: inline-block;
       margin-right: 8px;
       margin-bottom: 8px;
-      padding: 6px 10px;
+      padding: 5px 12px;
       border-radius: 999px;
-      background: #ecf3fb;
-      border: 1px solid #d2e2f6;
-      color: #204a74;
-      font-size: 0.85rem;
+      background: var(--accent-soft);
+      border: 1px solid #c6dcf3;
+      color: #0b4e8f;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
     }}
 
     .legend {{
-      margin-top: 6px;
-      font-size: 0.86rem;
+      margin-top: 8px;
+      font-size: 0.82rem;
       color: var(--muted);
+      border-top: 1px dashed var(--line-strong);
+      padding-top: 10px;
     }}
 
+    .mermaid {{
+      background: #fbfcfe;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 16px;
+      overflow-x: auto;
+    }}
+
+    .mermaid svg {{ max-width: 100%; }}
+
     @media (max-width: 980px) {{
-      .grid {{
-        grid-template-columns: 1fr;
-      }}
+      .grid {{ grid-template-columns: 1fr; }}
+      .wrap {{ padding: 20px 14px 40px; }}
+      .hero {{ padding: 26px 22px; }}
+      .card {{ padding: 18px; }}
+    }}
+
+    @media print {{
+      body {{ background: #fff; }}
+      .card, .hero {{ box-shadow: none; }}
+      .hero {{ border-radius: 8px; print-color-adjust: exact; -webkit-print-color-adjust: exact; }}
+      .card {{ break-inside: avoid-page; }}
+      tr, td, th {{ break-inside: avoid; }}
     }}
   </style>
   <script src=\"https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js\"></script>
