@@ -282,7 +282,7 @@ accuracy in production.
 4. After rollout, monitor reviewer acceptance and override rates (already captured in
    the KPI table as "AI recommendation acceptance with rationale") for shifts that
    indicate reviewers are recalibrating against changed failure modes.
-5. Where compatibility and accuracy genuinely conflict, treat the tradeoff as a
+5. Where compatibility and accuracy conflict, treat the tradeoff as a
    documented quality decision with accountable ownership - not an engineering
    default. Where feasible, apply a retraining objective that penalizes new errors,
    per Bansal et al., to reduce the severity of the tradeoff.
