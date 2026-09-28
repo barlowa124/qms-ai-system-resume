@@ -1,0 +1,132 @@
+{
+  "deployment_name": "oncology-coscientist (barlowa124/oncology-coscientist @ e680759, research prototype - not a clinical deployment)",
+  "assessed_by": "worked example using deployment_assessment.py",
+  "assessment_date": "2026-09-28",
+  "responses": {
+    "DA-01": {
+      "response": "non_conformant",
+      "note": "README limits the system to public retrospective TCGA data and states results reflect the dataset, not any clinical use. No regulatory classification exists or was sought. This is correct for a research tool, but any clinical framing is blocked.",
+      "evidence_reference": "oncology-coscientist/README.md (scope section, line ~284)"
+    },
+    "DA-02": {
+      "response": "partial",
+      "note": "The approval gate is a technical control: approve() refuses when the report bytes or the agent_run hash changed since render, and the API returns 409 on tamper. No production case sample exists to demonstrate observed enforcement.",
+      "evidence_reference": "oncocs/agents/approve.py; tests/test_api.py tamper->409 case"
+    },
+    "DA-03": {
+      "response": "partial",
+      "note": "Approvals record reviewer identity and an optional note, but nothing measures whether the reviewer engaged with the content versus rubber-stamping.",
+      "evidence_reference": "oncocs/agents/approve.py approve(by=..., note=...)"
+    },
+    "DA-04": {
+      "response": "conformant",
+      "note": "Run records are content-addressed: config_sha256 binds the config, the report embeds the agent_run sha, final_report_sha256 pins the rendered bytes, and approval/rejection is recorded on the run record. The verifier recomputes hashes before any decision is accepted.",
+      "evidence_reference": "oncocs/agents/approve.py _verified_report; oncocs/evidence.py; docs/PROVENANCE.md"
+    },
+    "DA-05": {
+      "response": "conformant",
+      "note": "agent replay re-executes a recorded run; agent_run.json plus hashed report and results artifacts allow end-to-end reconstruction of a specific run on demand.",
+      "evidence_reference": "oncocs/agents/replay.py; tests/test_cli.py replay PASS case"
+    },
+    "DA-06": {
+      "response": "partial",
+      "note": "Models are evaluated on held-out splits and checks abstain a model when integrity fails, but performance is characterized per cohort, not per clinically meaningful subgroup.",
+      "evidence_reference": "oncocs/checks.py; oncocs/splits.py; results/agent_model_comparison.json"
+    },
+    "DA-07": {
+      "response": "non_conformant",
+      "note": "No production drift monitoring with thresholds and response exists. The system is run on demand against fixed snapshots.",
+      "evidence_reference": "absent by inspection of oncocs/; no monitoring module"
+    },
+    "DA-08": {
+      "response": "partial",
+      "note": "Every run binds code and config through git_sha and config_sha256, so the change history is auditable, but there are no approved change records or a documented change-control workflow.",
+      "evidence_reference": "oncocs/evidence.py provenance fields; git history"
+    },
+    "DA-09": {
+      "response": "partial",
+      "note": "Replay can recompute a past decision, but no per-update backward-compatibility check compares decisions across model versions.",
+      "evidence_reference": "oncocs/agents/replay.py exists; no cross-version comparison harness"
+    },
+    "DA-10": {
+      "response": "conformant",
+      "note": "The recorded LLM backend replays responses keyed by prompt sha256, so a past decision re-derives deterministically without a live model.",
+      "evidence_reference": "oncocs/llm/recorded.py _prompt_sha; replay tests"
+    },
+    "DA-11": {
+      "response": "non_conformant",
+      "note": "No defined path from an AI-related error to containment, CAPA, or regulatory reporting exists. Defects are handled informally through git.",
+      "evidence_reference": "absent by inspection; no incident/CAPA procedure in repo"
+    },
+    "DA-12": {
+      "response": "non_conformant",
+      "note": "No reviewer training material on the system's known failure modes or limitations exists.",
+      "evidence_reference": "absent by inspection; no training artifact in repo"
+    },
+    "DA-13": {
+      "response": "partial",
+      "note": "The agent runs a local Ollama model whose model_id is recorded per run; there is no vendor change-notification or data-handling contract because the model is local and open-weight. Version pinning remains informal.",
+      "evidence_reference": "oncocs/llm/ollama.py model_id; oncocs/llm/base.py"
+    },
+    "DA-14": {
+      "response": "partial",
+      "note": "Path-traversal probes, encoded-segment probes, and hash-tamper tests exist against the API and CLI. No adversarial-input suite targets the model or retrieval layer.",
+      "evidence_reference": "tests/test_api.py traversal and tamper cases"
+    },
+    "DA-15": {
+      "response": "not_applicable",
+      "note": "The system produces survival-cohort statistics and PDQ-corpus retrieval summaries; no in-silico or virtual-organ model output supports any conclusion, so this item is out of scope for this artifact.",
+      "evidence_reference": "oncocs/models/, oncocs/rag/ - no in-silico component"
+    },
+    "DA-16": {
+      "response": "non_conformant",
+      "note": "No production usage monitoring against a validated population exists; out-of-envelope use is possible and unmonitored.",
+      "evidence_reference": "absent by inspection; no envelope/usage monitor"
+    },
+    "DA-17": {
+      "response": "conformant",
+      "note": "A failing run check abstains the affected model rather than passing partial data through. The approval path refuses hash-mismatched artifacts. Failure modes are visible, not silent.",
+      "evidence_reference": "oncocs/checks.py module contract; approve.py hash refusal"
+    },
+    "DA-18": {
+      "response": "conformant",
+      "note": "Prompts, split definitions, rag doc ids, and inference settings live in cohort config files hashed as config_sha256 on every run. Prompt-side keys excluded from the hash (e.g. rag_mode) are enumerated explicitly in config.py.",
+      "evidence_reference": "oncocs/config.py; evidence.py config_sha256"
+    },
+    "DA-19": {
+      "response": "partial",
+      "note": "Each run is a separate content-addressed record so repeated submissions do not overwrite. No design retains or compares the sequence of outputs for anchoring review.",
+      "evidence_reference": "agents/approve.py per-run records; no sequence view"
+    },
+    "DA-20": {
+      "response": "partial",
+      "note": "Runs carry model_id and config hashes so every record a model version touched is enumerable. No re-review workflow exists to act on that enumeration.",
+      "evidence_reference": "agent_run.json fields; results/ per-run artifacts"
+    },
+    "DA-21": {
+      "response": "partial",
+      "note": "The recorded backend lets runs proceed without the live model. No documented manual fallback procedure defines degraded operation.",
+      "evidence_reference": "oncocs/llm/recorded.py; no fallback runbook"
+    },
+    "DA-22": {
+      "response": "conformant",
+      "note": "Download, harmonization, and split code are project source under git with input and config hashes recorded per run, so preprocessing is under the same change binding as the model-facing layer.",
+      "evidence_reference": "oncocs/data/, oncocs/prep.py; evidence.py input hashes"
+    },
+    "DA-23": {
+      "response": "conformant",
+      "note": "The retrieval corpus is a pinned NCI PDQ snapshot whose document ids come from the hashed cohort configs. There is no live currency feed, so the effective revision set is exactly the committed one.",
+      "evidence_reference": "oncocs/rag/fetch.py DEFAULT_ROOT; config rag_docs entries"
+    },
+    "DA-24": {
+      "response": "conformant",
+      "note": "The rendered report carries an UNAPPROVED banner until the gate stamps the approved banner onto the exact hashed bytes. What reaches the record is the verified output, qualifiers included.",
+      "evidence_reference": "oncocs/agents/graph.py UNAPPROVED_BANNER; approve.py _stamp_banner"
+    },
+    "DA-25": {
+      "response": "partial",
+      "note": "Artifacts are content-addressed and self-describing, which supports reconstruction. No retention-period design or archival plan exists.",
+      "evidence_reference": "hash-addressed results/ artifacts; no retention design doc"
+    }
+  }
+}
