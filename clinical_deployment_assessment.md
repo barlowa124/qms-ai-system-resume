@@ -1,7 +1,7 @@
 # Clinical Deployment Assessment Instrument
 
 This instrument is used against a deployment that is already
-running, to gather objective evidence rather than to review design intent. It is the
+running, to gather objective evidence, not to review design intent. It is the
 operational counterpart to the design artifacts in this repository.
 
 **This is a findings report produced by an assessment aid. It is not a compliance determination, release authorization, or regulatory clearance. Interpretation and sign-off require qualified QA, regulatory, and clinical-safety personnel.**
@@ -68,12 +68,12 @@ operational counterpart to the design artifacts in this repository.
     - Signed intended-use statement
     - Regulatory classification rationale with named accountable approver
     - Legal/regulatory affairs concurrence record
-- **Pass criteria**: A documented, approved determination exists and is consistent with how the system is actually used in production
+- **Pass criteria**: A documented, approved determination exists and is consistent with how the system is used in production
 - **Disqualifying finding**: The AI influences clinical or patient-impacting decisions with no documented regulatory classification, or actual use exceeds the stated intended use
 
 ## Human Oversight in Practice
 
-### DA-02 - Is human review actually enforced for patient-impacting decisions, as observed in production data rather than in policy?
+### DA-02 - Is human review enforced for patient-impacting decisions, as observed in production data rather than in policy?
 
 - **Severity**: `patient_safety_critical`
 - **Linked gates**: RG-04
@@ -234,7 +234,7 @@ operational counterpart to the design artifacts in this repository.
 - **Evidence to request**:
     - Contractual change-notification terms
     - Evidence of version pinning in production configuration
-    - Data processing agreement covering the data classes actually sent
+    - Data processing agreement covering the data classes sent
 - **Pass criteria**: Vendor model versions cannot change silently, and data handling matches what is contractually permitted
 - **Disqualifying finding**: Production depends on a floating vendor model endpoint that can change without notice, or patient data is sent outside agreed terms
 
@@ -375,12 +375,12 @@ operational counterpart to the design artifacts in this repository.
     - The reconciliation process and its most recent run between document control and the retrieval index
     - A search demonstrating that a recently superseded revision is no longer returned as authoritative
     - Evidence that the corpus revision used is recorded with each output
-- **Pass criteria**: The retrieval corpus matches the current effective revision set, and the revision actually used is recorded with the output
+- **Pass criteria**: The retrieval corpus matches the current effective revision set, and the revision used is recorded with the output
 - **Disqualifying finding**: Superseded document revisions are retrievable and indistinguishable from current ones, so output can cite an obsolete specification or procedure
 
 ## Output-to-Record Transcription
 
-### DA-24 - Does what reaches the official quality record preserve the qualifiers, scope, and caveats of the output the reviewer actually approved?
+### DA-24 - Does what reaches the official quality record preserve the qualifiers, scope, and caveats of the output the reviewer approved?
 
 - **Severity**: `patient_safety_critical`
 - **Linked gates**: RG-04, RG-08

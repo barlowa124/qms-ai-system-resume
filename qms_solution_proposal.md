@@ -149,7 +149,7 @@ flowchart LR
 | Human oversight enforcement | No autonomous closure for patient-safety relevant records | Workflow rule tests + periodic audit samples | Continuous | Auto-escalate any violation |
 | Audit trail integrity | Immutable logs for data access, model calls, approvals, overrides | Automated integrity checks | Daily | Critical incident if tampering detected |
 | Model change control | Approved change ticket, validation evidence, rollback plan | Change advisory board record | Per model or prompt update | Reject deployment if incomplete |
-| Bias and performance drift | Defined thresholds by case class and severity | Monitoring dashboard + periodic challenge tests | Weekly + monthly deep dive | Freeze model if threshold breached |
+| Bias and performance drift | Defined thresholds by case class and severity | Monitoring dashboard + periodic challenge tests | Weekly + monthly detailed review | Freeze model if threshold breached |
 
 ## AI Regulator Stress-Test Hardening
 
@@ -291,7 +291,7 @@ accuracy in production.
 
 When an approved update knowingly breaks compatibility for a case class, reviewers
 working that class receive a targeted change notification describing what shifted,
-so mental-model recalibration is deliberate rather than discovered through error.
+so mental-model recalibration is deliberate, not discovered through error.
 This is a training-impact event and routes through the existing training impact
 automation path.
 
@@ -315,7 +315,7 @@ extensions:
 ### ESG Amplification from Virtualization
 
 Organ virtualization is one of the few AI initiatives where the quality-governance
-story and the ESG story reinforce each other directly, rather than trading off:
+story and the ESG story reinforce each other directly, not trading off:
 
 - **Reduced animal use (3Rs: Replace, Reduce, Refine)** - every study substituted or
   reduced by a qualified virtual organ model is a concrete, auditable ESG metric,
@@ -325,7 +325,7 @@ story and the ESG story reinforce each other directly, rather than trading off:
 - **Compute-for-biology tradeoff visibility** - the existing "Investigation cycle
   energy intensity" KPI extends naturally to "Simulation compute intensity per
   qualified prediction," keeping the sustainability tradeoff of large-scale
-  simulation visible rather than hidden behind a general AI-efficiency narrative.
+  simulation visible, not hidden behind a general AI-efficiency narrative.
 - **Faster, lower-waste candidate triage** - early-stage virtual screening reduces
   reagent, animal, and manufacturing waste associated with candidates that would
   otherwise have failed later in the pipeline, tying directly into the existing
