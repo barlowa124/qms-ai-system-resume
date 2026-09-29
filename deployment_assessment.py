@@ -3,7 +3,7 @@ clinical deployment of an AI-enabled QMS.
 
 The design artifacts in this repository describe what a compliant system
 *should* look like. This module is the counterpart used against a system that
-is actually running: a structured evidence-gathering instrument plus a scoring
+is running: a structured evidence-gathering instrument plus a scoring
 engine that refuses to hand out a clean result when evidence is absent.
 
 Scope limitation (deliberate, load-bearing):
@@ -139,7 +139,7 @@ def assessment_items() -> list[AssessmentItem]:
             ),
             pass_criteria=(
                 "A documented, approved determination exists and is consistent with how the "
-                "system is actually used in production"
+                "system is used in production"
             ),
             disqualifying_finding=(
                 "The AI influences clinical or patient-impacting decisions with no documented "
@@ -152,7 +152,7 @@ def assessment_items() -> list[AssessmentItem]:
             item_id="DA-02",
             domain="Human Oversight in Practice",
             question=(
-                "Is human review actually enforced for patient-impacting decisions, as "
+                "Is human review enforced for patient-impacting decisions, as "
                 "observed in production data rather than in policy?"
             ),
             inspect=(
@@ -457,7 +457,7 @@ def assessment_items() -> list[AssessmentItem]:
             evidence_required=(
                 "Contractual change-notification terms",
                 "Evidence of version pinning in production configuration",
-                "Data processing agreement covering the data classes actually sent",
+                "Data processing agreement covering the data classes sent",
             ),
             pass_criteria=(
                 "Vendor model versions cannot change silently, and data handling matches what "
@@ -748,7 +748,7 @@ def assessment_items() -> list[AssessmentItem]:
             ),
             pass_criteria=(
                 "The retrieval corpus matches the current effective revision set, and the "
-                "revision actually used is recorded with the output"
+                "revision used is recorded with the output"
             ),
             disqualifying_finding=(
                 "Superseded document revisions are retrievable and indistinguishable from "
@@ -763,7 +763,7 @@ def assessment_items() -> list[AssessmentItem]:
             domain="Output-to-Record Transcription",
             question=(
                 "Does what reaches the official quality record preserve the qualifiers, scope, "
-                "and caveats of the output the reviewer actually approved?"
+                "and caveats of the output the reviewer approved?"
             ),
             inspect=(
                 "The transfer path from model output to the GxP record of truth, whether it is "
@@ -1057,7 +1057,7 @@ def score(submission: dict) -> AssessmentResult:
 
 
 INSTRUMENT_INTRO = f"""This instrument is used against a deployment that is already
-running, to gather objective evidence rather than to review design intent. It is the
+running, to gather objective evidence, not to review design intent. It is the
 operational counterpart to the design artifacts in this repository.
 
 **{DISCLAIMER}**

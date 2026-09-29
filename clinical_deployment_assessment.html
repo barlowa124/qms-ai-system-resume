@@ -123,12 +123,12 @@
         <p><strong>What to inspect:</strong> Intended-use statement, user population, clinical/patient impact analysis, and the written determination of whether the AI meets the definition of a medical device / SaMD, or an EU AI Act high-risk system</p>
         <p><strong>Evidence to request:</strong></p>
         <ul><li>Signed intended-use statement</li><li>Regulatory classification rationale with named accountable approver</li><li>Legal/regulatory affairs concurrence record</li></ul>
-        <p><strong>Pass criteria:</strong> A documented, approved determination exists and is consistent with how the system is actually used in production</p>
+        <p><strong>Pass criteria:</strong> A documented, approved determination exists and is consistent with how the system is used in production</p>
         <p class="dq"><strong>Disqualifying finding:</strong> The AI influences clinical or patient-impacting decisions with no documented regulatory classification, or actual use exceeds the stated intended use</p>
         
       </article>
       <article class="item">
-        <h3><code>DA-02</code> Is human review actually enforced for patient-impacting decisions, as observed in production data rather than in policy?</h3>
+        <h3><code>DA-02</code> Is human review enforced for patient-impacting decisions, as observed in production data rather than in policy?</h3>
         <p class="meta">Human Oversight in Practice &middot;
           <span class="sev sev-patient_safety_critical">patient_safety_critical</span></p>
         <p><strong>Linked gates:</strong> RG-04</p>
@@ -266,7 +266,7 @@
         <p><strong>Linked gates:</strong> RG-03, RG-05</p>
         <p><strong>What to inspect:</strong> Vendor agreements, model version pinning configuration, and data processing terms covering any PHI or patient-identifiable input</p>
         <p><strong>Evidence to request:</strong></p>
-        <ul><li>Contractual change-notification terms</li><li>Evidence of version pinning in production configuration</li><li>Data processing agreement covering the data classes actually sent</li></ul>
+        <ul><li>Contractual change-notification terms</li><li>Evidence of version pinning in production configuration</li><li>Data processing agreement covering the data classes sent</li></ul>
         <p><strong>Pass criteria:</strong> Vendor model versions cannot change silently, and data handling matches what is contractually permitted</p>
         <p class="dq"><strong>Disqualifying finding:</strong> Production depends on a floating vendor model endpoint that can change without notice, or patient data is sent outside agreed terms</p>
         <p class="na">May be marked not applicable with a written justification stating why the item is out of scope.</p>
@@ -387,12 +387,12 @@
         <p><strong>What to inspect:</strong> Synchronisation between document control and the retrieval index, and whether superseded revisions remain retrievable alongside current ones</p>
         <p><strong>Evidence to request:</strong></p>
         <ul><li>The reconciliation process and its most recent run between document control and the retrieval index</li><li>A search demonstrating that a recently superseded revision is no longer returned as authoritative</li><li>Evidence that the corpus revision used is recorded with each output</li></ul>
-        <p><strong>Pass criteria:</strong> The retrieval corpus matches the current effective revision set, and the revision actually used is recorded with the output</p>
+        <p><strong>Pass criteria:</strong> The retrieval corpus matches the current effective revision set, and the revision used is recorded with the output</p>
         <p class="dq"><strong>Disqualifying finding:</strong> Superseded document revisions are retrievable and indistinguishable from current ones, so output can cite an obsolete specification or procedure</p>
         <p class="na">May be marked not applicable with a written justification stating why the item is out of scope.</p>
       </article>
       <article class="item">
-        <h3><code>DA-24</code> Does what reaches the official quality record preserve the qualifiers, scope, and caveats of the output the reviewer actually approved?</h3>
+        <h3><code>DA-24</code> Does what reaches the official quality record preserve the qualifiers, scope, and caveats of the output the reviewer approved?</h3>
         <p class="meta">Output-to-Record Transcription &middot;
           <span class="sev sev-patient_safety_critical">patient_safety_critical</span></p>
         <p><strong>Linked gates:</strong> RG-04, RG-08</p>

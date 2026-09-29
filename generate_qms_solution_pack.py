@@ -176,7 +176,7 @@ def compliance_assessment_rows() -> list[tuple[str, str, str, str, str]]:
       "Bias and performance drift",
       "Defined thresholds by case class and severity",
       "Monitoring dashboard + periodic challenge tests",
-      "Weekly + monthly deep dive",
+      "Weekly + monthly detailed review",
       "Freeze model if threshold breached",
     ),
   ]
@@ -783,7 +783,7 @@ COMPATIBILITY_ENFORCEMENT = """1. Maintain a **frozen evaluation set** of previo
 4. After rollout, monitor reviewer acceptance and override rates (already captured in
    the KPI table as "AI recommendation acceptance with rationale") for shifts that
    indicate reviewers are recalibrating against changed failure modes.
-5. Where compatibility and accuracy genuinely conflict, treat the tradeoff as a
+5. Where compatibility and accuracy conflict, treat the tradeoff as a
    documented quality decision with accountable ownership - not an engineering
    default. Where feasible, apply a retraining objective that penalizes new errors,
    per Bansal et al., to reduce the severity of the tradeoff.
@@ -792,7 +792,7 @@ COMPATIBILITY_ENFORCEMENT = """1. Maintain a **frozen evaluation set** of previo
 
 When an approved update knowingly breaks compatibility for a case class, reviewers
 working that class receive a targeted change notification describing what shifted,
-so mental-model recalibration is deliberate rather than discovered through error.
+so mental-model recalibration is deliberate, not discovered through error.
 This is a training-impact event and routes through the existing training impact
 automation path."""
 
@@ -806,7 +806,7 @@ extensions:"""
 
 
 ORGAN_VIRTUALIZATION_ESG = """Organ virtualization is one of the few AI initiatives where the quality-governance
-story and the ESG story reinforce each other directly, rather than trading off:
+story and the ESG story reinforce each other directly, not trading off:
 
 - **Reduced animal use (3Rs: Replace, Reduce, Refine)** - every study substituted or
   reduced by a qualified virtual organ model is a concrete, auditable ESG metric,
@@ -816,7 +816,7 @@ story and the ESG story reinforce each other directly, rather than trading off:
 - **Compute-for-biology tradeoff visibility** - the existing "Investigation cycle
   energy intensity" KPI extends naturally to "Simulation compute intensity per
   qualified prediction," keeping the sustainability tradeoff of large-scale
-  simulation visible rather than hidden behind a general AI-efficiency narrative.
+  simulation visible, not hidden behind a general AI-efficiency narrative.
 - **Faster, lower-waste candidate triage** - early-stage virtual screening reduces
   reagent, animal, and manufacturing waste associated with candidates that would
   otherwise have failed later in the pipeline, tying directly into the existing
